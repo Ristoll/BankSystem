@@ -41,9 +41,9 @@
             splitContainer1 = new SplitContainer();
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
+            bankdbDataSet1 = new BankDBDataSet();
             accountsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.AccountsTableAdapter();
             bankBranchesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.BankBranchesTableAdapter();
-            bankdbDataSet1 = new BankDBDataSet();
             branchTypesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.BranchTypesTableAdapter();
             clientsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.ClientsTableAdapter();
             creditStatusesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.CreditStatusesTableAdapter();
@@ -81,42 +81,49 @@
             клієнтиToolStripMenuItem.Name = "клієнтиToolStripMenuItem";
             клієнтиToolStripMenuItem.Size = new Size(75, 24);
             клієнтиToolStripMenuItem.Text = "Клієнти";
+            клієнтиToolStripMenuItem.Click += клієнтиToolStripMenuItem_Click;
             // 
             // рахункиToolStripMenuItem
             // 
             рахункиToolStripMenuItem.Name = "рахункиToolStripMenuItem";
             рахункиToolStripMenuItem.Size = new Size(78, 24);
             рахункиToolStripMenuItem.Text = "Рахунки";
+            рахункиToolStripMenuItem.Click += рахункиToolStripMenuItem_Click;
             // 
             // транзакціїToolStripMenuItem
             // 
             транзакціїToolStripMenuItem.Name = "транзакціїToolStripMenuItem";
             транзакціїToolStripMenuItem.Size = new Size(96, 24);
             транзакціїToolStripMenuItem.Text = "Транзакції";
+            транзакціїToolStripMenuItem.Click += транзакціїToolStripMenuItem_Click;
             // 
             // кредитиToolStripMenuItem
             // 
             кредитиToolStripMenuItem.Name = "кредитиToolStripMenuItem";
             кредитиToolStripMenuItem.Size = new Size(81, 24);
             кредитиToolStripMenuItem.Text = "Кредити";
+            кредитиToolStripMenuItem.Click += кредитиToolStripMenuItem_Click;
             // 
             // платежіToolStripMenuItem
             // 
             платежіToolStripMenuItem.Name = "платежіToolStripMenuItem";
             платежіToolStripMenuItem.Size = new Size(79, 24);
             платежіToolStripMenuItem.Text = "Платежі";
+            платежіToolStripMenuItem.Click += платежіToolStripMenuItem_Click;
             // 
             // співробитникиToolStripMenuItem
             // 
             співробитникиToolStripMenuItem.Name = "співробитникиToolStripMenuItem";
             співробитникиToolStripMenuItem.Size = new Size(129, 24);
             співробитникиToolStripMenuItem.Text = "Співробитники";
+            співробитникиToolStripMenuItem.Click += співробитникиToolStripMenuItem_Click;
             // 
             // відділенняToolStripMenuItem
             // 
             відділенняToolStripMenuItem.Name = "відділенняToolStripMenuItem";
             відділенняToolStripMenuItem.Size = new Size(98, 24);
             відділенняToolStripMenuItem.Text = "Відділення";
+            відділенняToolStripMenuItem.Click += відділенняToolStripMenuItem_Click;
             // 
             // звітиToolStripMenuItem
             // 
@@ -141,18 +148,26 @@
             // dataGridView1
             // 
             dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.DataSource = bindingSource1;
-            dataGridView1.Location = new Point(3, 3);
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(794, 200);
-            dataGridView1.TabIndex = 0;
+            dataGridView1.Size = new Size(800, 203);
+            dataGridView1.TabIndex = 1;
             // 
             // bindingSource1
             // 
             bindingSource1.DataSource = bankdbDataSet1;
             bindingSource1.Position = 0;
+            // 
+            // bankdbDataSet1
+            // 
+            bankdbDataSet1.DataSetName = "BankDBDataSet";
+            bankdbDataSet1.Namespace = "http://tempuri.org/BankDBDataSet.xsd";
+            bankdbDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // accountsTableAdapter1
             // 
@@ -161,12 +176,6 @@
             // bankBranchesTableAdapter1
             // 
             bankBranchesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // bankdbDataSet1
-            // 
-            bankdbDataSet1.DataSetName = "BankDBDataSet";
-            bankdbDataSet1.Namespace = "http://tempuri.org/BankDBDataSet.xsd";
-            bankdbDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // branchTypesTableAdapter1
             // 
@@ -245,7 +254,7 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
-            Text = "Form1";
+            Text = "Облік клієнтів банку";
             Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -271,7 +280,6 @@
         private ToolStripMenuItem відділенняToolStripMenuItem;
         private ToolStripMenuItem звітиToolStripMenuItem;
         private SplitContainer splitContainer1;
-        private DataGridView dataGridView1;
         private BindingSource bindingSource1;
         private BankDBDataSet bankdbDataSet1;
         private BankDBDataSetTableAdapters.AccountsTableAdapter accountsTableAdapter1;
@@ -289,5 +297,6 @@
         private BankDBDataSetTableAdapters.TransactionTypesTableAdapter transactionTypesTableAdapter1;
         private BankDBDataSetTableAdapters.TransactionsTableAdapter transactionsTableAdapter1;
         private BankDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
+        private DataGridView dataGridView1;
     }
 }
