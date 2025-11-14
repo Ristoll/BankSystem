@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankSystem.Entities;
+namespace DTO;
 
-public partial class Credit
+public partial class CreditDto
 {
     public int CreditId { get; set; }
 
@@ -23,13 +23,13 @@ public partial class Credit
 
     public int? EmployeeId { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public virtual AccountDto Account { get; set; } = null!;
 
-    public virtual Client Client { get; set; } = null!;
+    public virtual ClientDto Client { get; set; } = null!;
 
-    public virtual Employee? Employee { get; set; }
+    public virtual EmployeeDto? Employee { get; set; }
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<PaymentDto> Payments { get; set; } = new List<PaymentDto>();
 
-    public virtual CreditStatus Status { get; set; } = null!;
+    public virtual CreditStatusDto Status { get; set; } = null!;
 }

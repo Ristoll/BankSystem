@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankSystem.Entities;
+namespace DTO;
 
-public partial class Transaction
+public partial class TransactionDto
 {
     public int TransactionId { get; set; }
 
@@ -19,9 +19,9 @@ public partial class Transaction
 
     public int? EmployeeId { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public virtual AccountDto Account { get; set; } = null!;
 
-    public virtual Employee? Employee { get; set; }
+    public virtual EmployeeDto? Employee { get; set; }
 
-    public virtual TransactionType TransactionType { get; set; } = null!;
+    public virtual TransactionTypeDto TransactionType { get; set; } = null!;
 }

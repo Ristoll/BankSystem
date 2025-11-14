@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankSystem.Entities;
+namespace DTO;
 
-public partial class Payment
+public partial class PaymentDto
 {
     public int PaymentId { get; set; }
 
@@ -15,7 +15,7 @@ public partial class Payment
 
     public decimal Amount { get; set; }
 
-    public virtual Credit Credit { get; set; } = null!;
+    public virtual CreditDto Credit { get; set; } = null!;
 
-    public virtual PaymentType PaymentType { get; set; } = null!;
+    public virtual PaymentTypeDto PaymentType { get; set; } = null!;
 }

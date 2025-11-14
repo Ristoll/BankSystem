@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankSystem.Entities;
+namespace DTO;
 
-public partial class Currency
+public partial class CurrencyDto
 {
     public int CurrencyId { get; set; }
 
@@ -13,5 +13,5 @@ public partial class Currency
 
     public decimal ExchangeRate { get; set; }
 
-    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
 }

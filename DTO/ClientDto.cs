@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankSystem.Entities;
+namespace DTO;
 
-public partial class Client
+public partial class ClientDto
 {
     public int ClientId { get; set; }
 
@@ -25,7 +25,7 @@ public partial class Client
 
     public DateOnly RegistrationDate { get; set; }
 
-    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
 
-    public virtual ICollection<Credit> Credits { get; set; } = new List<Credit>();
+    public virtual ICollection<CreditDto> Credits { get; set; } = new List<CreditDto>();
 }
