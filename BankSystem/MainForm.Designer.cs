@@ -57,6 +57,13 @@
             transactionTypesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.TransactionTypesTableAdapter();
             transactionsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.TransactionsTableAdapter();
             accountTypesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.AccountTypesTableAdapter();
+            vw_AccountsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_AccountsTableAdapter();
+            vw_BankBranchesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_BankBranchesTableAdapter();
+            vw_ClientsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_ClientsTableAdapter();
+            vw_CreditsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_CreditsTableAdapter();
+            vw_EmployeesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_EmployeesTableAdapter();
+            vw_PaymentsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_PaymentsTableAdapter();
+            vw_TransactionsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_TransactionsTableAdapter();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -245,6 +252,34 @@
             // 
             accountTypesTableAdapter1.ClearBeforeFill = true;
             // 
+            // vw_AccountsTableAdapter1
+            // 
+            vw_AccountsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_BankBranchesTableAdapter1
+            // 
+            vw_BankBranchesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_ClientsTableAdapter1
+            // 
+            vw_ClientsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_CreditsTableAdapter1
+            // 
+            vw_CreditsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_EmployeesTableAdapter1
+            // 
+            vw_EmployeesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_PaymentsTableAdapter1
+            // 
+            vw_PaymentsTableAdapter1.ClearBeforeFill = true;
+            // 
+            // vw_TransactionsTableAdapter1
+            // 
+            vw_TransactionsTableAdapter1.ClearBeforeFill = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -298,5 +333,12 @@
         private BankDBDataSetTableAdapters.TransactionsTableAdapter transactionsTableAdapter1;
         private BankDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
         private DataGridView dataGridView1;
+        private BankDBDataSetTableAdapters.vw_AccountsTableAdapter vw_AccountsTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_BankBranchesTableAdapter vw_BankBranchesTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_ClientsTableAdapter vw_ClientsTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_CreditsTableAdapter vw_CreditsTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_EmployeesTableAdapter vw_EmployeesTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_PaymentsTableAdapter vw_PaymentsTableAdapter1;
+        private BankDBDataSetTableAdapters.vw_TransactionsTableAdapter vw_TransactionsTableAdapter1;
     }
 }
