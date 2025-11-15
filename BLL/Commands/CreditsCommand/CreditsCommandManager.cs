@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Commands.CreditsCommand
+namespace BLL.Commands.CreditsCommands
 {
     public class CreditsCommandManager : AbstractCommandManager
     {

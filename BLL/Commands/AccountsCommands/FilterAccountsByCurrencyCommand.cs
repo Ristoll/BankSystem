@@ -4,31 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using DTO;
 
 namespace BLL.Commands.AccountsCommands
 {
     public class FilterAccountsByCurrencyCommand : AbstrCommandWithDA<List<Account>>
     {
-        private readonly string currencySymbol;
+        private readonly CurrencyDto currencyDto;
 
-        public FilterAccountsByCurrencyCommand(string currencySymbol, IUnitOfWork unitOfWork, IMapper mapper)
+        public FilterAccountsByCurrencyCommand(CurrencyDto currencyDto, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.currencySymbol = currencySymbol?.Trim().ToUpper()
-                                  ?? throw new ArgumentException("Currency symbol cannot be empty.");
+            this.currencyDto = currencyDto;
         }
-
         public override List<Account> Execute()
         {
+            var currency = mapper.Map<Currency>(currencyDto);
             var accounts = dAPoint.AccountRepository.GetAll()
-                .Where(a => a.Currency != null &&
-                            !string.IsNullOrEmpty(a.Currency.Symbol) &&
-                            a.Currency.Symbol.ToUpper() == currencySymbol)
+                .Where(account => account.Currency == currency)
                 .ToList();
-
-            if (!accounts.Any())
-                throw new Exception($"No accounts found with currency '{currencySymbol}'.");
-
             return accounts;
         }
     }

@@ -4,28 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using DTO;
 
 namespace BLL.Commands.ClientsCommands
 {
     public class FilterClientsByAccountTypeCommand : AbstrCommandWithDA<List<Client>>
     {
-        private readonly AccountType accountType;
+        private readonly AccountTypeDto accountTypeDto;
 
-        public FilterClientsByAccountTypeCommand(AccountType accountType, IUnitOfWork unitOfWork, IMapper mapper)
+        public FilterClientsByAccountTypeCommand(AccountTypeDto accountTypeDto, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.accountType = accountType
-                ?? throw new ArgumentException("AccountType cannot be null.");
+            this.accountTypeDto = accountTypeDto;
         }
 
         public override List<Client> Execute()
         {
+            var accountType = mapper.Map<AccountType>(accountTypeDto);
             var clients = dAPoint.ClientRepository.GetAll()
-                .Where(client => client.Accounts != null &&
-                                 client.Accounts.Any(acc =>
-                                     acc.AccountType != null &&
-                                     acc.AccountType.AccountTypeId == accountType.AccountTypeId
-                                 ))
+                .Where(c => c.Accounts.Any(a => a.AccountType == accountType))
                 .ToList();
 
             if (!clients.Any())

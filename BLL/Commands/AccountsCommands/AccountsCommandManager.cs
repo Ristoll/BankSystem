@@ -27,7 +27,7 @@ namespace BLL.Commands.AccountsCommands
             return ExecuteCommand(command, "Не вдалося оновити акаунт.");
         }
 
-        public List<Account> FilterAccountsByCurrency(string currencySymbol)
+        public List<Account> FilterAccountsByCurrency(CurrencyDto currencySymbol)
         {
             var command = new FilterAccountsByCurrencyCommand(currencySymbol, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося відфільтрувати акаунти");
