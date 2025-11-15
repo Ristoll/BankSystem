@@ -19,28 +19,10 @@ public class UpdateClientCommand : AbstrCommandWithDA<bool>
     }
     public override bool Execute()
     {
-        try
-        {
-            var client = dAPoint.ClientRepository.GetById(clientDto.ClientId);
-            if (client == null)
-            {
-                throw new Exception("Client not found");
-            }
-            client.FirstName = clientDto.FirstName;
-            client.LastName = clientDto.LastName;
-            client.MiddleName = clientDto.MiddleName;
-            client.DateOfBirth = clientDto.DateOfBirth;
-            client.PassportNumber = clientDto.PassportNumber;
-            client.Email = clientDto.Email;
-            client.Phone = clientDto.Phone;
-            client.Address = clientDto.Address;
-            dAPoint.ClientRepository.Update(client);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Error updating client: " + ex.Message);
-        }
+        var client = mapper.Map<Core.Entities.Client>(clientDto);
+        dAPoint.ClientRepository.Update(client);
+        dAPoint.Save();
+        return true;
     }
 
 
