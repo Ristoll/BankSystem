@@ -2,7 +2,7 @@
 using System.Linq;
 using Core;
 
-namespace Services
+namespace BLL.Services
 {
     public class ReportService
     {

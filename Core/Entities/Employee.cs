@@ -12,7 +12,7 @@ public partial class Employee
     public string LastName { get; set; } = null!;
 
     public string MiddleName { get; set; } = null!;
-
+    public string PasswordHash { get; set; } = null!;
     public int RoleId { get; set; }
 
     public int BranchId { get; set; }

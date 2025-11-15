@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core;
 using DTO;
+using BLL.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,14 @@ namespace BLL.Commands.EmployeesCommands
 {
     public class EmployeesCommandManager : AbstractCommandManager
     {
-        public EmployeesCommandManager(IUnitOfWork unitOfWork, IMapper mapper)
-            : base(unitOfWork, mapper) { }
+        IPasswordHasher passwordHasher;
+        ICurrentUserService currentUserService;
+        public EmployeesCommandManager(IUnitOfWork unitOfWork, IMapper mapper, IPasswordHasher passwordHasher, ICurrentUserService currentUserService)
+            : base(unitOfWork, mapper) 
+        {
+            this.passwordHasher = passwordHasher;
+            this.currentUserService = currentUserService;
+        }
         public bool AddEmployee(EmployeeDto employeeDto)
         {
             var command = new AddEmployeeCommand(employeeDto, unitOfWork, mapper);
@@ -27,6 +34,11 @@ namespace BLL.Commands.EmployeesCommands
         {
             var command = new DeleteEmployeeCommand(employeeId, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося видалити працівника.");
+        }
+        public bool LoginEmployee(string phone, string password)
+        {
+            var command = new LogInCommand(phone, password, unitOfWork, mapper, passwordHasher, currentUserService);
+            return ExecuteCommand(command, "Не вдалося увійти до системи.");
         }
     }
 }
