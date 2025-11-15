@@ -54,6 +54,8 @@ namespace BankSystem {
         
         private vw_AccountsDataTable tablevw_Accounts;
         
+        private vw_TransactionsDataTable tablevw_Transactions;
+        
         private vw_BankBranchesDataTable tablevw_BankBranches;
         
         private vw_ClientsDataTable tablevw_Clients;
@@ -64,41 +66,39 @@ namespace BankSystem {
         
         private vw_PaymentsDataTable tablevw_Payments;
         
-        private vw_TransactionsDataTable tablevw_Transactions;
+        private global::System.Data.DataRelation relationFK__Accounts__Accoun__4F7CD00D;
         
-        private global::System.Data.DataRelation relationFK__Accounts__Accoun__59063A47;
+        private global::System.Data.DataRelation relationFK__Accounts__Branch__5165187F;
         
-        private global::System.Data.DataRelation relationFK__Accounts__Branch__5AEE82B9;
+        private global::System.Data.DataRelation relationFK__Accounts__Client__4E88ABD4;
         
-        private global::System.Data.DataRelation relationFK__Accounts__Client__5812160E;
+        private global::System.Data.DataRelation relationFK__Accounts__Curren__5070F446;
         
-        private global::System.Data.DataRelation relationFK__Accounts__Curren__59FA5E80;
-        
-        private global::System.Data.DataRelation relationFK__Accounts__Employ__5BE2A6F2;
+        private global::System.Data.DataRelation relationFK__Accounts__Employ__52593CB8;
         
         private global::System.Data.DataRelation relationFK__BankBranc__Branc__44FF419A;
         
-        private global::System.Data.DataRelation relationFK__Credits__Account__656C112C;
+        private global::System.Data.DataRelation relationFK__Credits__Account__5BE2A6F2;
         
-        private global::System.Data.DataRelation relationFK__Credits__ClientI__6477ECF3;
+        private global::System.Data.DataRelation relationFK__Credits__ClientI__5AEE82B9;
         
-        private global::System.Data.DataRelation relationFK__Credits__Employe__6754599E;
+        private global::System.Data.DataRelation relationFK__Credits__Employe__5DCAEF64;
         
-        private global::System.Data.DataRelation relationFK__Credits__StatusI__66603565;
+        private global::System.Data.DataRelation relationFK__Credits__StatusI__5CD6CB2B;
         
         private global::System.Data.DataRelation relationFK__Employees__Branc__48CFD27E;
         
         private global::System.Data.DataRelation relationFK__Employees__RoleI__47DBAE45;
         
-        private global::System.Data.DataRelation relationFK__Payments__Credit__6A30C649;
+        private global::System.Data.DataRelation relationFK__Payments__Credit__60A75C0F;
         
-        private global::System.Data.DataRelation relationFK__Payments__Paymen__6B24EA82;
+        private global::System.Data.DataRelation relationFK__Payments__Paymen__619B8048;
         
-        private global::System.Data.DataRelation relationFK__Transacti__Accou__5FB337D6;
+        private global::System.Data.DataRelation relationFK__Transacti__Accou__5629CD9C;
         
-        private global::System.Data.DataRelation relationFK__Transacti__Emplo__619B8048;
+        private global::System.Data.DataRelation relationFK__Transacti__Emplo__5812160E;
         
-        private global::System.Data.DataRelation relationFK__Transacti__Trans__60A75C0F;
+        private global::System.Data.DataRelation relationFK__Transacti__Trans__571DF1D5;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -175,6 +175,9 @@ namespace BankSystem {
                 if ((ds.Tables["vw_Accounts"] != null)) {
                     base.Tables.Add(new vw_AccountsDataTable(ds.Tables["vw_Accounts"]));
                 }
+                if ((ds.Tables["vw_Transactions"] != null)) {
+                    base.Tables.Add(new vw_TransactionsDataTable(ds.Tables["vw_Transactions"]));
+                }
                 if ((ds.Tables["vw_BankBranches"] != null)) {
                     base.Tables.Add(new vw_BankBranchesDataTable(ds.Tables["vw_BankBranches"]));
                 }
@@ -189,9 +192,6 @@ namespace BankSystem {
                 }
                 if ((ds.Tables["vw_Payments"] != null)) {
                     base.Tables.Add(new vw_PaymentsDataTable(ds.Tables["vw_Payments"]));
-                }
-                if ((ds.Tables["vw_Transactions"] != null)) {
-                    base.Tables.Add(new vw_TransactionsDataTable(ds.Tables["vw_Transactions"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -365,6 +365,16 @@ namespace BankSystem {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public vw_TransactionsDataTable vw_Transactions {
+            get {
+                return this.tablevw_Transactions;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public vw_BankBranchesDataTable vw_BankBranches {
             get {
                 return this.tablevw_BankBranches;
@@ -408,16 +418,6 @@ namespace BankSystem {
         public vw_PaymentsDataTable vw_Payments {
             get {
                 return this.tablevw_Payments;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Browsable(false)]
-        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public vw_TransactionsDataTable vw_Transactions {
-            get {
-                return this.tablevw_Transactions;
             }
         }
         
@@ -533,6 +533,9 @@ namespace BankSystem {
                 if ((ds.Tables["vw_Accounts"] != null)) {
                     base.Tables.Add(new vw_AccountsDataTable(ds.Tables["vw_Accounts"]));
                 }
+                if ((ds.Tables["vw_Transactions"] != null)) {
+                    base.Tables.Add(new vw_TransactionsDataTable(ds.Tables["vw_Transactions"]));
+                }
                 if ((ds.Tables["vw_BankBranches"] != null)) {
                     base.Tables.Add(new vw_BankBranchesDataTable(ds.Tables["vw_BankBranches"]));
                 }
@@ -547,9 +550,6 @@ namespace BankSystem {
                 }
                 if ((ds.Tables["vw_Payments"] != null)) {
                     base.Tables.Add(new vw_PaymentsDataTable(ds.Tables["vw_Payments"]));
-                }
-                if ((ds.Tables["vw_Transactions"] != null)) {
-                    base.Tables.Add(new vw_TransactionsDataTable(ds.Tables["vw_Transactions"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -674,6 +674,12 @@ namespace BankSystem {
                     this.tablevw_Accounts.InitVars();
                 }
             }
+            this.tablevw_Transactions = ((vw_TransactionsDataTable)(base.Tables["vw_Transactions"]));
+            if ((initTable == true)) {
+                if ((this.tablevw_Transactions != null)) {
+                    this.tablevw_Transactions.InitVars();
+                }
+            }
             this.tablevw_BankBranches = ((vw_BankBranchesDataTable)(base.Tables["vw_BankBranches"]));
             if ((initTable == true)) {
                 if ((this.tablevw_BankBranches != null)) {
@@ -704,29 +710,23 @@ namespace BankSystem {
                     this.tablevw_Payments.InitVars();
                 }
             }
-            this.tablevw_Transactions = ((vw_TransactionsDataTable)(base.Tables["vw_Transactions"]));
-            if ((initTable == true)) {
-                if ((this.tablevw_Transactions != null)) {
-                    this.tablevw_Transactions.InitVars();
-                }
-            }
-            this.relationFK__Accounts__Accoun__59063A47 = this.Relations["FK__Accounts__Accoun__59063A47"];
-            this.relationFK__Accounts__Branch__5AEE82B9 = this.Relations["FK__Accounts__Branch__5AEE82B9"];
-            this.relationFK__Accounts__Client__5812160E = this.Relations["FK__Accounts__Client__5812160E"];
-            this.relationFK__Accounts__Curren__59FA5E80 = this.Relations["FK__Accounts__Curren__59FA5E80"];
-            this.relationFK__Accounts__Employ__5BE2A6F2 = this.Relations["FK__Accounts__Employ__5BE2A6F2"];
+            this.relationFK__Accounts__Accoun__4F7CD00D = this.Relations["FK__Accounts__Accoun__4F7CD00D"];
+            this.relationFK__Accounts__Branch__5165187F = this.Relations["FK__Accounts__Branch__5165187F"];
+            this.relationFK__Accounts__Client__4E88ABD4 = this.Relations["FK__Accounts__Client__4E88ABD4"];
+            this.relationFK__Accounts__Curren__5070F446 = this.Relations["FK__Accounts__Curren__5070F446"];
+            this.relationFK__Accounts__Employ__52593CB8 = this.Relations["FK__Accounts__Employ__52593CB8"];
             this.relationFK__BankBranc__Branc__44FF419A = this.Relations["FK__BankBranc__Branc__44FF419A"];
-            this.relationFK__Credits__Account__656C112C = this.Relations["FK__Credits__Account__656C112C"];
-            this.relationFK__Credits__ClientI__6477ECF3 = this.Relations["FK__Credits__ClientI__6477ECF3"];
-            this.relationFK__Credits__Employe__6754599E = this.Relations["FK__Credits__Employe__6754599E"];
-            this.relationFK__Credits__StatusI__66603565 = this.Relations["FK__Credits__StatusI__66603565"];
+            this.relationFK__Credits__Account__5BE2A6F2 = this.Relations["FK__Credits__Account__5BE2A6F2"];
+            this.relationFK__Credits__ClientI__5AEE82B9 = this.Relations["FK__Credits__ClientI__5AEE82B9"];
+            this.relationFK__Credits__Employe__5DCAEF64 = this.Relations["FK__Credits__Employe__5DCAEF64"];
+            this.relationFK__Credits__StatusI__5CD6CB2B = this.Relations["FK__Credits__StatusI__5CD6CB2B"];
             this.relationFK__Employees__Branc__48CFD27E = this.Relations["FK__Employees__Branc__48CFD27E"];
             this.relationFK__Employees__RoleI__47DBAE45 = this.Relations["FK__Employees__RoleI__47DBAE45"];
-            this.relationFK__Payments__Credit__6A30C649 = this.Relations["FK__Payments__Credit__6A30C649"];
-            this.relationFK__Payments__Paymen__6B24EA82 = this.Relations["FK__Payments__Paymen__6B24EA82"];
-            this.relationFK__Transacti__Accou__5FB337D6 = this.Relations["FK__Transacti__Accou__5FB337D6"];
-            this.relationFK__Transacti__Emplo__619B8048 = this.Relations["FK__Transacti__Emplo__619B8048"];
-            this.relationFK__Transacti__Trans__60A75C0F = this.Relations["FK__Transacti__Trans__60A75C0F"];
+            this.relationFK__Payments__Credit__60A75C0F = this.Relations["FK__Payments__Credit__60A75C0F"];
+            this.relationFK__Payments__Paymen__619B8048 = this.Relations["FK__Payments__Paymen__619B8048"];
+            this.relationFK__Transacti__Accou__5629CD9C = this.Relations["FK__Transacti__Accou__5629CD9C"];
+            this.relationFK__Transacti__Emplo__5812160E = this.Relations["FK__Transacti__Emplo__5812160E"];
+            this.relationFK__Transacti__Trans__571DF1D5 = this.Relations["FK__Transacti__Trans__571DF1D5"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -767,6 +767,8 @@ namespace BankSystem {
             base.Tables.Add(this.tableTransactions);
             this.tablevw_Accounts = new vw_AccountsDataTable();
             base.Tables.Add(this.tablevw_Accounts);
+            this.tablevw_Transactions = new vw_TransactionsDataTable();
+            base.Tables.Add(this.tablevw_Transactions);
             this.tablevw_BankBranches = new vw_BankBranchesDataTable();
             base.Tables.Add(this.tablevw_BankBranches);
             this.tablevw_Clients = new vw_ClientsDataTable();
@@ -777,48 +779,46 @@ namespace BankSystem {
             base.Tables.Add(this.tablevw_Employees);
             this.tablevw_Payments = new vw_PaymentsDataTable();
             base.Tables.Add(this.tablevw_Payments);
-            this.tablevw_Transactions = new vw_TransactionsDataTable();
-            base.Tables.Add(this.tablevw_Transactions);
-            this.relationFK__Accounts__Accoun__59063A47 = new global::System.Data.DataRelation("FK__Accounts__Accoun__59063A47", new global::System.Data.DataColumn[] {
+            this.relationFK__Accounts__Accoun__4F7CD00D = new global::System.Data.DataRelation("FK__Accounts__Accoun__4F7CD00D", new global::System.Data.DataColumn[] {
                         this.tableAccountTypes.AccountTypeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableAccounts.AccountTypeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Accounts__Accoun__59063A47);
-            this.relationFK__Accounts__Branch__5AEE82B9 = new global::System.Data.DataRelation("FK__Accounts__Branch__5AEE82B9", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Accounts__Accoun__4F7CD00D);
+            this.relationFK__Accounts__Branch__5165187F = new global::System.Data.DataRelation("FK__Accounts__Branch__5165187F", new global::System.Data.DataColumn[] {
                         this.tableBankBranches.BranchIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableAccounts.BranchIDColumn}, false);
-            this.Relations.Add(this.relationFK__Accounts__Branch__5AEE82B9);
-            this.relationFK__Accounts__Client__5812160E = new global::System.Data.DataRelation("FK__Accounts__Client__5812160E", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Accounts__Branch__5165187F);
+            this.relationFK__Accounts__Client__4E88ABD4 = new global::System.Data.DataRelation("FK__Accounts__Client__4E88ABD4", new global::System.Data.DataColumn[] {
                         this.tableClients.ClientIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableAccounts.ClientIDColumn}, false);
-            this.Relations.Add(this.relationFK__Accounts__Client__5812160E);
-            this.relationFK__Accounts__Curren__59FA5E80 = new global::System.Data.DataRelation("FK__Accounts__Curren__59FA5E80", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Accounts__Client__4E88ABD4);
+            this.relationFK__Accounts__Curren__5070F446 = new global::System.Data.DataRelation("FK__Accounts__Curren__5070F446", new global::System.Data.DataColumn[] {
                         this.tableCurrencies.CurrencyIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableAccounts.CurrencyIDColumn}, false);
-            this.Relations.Add(this.relationFK__Accounts__Curren__59FA5E80);
-            this.relationFK__Accounts__Employ__5BE2A6F2 = new global::System.Data.DataRelation("FK__Accounts__Employ__5BE2A6F2", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Accounts__Curren__5070F446);
+            this.relationFK__Accounts__Employ__52593CB8 = new global::System.Data.DataRelation("FK__Accounts__Employ__52593CB8", new global::System.Data.DataColumn[] {
                         this.tableEmployees.EmployeeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableAccounts.EmployeeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Accounts__Employ__5BE2A6F2);
+            this.Relations.Add(this.relationFK__Accounts__Employ__52593CB8);
             this.relationFK__BankBranc__Branc__44FF419A = new global::System.Data.DataRelation("FK__BankBranc__Branc__44FF419A", new global::System.Data.DataColumn[] {
                         this.tableBranchTypes.BranchTypeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableBankBranches.BranchTypeIDColumn}, false);
             this.Relations.Add(this.relationFK__BankBranc__Branc__44FF419A);
-            this.relationFK__Credits__Account__656C112C = new global::System.Data.DataRelation("FK__Credits__Account__656C112C", new global::System.Data.DataColumn[] {
+            this.relationFK__Credits__Account__5BE2A6F2 = new global::System.Data.DataRelation("FK__Credits__Account__5BE2A6F2", new global::System.Data.DataColumn[] {
                         this.tableAccounts.AccountIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCredits.AccountIDColumn}, false);
-            this.Relations.Add(this.relationFK__Credits__Account__656C112C);
-            this.relationFK__Credits__ClientI__6477ECF3 = new global::System.Data.DataRelation("FK__Credits__ClientI__6477ECF3", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Credits__Account__5BE2A6F2);
+            this.relationFK__Credits__ClientI__5AEE82B9 = new global::System.Data.DataRelation("FK__Credits__ClientI__5AEE82B9", new global::System.Data.DataColumn[] {
                         this.tableClients.ClientIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCredits.ClientIDColumn}, false);
-            this.Relations.Add(this.relationFK__Credits__ClientI__6477ECF3);
-            this.relationFK__Credits__Employe__6754599E = new global::System.Data.DataRelation("FK__Credits__Employe__6754599E", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Credits__ClientI__5AEE82B9);
+            this.relationFK__Credits__Employe__5DCAEF64 = new global::System.Data.DataRelation("FK__Credits__Employe__5DCAEF64", new global::System.Data.DataColumn[] {
                         this.tableEmployees.EmployeeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCredits.EmployeeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Credits__Employe__6754599E);
-            this.relationFK__Credits__StatusI__66603565 = new global::System.Data.DataRelation("FK__Credits__StatusI__66603565", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Credits__Employe__5DCAEF64);
+            this.relationFK__Credits__StatusI__5CD6CB2B = new global::System.Data.DataRelation("FK__Credits__StatusI__5CD6CB2B", new global::System.Data.DataColumn[] {
                         this.tableCreditStatuses.StatusIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableCredits.StatusIDColumn}, false);
-            this.Relations.Add(this.relationFK__Credits__StatusI__66603565);
+            this.Relations.Add(this.relationFK__Credits__StatusI__5CD6CB2B);
             this.relationFK__Employees__Branc__48CFD27E = new global::System.Data.DataRelation("FK__Employees__Branc__48CFD27E", new global::System.Data.DataColumn[] {
                         this.tableBankBranches.BranchIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableEmployees.BranchIDColumn}, false);
@@ -827,26 +827,26 @@ namespace BankSystem {
                         this.tableEmployeeRoles.RoleIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableEmployees.RoleIDColumn}, false);
             this.Relations.Add(this.relationFK__Employees__RoleI__47DBAE45);
-            this.relationFK__Payments__Credit__6A30C649 = new global::System.Data.DataRelation("FK__Payments__Credit__6A30C649", new global::System.Data.DataColumn[] {
+            this.relationFK__Payments__Credit__60A75C0F = new global::System.Data.DataRelation("FK__Payments__Credit__60A75C0F", new global::System.Data.DataColumn[] {
                         this.tableCredits.CreditIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablePayments.CreditIDColumn}, false);
-            this.Relations.Add(this.relationFK__Payments__Credit__6A30C649);
-            this.relationFK__Payments__Paymen__6B24EA82 = new global::System.Data.DataRelation("FK__Payments__Paymen__6B24EA82", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Payments__Credit__60A75C0F);
+            this.relationFK__Payments__Paymen__619B8048 = new global::System.Data.DataRelation("FK__Payments__Paymen__619B8048", new global::System.Data.DataColumn[] {
                         this.tablePaymentTypes.PaymentTypeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tablePayments.PaymentTypeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Payments__Paymen__6B24EA82);
-            this.relationFK__Transacti__Accou__5FB337D6 = new global::System.Data.DataRelation("FK__Transacti__Accou__5FB337D6", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Payments__Paymen__619B8048);
+            this.relationFK__Transacti__Accou__5629CD9C = new global::System.Data.DataRelation("FK__Transacti__Accou__5629CD9C", new global::System.Data.DataColumn[] {
                         this.tableAccounts.AccountIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableTransactions.AccountIDColumn}, false);
-            this.Relations.Add(this.relationFK__Transacti__Accou__5FB337D6);
-            this.relationFK__Transacti__Emplo__619B8048 = new global::System.Data.DataRelation("FK__Transacti__Emplo__619B8048", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Transacti__Accou__5629CD9C);
+            this.relationFK__Transacti__Emplo__5812160E = new global::System.Data.DataRelation("FK__Transacti__Emplo__5812160E", new global::System.Data.DataColumn[] {
                         this.tableEmployees.EmployeeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableTransactions.EmployeeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Transacti__Emplo__619B8048);
-            this.relationFK__Transacti__Trans__60A75C0F = new global::System.Data.DataRelation("FK__Transacti__Trans__60A75C0F", new global::System.Data.DataColumn[] {
+            this.Relations.Add(this.relationFK__Transacti__Emplo__5812160E);
+            this.relationFK__Transacti__Trans__571DF1D5 = new global::System.Data.DataRelation("FK__Transacti__Trans__571DF1D5", new global::System.Data.DataColumn[] {
                         this.tableTransactionTypes.TransactionTypeIDColumn}, new global::System.Data.DataColumn[] {
                         this.tableTransactions.TransactionTypeIDColumn}, false);
-            this.Relations.Add(this.relationFK__Transacti__Trans__60A75C0F);
+            this.Relations.Add(this.relationFK__Transacti__Trans__571DF1D5);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -941,6 +941,12 @@ namespace BankSystem {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializevw_Transactions() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private bool ShouldSerializevw_BankBranches() {
             return false;
         }
@@ -966,12 +972,6 @@ namespace BankSystem {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private bool ShouldSerializevw_Payments() {
-            return false;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerializevw_Transactions() {
             return false;
         }
         
@@ -1076,6 +1076,9 @@ namespace BankSystem {
         public delegate void vw_AccountsRowChangeEventHandler(object sender, vw_AccountsRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void vw_TransactionsRowChangeEventHandler(object sender, vw_TransactionsRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void vw_BankBranchesRowChangeEventHandler(object sender, vw_BankBranchesRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -1089,9 +1092,6 @@ namespace BankSystem {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void vw_PaymentsRowChangeEventHandler(object sender, vw_PaymentsRowChangeEvent e);
-        
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public delegate void vw_TransactionsRowChangeEventHandler(object sender, vw_TransactionsRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1262,7 +1262,7 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public AccountsRow AddAccountsRow(ClientsRow parentClientsRowByFK__Accounts__Client__5812160E, AccountTypesRow parentAccountTypesRowByFK__Accounts__Accoun__59063A47, CurrenciesRow parentCurrenciesRowByFK__Accounts__Curren__59FA5E80, BankBranchesRow parentBankBranchesRowByFK__Accounts__Branch__5AEE82B9, EmployeesRow parentEmployeesRowByFK__Accounts__Employ__5BE2A6F2, decimal Balance, System.DateTime OpenDate, System.DateTime CloseDate) {
+            public AccountsRow AddAccountsRow(ClientsRow parentClientsRowByFK__Accounts__Client__4E88ABD4, AccountTypesRow parentAccountTypesRowByFK__Accounts__Accoun__4F7CD00D, CurrenciesRow parentCurrenciesRowByFK__Accounts__Curren__5070F446, BankBranchesRow parentBankBranchesRowByFK__Accounts__Branch__5165187F, EmployeesRow parentEmployeesRowByFK__Accounts__Employ__52593CB8, decimal Balance, System.DateTime OpenDate, System.DateTime CloseDate) {
                 AccountsRow rowAccountsRow = ((AccountsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1274,20 +1274,20 @@ namespace BankSystem {
                         Balance,
                         OpenDate,
                         CloseDate};
-                if ((parentClientsRowByFK__Accounts__Client__5812160E != null)) {
-                    columnValuesArray[1] = parentClientsRowByFK__Accounts__Client__5812160E[0];
+                if ((parentClientsRowByFK__Accounts__Client__4E88ABD4 != null)) {
+                    columnValuesArray[1] = parentClientsRowByFK__Accounts__Client__4E88ABD4[0];
                 }
-                if ((parentAccountTypesRowByFK__Accounts__Accoun__59063A47 != null)) {
-                    columnValuesArray[2] = parentAccountTypesRowByFK__Accounts__Accoun__59063A47[0];
+                if ((parentAccountTypesRowByFK__Accounts__Accoun__4F7CD00D != null)) {
+                    columnValuesArray[2] = parentAccountTypesRowByFK__Accounts__Accoun__4F7CD00D[0];
                 }
-                if ((parentCurrenciesRowByFK__Accounts__Curren__59FA5E80 != null)) {
-                    columnValuesArray[3] = parentCurrenciesRowByFK__Accounts__Curren__59FA5E80[0];
+                if ((parentCurrenciesRowByFK__Accounts__Curren__5070F446 != null)) {
+                    columnValuesArray[3] = parentCurrenciesRowByFK__Accounts__Curren__5070F446[0];
                 }
-                if ((parentBankBranchesRowByFK__Accounts__Branch__5AEE82B9 != null)) {
-                    columnValuesArray[4] = parentBankBranchesRowByFK__Accounts__Branch__5AEE82B9[0];
+                if ((parentBankBranchesRowByFK__Accounts__Branch__5165187F != null)) {
+                    columnValuesArray[4] = parentBankBranchesRowByFK__Accounts__Branch__5165187F[0];
                 }
-                if ((parentEmployeesRowByFK__Accounts__Employ__5BE2A6F2 != null)) {
-                    columnValuesArray[5] = parentEmployeesRowByFK__Accounts__Employ__5BE2A6F2[0];
+                if ((parentEmployeesRowByFK__Accounts__Employ__52593CB8 != null)) {
+                    columnValuesArray[5] = parentEmployeesRowByFK__Accounts__Employ__52593CB8[0];
                 }
                 rowAccountsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowAccountsRow);
@@ -3227,7 +3227,7 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CreditsRow AddCreditsRow(ClientsRow parentClientsRowByFK__Credits__ClientI__6477ECF3, AccountsRow parentAccountsRowByFK__Credits__Account__656C112C, decimal CreditAmount, decimal InterestRate, System.DateTime StartDate, System.DateTime EndDate, CreditStatusesRow parentCreditStatusesRowByFK__Credits__StatusI__66603565, EmployeesRow parentEmployeesRowByFK__Credits__Employe__6754599E) {
+            public CreditsRow AddCreditsRow(ClientsRow parentClientsRowByFK__Credits__ClientI__5AEE82B9, AccountsRow parentAccountsRowByFK__Credits__Account__5BE2A6F2, decimal CreditAmount, decimal InterestRate, System.DateTime StartDate, System.DateTime EndDate, CreditStatusesRow parentCreditStatusesRowByFK__Credits__StatusI__5CD6CB2B, EmployeesRow parentEmployeesRowByFK__Credits__Employe__5DCAEF64) {
                 CreditsRow rowCreditsRow = ((CreditsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -3239,17 +3239,17 @@ namespace BankSystem {
                         EndDate,
                         null,
                         null};
-                if ((parentClientsRowByFK__Credits__ClientI__6477ECF3 != null)) {
-                    columnValuesArray[1] = parentClientsRowByFK__Credits__ClientI__6477ECF3[0];
+                if ((parentClientsRowByFK__Credits__ClientI__5AEE82B9 != null)) {
+                    columnValuesArray[1] = parentClientsRowByFK__Credits__ClientI__5AEE82B9[0];
                 }
-                if ((parentAccountsRowByFK__Credits__Account__656C112C != null)) {
-                    columnValuesArray[2] = parentAccountsRowByFK__Credits__Account__656C112C[0];
+                if ((parentAccountsRowByFK__Credits__Account__5BE2A6F2 != null)) {
+                    columnValuesArray[2] = parentAccountsRowByFK__Credits__Account__5BE2A6F2[0];
                 }
-                if ((parentCreditStatusesRowByFK__Credits__StatusI__66603565 != null)) {
-                    columnValuesArray[7] = parentCreditStatusesRowByFK__Credits__StatusI__66603565[0];
+                if ((parentCreditStatusesRowByFK__Credits__StatusI__5CD6CB2B != null)) {
+                    columnValuesArray[7] = parentCreditStatusesRowByFK__Credits__StatusI__5CD6CB2B[0];
                 }
-                if ((parentEmployeesRowByFK__Credits__Employe__6754599E != null)) {
-                    columnValuesArray[8] = parentEmployeesRowByFK__Credits__Employe__6754599E[0];
+                if ((parentEmployeesRowByFK__Credits__Employe__5DCAEF64 != null)) {
+                    columnValuesArray[8] = parentEmployeesRowByFK__Credits__Employe__5DCAEF64[0];
                 }
                 rowCreditsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCreditsRow);
@@ -4347,6 +4347,8 @@ namespace BankSystem {
             
             private global::System.Data.DataColumn columnEmail;
             
+            private global::System.Data.DataColumn columnPasswordHash;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public EmployeesDataTable() {
@@ -4448,6 +4450,14 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PasswordHashColumn {
+                get {
+                    return this.columnPasswordHash;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4483,7 +4493,7 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public EmployeesRow AddEmployeesRow(string FirstName, string LastName, string MiddleName, EmployeeRolesRow parentEmployeeRolesRowByFK__Employees__RoleI__47DBAE45, BankBranchesRow parentBankBranchesRowByFK__Employees__Branc__48CFD27E, string Phone, string Email) {
+            public EmployeesRow AddEmployeesRow(string FirstName, string LastName, string MiddleName, EmployeeRolesRow parentEmployeeRolesRowByFK__Employees__RoleI__47DBAE45, BankBranchesRow parentBankBranchesRowByFK__Employees__Branc__48CFD27E, string Phone, string Email, string PasswordHash) {
                 EmployeesRow rowEmployeesRow = ((EmployeesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4493,7 +4503,8 @@ namespace BankSystem {
                         null,
                         null,
                         Phone,
-                        Email};
+                        Email,
+                        PasswordHash};
                 if ((parentEmployeeRolesRowByFK__Employees__RoleI__47DBAE45 != null)) {
                     columnValuesArray[4] = parentEmployeeRolesRowByFK__Employees__RoleI__47DBAE45[0];
                 }
@@ -4537,6 +4548,7 @@ namespace BankSystem {
                 this.columnBranchID = base.Columns["BranchID"];
                 this.columnPhone = base.Columns["Phone"];
                 this.columnEmail = base.Columns["Email"];
+                this.columnPasswordHash = base.Columns["PasswordHash"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4558,6 +4570,8 @@ namespace BankSystem {
                 base.Columns.Add(this.columnPhone);
                 this.columnEmail = new global::System.Data.DataColumn("Email", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmail);
+                this.columnPasswordHash = new global::System.Data.DataColumn("PasswordHash", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPasswordHash);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnEmployeeID}, true));
                 this.columnEmployeeID.AutoIncrement = true;
@@ -4576,6 +4590,8 @@ namespace BankSystem {
                 this.columnBranchID.AllowDBNull = false;
                 this.columnPhone.MaxLength = 20;
                 this.columnEmail.MaxLength = 100;
+                this.columnPasswordHash.AllowDBNull = false;
+                this.columnPasswordHash.MaxLength = 200;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4831,7 +4847,7 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public PaymentsRow AddPaymentsRow(CreditsRow parentCreditsRowByFK__Payments__Credit__6A30C649, PaymentTypesRow parentPaymentTypesRowByFK__Payments__Paymen__6B24EA82, System.DateTime PaymentDate, decimal Amount) {
+            public PaymentsRow AddPaymentsRow(CreditsRow parentCreditsRowByFK__Payments__Credit__60A75C0F, PaymentTypesRow parentPaymentTypesRowByFK__Payments__Paymen__619B8048, System.DateTime PaymentDate, decimal Amount) {
                 PaymentsRow rowPaymentsRow = ((PaymentsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4839,11 +4855,11 @@ namespace BankSystem {
                         null,
                         PaymentDate,
                         Amount};
-                if ((parentCreditsRowByFK__Payments__Credit__6A30C649 != null)) {
-                    columnValuesArray[1] = parentCreditsRowByFK__Payments__Credit__6A30C649[0];
+                if ((parentCreditsRowByFK__Payments__Credit__60A75C0F != null)) {
+                    columnValuesArray[1] = parentCreditsRowByFK__Payments__Credit__60A75C0F[0];
                 }
-                if ((parentPaymentTypesRowByFK__Payments__Paymen__6B24EA82 != null)) {
-                    columnValuesArray[2] = parentPaymentTypesRowByFK__Payments__Paymen__6B24EA82[0];
+                if ((parentPaymentTypesRowByFK__Payments__Paymen__619B8048 != null)) {
+                    columnValuesArray[2] = parentPaymentTypesRowByFK__Payments__Paymen__619B8048[0];
                 }
                 rowPaymentsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPaymentsRow);
@@ -5461,7 +5477,7 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public TransactionsRow AddTransactionsRow(AccountsRow parentAccountsRowByFK__Transacti__Accou__5FB337D6, TransactionTypesRow parentTransactionTypesRowByFK__Transacti__Trans__60A75C0F, decimal Amount, System.DateTime TransactionDate, string Description, EmployeesRow parentEmployeesRowByFK__Transacti__Emplo__619B8048) {
+            public TransactionsRow AddTransactionsRow(AccountsRow parentAccountsRowByFK__Transacti__Accou__5629CD9C, TransactionTypesRow parentTransactionTypesRowByFK__Transacti__Trans__571DF1D5, decimal Amount, System.DateTime TransactionDate, string Description, EmployeesRow parentEmployeesRowByFK__Transacti__Emplo__5812160E) {
                 TransactionsRow rowTransactionsRow = ((TransactionsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -5471,14 +5487,14 @@ namespace BankSystem {
                         TransactionDate,
                         Description,
                         null};
-                if ((parentAccountsRowByFK__Transacti__Accou__5FB337D6 != null)) {
-                    columnValuesArray[1] = parentAccountsRowByFK__Transacti__Accou__5FB337D6[0];
+                if ((parentAccountsRowByFK__Transacti__Accou__5629CD9C != null)) {
+                    columnValuesArray[1] = parentAccountsRowByFK__Transacti__Accou__5629CD9C[0];
                 }
-                if ((parentTransactionTypesRowByFK__Transacti__Trans__60A75C0F != null)) {
-                    columnValuesArray[2] = parentTransactionTypesRowByFK__Transacti__Trans__60A75C0F[0];
+                if ((parentTransactionTypesRowByFK__Transacti__Trans__571DF1D5 != null)) {
+                    columnValuesArray[2] = parentTransactionTypesRowByFK__Transacti__Trans__571DF1D5[0];
                 }
-                if ((parentEmployeesRowByFK__Transacti__Emplo__619B8048 != null)) {
-                    columnValuesArray[6] = parentEmployeesRowByFK__Transacti__Emplo__619B8048[0];
+                if ((parentEmployeesRowByFK__Transacti__Emplo__5812160E != null)) {
+                    columnValuesArray[6] = parentEmployeesRowByFK__Transacti__Emplo__5812160E[0];
                 }
                 rowTransactionsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTransactionsRow);
@@ -5991,6 +6007,334 @@ namespace BankSystem {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "vw_AccountsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class vw_TransactionsDataTable : global::System.Data.TypedTableBase<vw_TransactionsRow> {
+            
+            private global::System.Data.DataColumn columnAccountNumber;
+            
+            private global::System.Data.DataColumn columnTransactionType;
+            
+            private global::System.Data.DataColumn columnAmount;
+            
+            private global::System.Data.DataColumn columnTransactionDate;
+            
+            private global::System.Data.DataColumn columnDescription;
+            
+            private global::System.Data.DataColumn columnEmployeeFullName;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsDataTable() {
+                this.TableName = "vw_Transactions";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal vw_TransactionsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
+                " or extended by application code.", DiagnosticId="SYSLIB0051")]
+            protected vw_TransactionsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AccountNumberColumn {
+                get {
+                    return this.columnAccountNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransactionTypeColumn {
+                get {
+                    return this.columnTransactionType;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AmountColumn {
+                get {
+                    return this.columnAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TransactionDateColumn {
+                get {
+                    return this.columnTransactionDate;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DescriptionColumn {
+                get {
+                    return this.columnDescription;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn EmployeeFullNameColumn {
+                get {
+                    return this.columnEmployeeFullName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsRow this[int index] {
+                get {
+                    return ((vw_TransactionsRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Addvw_TransactionsRow(vw_TransactionsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsRow Addvw_TransactionsRow(string AccountNumber, string TransactionType, decimal Amount, System.DateTime TransactionDate, string Description, string EmployeeFullName) {
+                vw_TransactionsRow rowvw_TransactionsRow = ((vw_TransactionsRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        AccountNumber,
+                        TransactionType,
+                        Amount,
+                        TransactionDate,
+                        Description,
+                        EmployeeFullName};
+                rowvw_TransactionsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowvw_TransactionsRow);
+                return rowvw_TransactionsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                vw_TransactionsDataTable cln = ((vw_TransactionsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new vw_TransactionsDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnAccountNumber = base.Columns["AccountNumber"];
+                this.columnTransactionType = base.Columns["TransactionType"];
+                this.columnAmount = base.Columns["Amount"];
+                this.columnTransactionDate = base.Columns["TransactionDate"];
+                this.columnDescription = base.Columns["Description"];
+                this.columnEmployeeFullName = base.Columns["EmployeeFullName"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnAccountNumber = new global::System.Data.DataColumn("AccountNumber", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAccountNumber);
+                this.columnTransactionType = new global::System.Data.DataColumn("TransactionType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransactionType);
+                this.columnAmount = new global::System.Data.DataColumn("Amount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAmount);
+                this.columnTransactionDate = new global::System.Data.DataColumn("TransactionDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTransactionDate);
+                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescription);
+                this.columnEmployeeFullName = new global::System.Data.DataColumn("EmployeeFullName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmployeeFullName);
+                this.columnAccountNumber.ReadOnly = true;
+                this.columnAccountNumber.MaxLength = 21;
+                this.columnTransactionType.AllowDBNull = false;
+                this.columnTransactionType.MaxLength = 50;
+                this.columnAmount.AllowDBNull = false;
+                this.columnTransactionDate.AllowDBNull = false;
+                this.columnDescription.MaxLength = 200;
+                this.columnEmployeeFullName.ReadOnly = true;
+                this.columnEmployeeFullName.MaxLength = 152;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsRow Newvw_TransactionsRow() {
+                return ((vw_TransactionsRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new vw_TransactionsRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(vw_TransactionsRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.vw_TransactionsRowChanged != null)) {
+                    this.vw_TransactionsRowChanged(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.vw_TransactionsRowChanging != null)) {
+                    this.vw_TransactionsRowChanging(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.vw_TransactionsRowDeleted != null)) {
+                    this.vw_TransactionsRowDeleted(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.vw_TransactionsRowDeleting != null)) {
+                    this.vw_TransactionsRowDeleting(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void Removevw_TransactionsRow(vw_TransactionsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                BankDBDataSet ds = new BankDBDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "vw_TransactionsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -7671,334 +8015,6 @@ namespace BankSystem {
         }
         
         /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class vw_TransactionsDataTable : global::System.Data.TypedTableBase<vw_TransactionsRow> {
-            
-            private global::System.Data.DataColumn columnAccountNumber;
-            
-            private global::System.Data.DataColumn columnTransactionType;
-            
-            private global::System.Data.DataColumn columnAmount;
-            
-            private global::System.Data.DataColumn columnTransactionDate;
-            
-            private global::System.Data.DataColumn columnDescription;
-            
-            private global::System.Data.DataColumn columnEmployeeFullName;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsDataTable() {
-                this.TableName = "vw_Transactions";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal vw_TransactionsDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [System.ObsoleteAttribute("This API supports obsolete formatter-based serialization. It should not be called" +
-                " or extended by application code.", DiagnosticId="SYSLIB0051")]
-            protected vw_TransactionsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn AccountNumberColumn {
-                get {
-                    return this.columnAccountNumber;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TransactionTypeColumn {
-                get {
-                    return this.columnTransactionType;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn AmountColumn {
-                get {
-                    return this.columnAmount;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TransactionDateColumn {
-                get {
-                    return this.columnTransactionDate;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn DescriptionColumn {
-                get {
-                    return this.columnDescription;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn EmployeeFullNameColumn {
-                get {
-                    return this.columnEmployeeFullName;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsRow this[int index] {
-                get {
-                    return ((vw_TransactionsRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public event vw_TransactionsRowChangeEventHandler vw_TransactionsRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Addvw_TransactionsRow(vw_TransactionsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsRow Addvw_TransactionsRow(string AccountNumber, string TransactionType, decimal Amount, System.DateTime TransactionDate, string Description, string EmployeeFullName) {
-                vw_TransactionsRow rowvw_TransactionsRow = ((vw_TransactionsRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        AccountNumber,
-                        TransactionType,
-                        Amount,
-                        TransactionDate,
-                        Description,
-                        EmployeeFullName};
-                rowvw_TransactionsRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowvw_TransactionsRow);
-                return rowvw_TransactionsRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                vw_TransactionsDataTable cln = ((vw_TransactionsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new vw_TransactionsDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal void InitVars() {
-                this.columnAccountNumber = base.Columns["AccountNumber"];
-                this.columnTransactionType = base.Columns["TransactionType"];
-                this.columnAmount = base.Columns["Amount"];
-                this.columnTransactionDate = base.Columns["TransactionDate"];
-                this.columnDescription = base.Columns["Description"];
-                this.columnEmployeeFullName = base.Columns["EmployeeFullName"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            private void InitClass() {
-                this.columnAccountNumber = new global::System.Data.DataColumn("AccountNumber", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAccountNumber);
-                this.columnTransactionType = new global::System.Data.DataColumn("TransactionType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTransactionType);
-                this.columnAmount = new global::System.Data.DataColumn("Amount", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAmount);
-                this.columnTransactionDate = new global::System.Data.DataColumn("TransactionDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTransactionDate);
-                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDescription);
-                this.columnEmployeeFullName = new global::System.Data.DataColumn("EmployeeFullName", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmployeeFullName);
-                this.columnAccountNumber.ReadOnly = true;
-                this.columnAccountNumber.MaxLength = 21;
-                this.columnTransactionType.AllowDBNull = false;
-                this.columnTransactionType.MaxLength = 50;
-                this.columnAmount.AllowDBNull = false;
-                this.columnTransactionDate.AllowDBNull = false;
-                this.columnDescription.MaxLength = 200;
-                this.columnEmployeeFullName.ReadOnly = true;
-                this.columnEmployeeFullName.MaxLength = 152;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsRow Newvw_TransactionsRow() {
-                return ((vw_TransactionsRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new vw_TransactionsRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(vw_TransactionsRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.vw_TransactionsRowChanged != null)) {
-                    this.vw_TransactionsRowChanged(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.vw_TransactionsRowChanging != null)) {
-                    this.vw_TransactionsRowChanging(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.vw_TransactionsRowDeleted != null)) {
-                    this.vw_TransactionsRowDeleted(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.vw_TransactionsRowDeleting != null)) {
-                    this.vw_TransactionsRowDeleting(this, new vw_TransactionsRowChangeEvent(((vw_TransactionsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void Removevw_TransactionsRow(vw_TransactionsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                BankDBDataSet ds = new BankDBDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "vw_TransactionsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class AccountsRow : global::System.Data.DataRow {
@@ -8135,10 +8151,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountTypesRow AccountTypesRow {
                 get {
-                    return ((AccountTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Accoun__59063A47"])));
+                    return ((AccountTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Accoun__4F7CD00D"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Accoun__59063A47"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Accoun__4F7CD00D"]);
                 }
             }
             
@@ -8146,10 +8162,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public BankBranchesRow BankBranchesRow {
                 get {
-                    return ((BankBranchesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Branch__5AEE82B9"])));
+                    return ((BankBranchesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Branch__5165187F"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Branch__5AEE82B9"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Branch__5165187F"]);
                 }
             }
             
@@ -8157,10 +8173,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ClientsRow ClientsRow {
                 get {
-                    return ((ClientsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Client__5812160E"])));
+                    return ((ClientsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Client__4E88ABD4"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Client__5812160E"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Client__4E88ABD4"]);
                 }
             }
             
@@ -8168,10 +8184,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CurrenciesRow CurrenciesRow {
                 get {
-                    return ((CurrenciesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Curren__59FA5E80"])));
+                    return ((CurrenciesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Curren__5070F446"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Curren__59FA5E80"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Curren__5070F446"]);
                 }
             }
             
@@ -8179,10 +8195,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public EmployeesRow EmployeesRow {
                 get {
-                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Employ__5BE2A6F2"])));
+                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Accounts__Employ__52593CB8"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Employ__5BE2A6F2"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Accounts__Employ__52593CB8"]);
                 }
             }
             
@@ -8237,22 +8253,22 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditsRow[] GetCreditsRows() {
-                if ((this.Table.ChildRelations["FK__Credits__Account__656C112C"] == null)) {
+                if ((this.Table.ChildRelations["FK__Credits__Account__5BE2A6F2"] == null)) {
                     return new CreditsRow[0];
                 }
                 else {
-                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__Account__656C112C"])));
+                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__Account__5BE2A6F2"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TransactionsRow[] GetTransactionsRows() {
-                if ((this.Table.ChildRelations["FK__Transacti__Accou__5FB337D6"] == null)) {
+                if ((this.Table.ChildRelations["FK__Transacti__Accou__5629CD9C"] == null)) {
                     return new TransactionsRow[0];
                 }
                 else {
-                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Accou__5FB337D6"])));
+                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Accou__5629CD9C"])));
                 }
             }
         }
@@ -8296,11 +8312,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TransactionsRow[] GetTransactionsRows() {
-                if ((this.Table.ChildRelations["FK__Transacti__Trans__60A75C0F"] == null)) {
+                if ((this.Table.ChildRelations["FK__Transacti__Trans__571DF1D5"] == null)) {
                     return new TransactionsRow[0];
                 }
                 else {
-                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Trans__60A75C0F"])));
+                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Trans__571DF1D5"])));
                 }
             }
         }
@@ -8344,11 +8360,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow[] GetAccountsRows() {
-                if ((this.Table.ChildRelations["FK__Accounts__Accoun__59063A47"] == null)) {
+                if ((this.Table.ChildRelations["FK__Accounts__Accoun__4F7CD00D"] == null)) {
                     return new AccountsRow[0];
                 }
                 else {
-                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Accoun__59063A47"])));
+                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Accoun__4F7CD00D"])));
                 }
             }
         }
@@ -8453,11 +8469,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow[] GetAccountsRows() {
-                if ((this.Table.ChildRelations["FK__Accounts__Branch__5AEE82B9"] == null)) {
+                if ((this.Table.ChildRelations["FK__Accounts__Branch__5165187F"] == null)) {
                     return new AccountsRow[0];
                 }
                 else {
-                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Branch__5AEE82B9"])));
+                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Branch__5165187F"])));
                 }
             }
             
@@ -8733,22 +8749,22 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow[] GetAccountsRows() {
-                if ((this.Table.ChildRelations["FK__Accounts__Client__5812160E"] == null)) {
+                if ((this.Table.ChildRelations["FK__Accounts__Client__4E88ABD4"] == null)) {
                     return new AccountsRow[0];
                 }
                 else {
-                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Client__5812160E"])));
+                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Client__4E88ABD4"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditsRow[] GetCreditsRows() {
-                if ((this.Table.ChildRelations["FK__Credits__ClientI__6477ECF3"] == null)) {
+                if ((this.Table.ChildRelations["FK__Credits__ClientI__5AEE82B9"] == null)) {
                     return new CreditsRow[0];
                 }
                 else {
-                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__ClientI__6477ECF3"])));
+                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__ClientI__5AEE82B9"])));
                 }
             }
         }
@@ -8875,10 +8891,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow AccountsRow {
                 get {
-                    return ((AccountsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__Account__656C112C"])));
+                    return ((AccountsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__Account__5BE2A6F2"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__Account__656C112C"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__Account__5BE2A6F2"]);
                 }
             }
             
@@ -8886,10 +8902,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public ClientsRow ClientsRow {
                 get {
-                    return ((ClientsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__ClientI__6477ECF3"])));
+                    return ((ClientsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__ClientI__5AEE82B9"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__ClientI__6477ECF3"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__ClientI__5AEE82B9"]);
                 }
             }
             
@@ -8897,10 +8913,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public EmployeesRow EmployeesRow {
                 get {
-                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__Employe__6754599E"])));
+                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__Employe__5DCAEF64"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__Employe__6754599E"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__Employe__5DCAEF64"]);
                 }
             }
             
@@ -8908,10 +8924,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditStatusesRow CreditStatusesRow {
                 get {
-                    return ((CreditStatusesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__StatusI__66603565"])));
+                    return ((CreditStatusesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Credits__StatusI__5CD6CB2B"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__StatusI__66603565"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Credits__StatusI__5CD6CB2B"]);
                 }
             }
             
@@ -8930,11 +8946,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public PaymentsRow[] GetPaymentsRows() {
-                if ((this.Table.ChildRelations["FK__Payments__Credit__6A30C649"] == null)) {
+                if ((this.Table.ChildRelations["FK__Payments__Credit__60A75C0F"] == null)) {
                     return new PaymentsRow[0];
                 }
                 else {
-                    return ((PaymentsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Payments__Credit__6A30C649"])));
+                    return ((PaymentsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Payments__Credit__60A75C0F"])));
                 }
             }
         }
@@ -8978,11 +8994,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditsRow[] GetCreditsRows() {
-                if ((this.Table.ChildRelations["FK__Credits__StatusI__66603565"] == null)) {
+                if ((this.Table.ChildRelations["FK__Credits__StatusI__5CD6CB2B"] == null)) {
                     return new CreditsRow[0];
                 }
                 else {
-                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__StatusI__66603565"])));
+                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__StatusI__5CD6CB2B"])));
                 }
             }
         }
@@ -9048,11 +9064,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow[] GetAccountsRows() {
-                if ((this.Table.ChildRelations["FK__Accounts__Curren__59FA5E80"] == null)) {
+                if ((this.Table.ChildRelations["FK__Accounts__Curren__5070F446"] == null)) {
                     return new AccountsRow[0];
                 }
                 else {
-                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Curren__59FA5E80"])));
+                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Curren__5070F446"])));
                 }
             }
         }
@@ -9219,6 +9235,17 @@ namespace BankSystem {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PasswordHash {
+                get {
+                    return ((string)(this[this.tableEmployees.PasswordHashColumn]));
+                }
+                set {
+                    this[this.tableEmployees.PasswordHashColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public BankBranchesRow BankBranchesRow {
                 get {
                     return ((BankBranchesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Employees__Branc__48CFD27E"])));
@@ -9266,33 +9293,33 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow[] GetAccountsRows() {
-                if ((this.Table.ChildRelations["FK__Accounts__Employ__5BE2A6F2"] == null)) {
+                if ((this.Table.ChildRelations["FK__Accounts__Employ__52593CB8"] == null)) {
                     return new AccountsRow[0];
                 }
                 else {
-                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Employ__5BE2A6F2"])));
+                    return ((AccountsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Accounts__Employ__52593CB8"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditsRow[] GetCreditsRows() {
-                if ((this.Table.ChildRelations["FK__Credits__Employe__6754599E"] == null)) {
+                if ((this.Table.ChildRelations["FK__Credits__Employe__5DCAEF64"] == null)) {
                     return new CreditsRow[0];
                 }
                 else {
-                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__Employe__6754599E"])));
+                    return ((CreditsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Credits__Employe__5DCAEF64"])));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TransactionsRow[] GetTransactionsRows() {
-                if ((this.Table.ChildRelations["FK__Transacti__Emplo__619B8048"] == null)) {
+                if ((this.Table.ChildRelations["FK__Transacti__Emplo__5812160E"] == null)) {
                     return new TransactionsRow[0];
                 }
                 else {
-                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Emplo__619B8048"])));
+                    return ((TransactionsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Transacti__Emplo__5812160E"])));
                 }
             }
         }
@@ -9370,10 +9397,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CreditsRow CreditsRow {
                 get {
-                    return ((CreditsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Payments__Credit__6A30C649"])));
+                    return ((CreditsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Payments__Credit__60A75C0F"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Payments__Credit__6A30C649"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Payments__Credit__60A75C0F"]);
                 }
             }
             
@@ -9381,10 +9408,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public PaymentTypesRow PaymentTypesRow {
                 get {
-                    return ((PaymentTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Payments__Paymen__6B24EA82"])));
+                    return ((PaymentTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Payments__Paymen__619B8048"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Payments__Paymen__6B24EA82"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Payments__Paymen__619B8048"]);
                 }
             }
         }
@@ -9428,11 +9455,11 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public PaymentsRow[] GetPaymentsRows() {
-                if ((this.Table.ChildRelations["FK__Payments__Paymen__6B24EA82"] == null)) {
+                if ((this.Table.ChildRelations["FK__Payments__Paymen__619B8048"] == null)) {
                     return new PaymentsRow[0];
                 }
                 else {
-                    return ((PaymentsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Payments__Paymen__6B24EA82"])));
+                    return ((PaymentsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Payments__Paymen__619B8048"])));
                 }
             }
         }
@@ -9542,10 +9569,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public AccountsRow AccountsRow {
                 get {
-                    return ((AccountsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Accou__5FB337D6"])));
+                    return ((AccountsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Accou__5629CD9C"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Accou__5FB337D6"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Accou__5629CD9C"]);
                 }
             }
             
@@ -9553,10 +9580,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public EmployeesRow EmployeesRow {
                 get {
-                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Emplo__619B8048"])));
+                    return ((EmployeesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Emplo__5812160E"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Emplo__619B8048"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Emplo__5812160E"]);
                 }
             }
             
@@ -9564,10 +9591,10 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TransactionTypesRow TransactionTypesRow {
                 get {
-                    return ((TransactionTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Trans__60A75C0F"])));
+                    return ((TransactionTypesRow)(this.GetParentRow(this.Table.ParentRelations["FK__Transacti__Trans__571DF1D5"])));
                 }
                 set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Trans__60A75C0F"]);
+                    this.SetParentRow(value, this.Table.ParentRelations["FK__Transacti__Trans__571DF1D5"]);
                 }
             }
             
@@ -9781,6 +9808,138 @@ namespace BankSystem {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCloseDateNull() {
                 this[this.tablevw_Accounts.CloseDateColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class vw_TransactionsRow : global::System.Data.DataRow {
+            
+            private vw_TransactionsDataTable tablevw_Transactions;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal vw_TransactionsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tablevw_Transactions = ((vw_TransactionsDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AccountNumber {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_Transactions.AccountNumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AccountNumber\' in table \'vw_Transactions\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_Transactions.AccountNumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TransactionType {
+                get {
+                    return ((string)(this[this.tablevw_Transactions.TransactionTypeColumn]));
+                }
+                set {
+                    this[this.tablevw_Transactions.TransactionTypeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal Amount {
+                get {
+                    return ((decimal)(this[this.tablevw_Transactions.AmountColumn]));
+                }
+                set {
+                    this[this.tablevw_Transactions.AmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime TransactionDate {
+                get {
+                    return ((global::System.DateTime)(this[this.tablevw_Transactions.TransactionDateColumn]));
+                }
+                set {
+                    this[this.tablevw_Transactions.TransactionDateColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string Description {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_Transactions.DescriptionColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'vw_Transactions\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_Transactions.DescriptionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string EmployeeFullName {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_Transactions.EmployeeFullNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeFullName\' in table \'vw_Transactions\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_Transactions.EmployeeFullNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAccountNumberNull() {
+                return this.IsNull(this.tablevw_Transactions.AccountNumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAccountNumberNull() {
+                this[this.tablevw_Transactions.AccountNumberColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDescriptionNull() {
+                return this.IsNull(this.tablevw_Transactions.DescriptionColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDescriptionNull() {
+                this[this.tablevw_Transactions.DescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsEmployeeFullNameNull() {
+                return this.IsNull(this.tablevw_Transactions.EmployeeFullNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetEmployeeFullNameNull() {
+                this[this.tablevw_Transactions.EmployeeFullNameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -10411,138 +10570,6 @@ namespace BankSystem {
         }
         
         /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class vw_TransactionsRow : global::System.Data.DataRow {
-            
-            private vw_TransactionsDataTable tablevw_Transactions;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            internal vw_TransactionsRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tablevw_Transactions = ((vw_TransactionsDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string AccountNumber {
-                get {
-                    try {
-                        return ((string)(this[this.tablevw_Transactions.AccountNumberColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'AccountNumber\' in table \'vw_Transactions\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablevw_Transactions.AccountNumberColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string TransactionType {
-                get {
-                    return ((string)(this[this.tablevw_Transactions.TransactionTypeColumn]));
-                }
-                set {
-                    this[this.tablevw_Transactions.TransactionTypeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public decimal Amount {
-                get {
-                    return ((decimal)(this[this.tablevw_Transactions.AmountColumn]));
-                }
-                set {
-                    this[this.tablevw_Transactions.AmountColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public System.DateTime TransactionDate {
-                get {
-                    return ((global::System.DateTime)(this[this.tablevw_Transactions.TransactionDateColumn]));
-                }
-                set {
-                    this[this.tablevw_Transactions.TransactionDateColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string Description {
-                get {
-                    try {
-                        return ((string)(this[this.tablevw_Transactions.DescriptionColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'vw_Transactions\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablevw_Transactions.DescriptionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public string EmployeeFullName {
-                get {
-                    try {
-                        return ((string)(this[this.tablevw_Transactions.EmployeeFullNameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EmployeeFullName\' in table \'vw_Transactions\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tablevw_Transactions.EmployeeFullNameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsAccountNumberNull() {
-                return this.IsNull(this.tablevw_Transactions.AccountNumberColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetAccountNumberNull() {
-                this[this.tablevw_Transactions.AccountNumberColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsDescriptionNull() {
-                return this.IsNull(this.tablevw_Transactions.DescriptionColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetDescriptionNull() {
-                this[this.tablevw_Transactions.DescriptionColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public bool IsEmployeeFullNameNull() {
-                return this.IsNull(this.tablevw_Transactions.EmployeeFullNameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public void SetEmployeeFullNameNull() {
-                this[this.tablevw_Transactions.EmployeeFullNameColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -11056,6 +11083,40 @@ namespace BankSystem {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class vw_TransactionsRowChangeEvent : global::System.EventArgs {
+            
+            private vw_TransactionsRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsRowChangeEvent(vw_TransactionsRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public vw_TransactionsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public class vw_BankBranchesRowChangeEvent : global::System.EventArgs {
             
             private vw_BankBranchesRow eventRow;
@@ -11208,40 +11269,6 @@ namespace BankSystem {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public vw_PaymentsRow Row {
-                get {
-                    return this.eventRow;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataRowAction Action {
-                get {
-                    return this.eventAction;
-                }
-            }
-        }
-        
-        /// <summary>
-        ///Row event argument class
-        ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public class vw_TransactionsRowChangeEvent : global::System.EventArgs {
-            
-            private vw_TransactionsRow eventRow;
-            
-            private global::System.Data.DataRowAction eventAction;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsRowChangeEvent(vw_TransactionsRow row, global::System.Data.DataRowAction action) {
-                this.eventRow = row;
-                this.eventAction = action;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public vw_TransactionsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -11456,7 +11483,7 @@ SELECT AccountID, ClientID, AccountTypeID, CurrencyID, BranchID, EmployeeID, Bal
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11917,7 +11944,7 @@ SELECT AccountID, ClientID, AccountTypeID, CurrencyID, BranchID, EmployeeID, Bal
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12237,7 +12264,7 @@ SELECT AccountID, ClientID, AccountTypeID, CurrencyID, BranchID, EmployeeID, Bal
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12574,7 +12601,7 @@ SELECT BranchID, BranchName, Address, Phone, BranchTypeID FROM BankBranches WHER
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12950,7 +12977,7 @@ SELECT BranchID, BranchName, Address, Phone, BranchTypeID FROM BankBranches WHER
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13318,7 +13345,7 @@ SELECT ClientID, FirstName, LastName, MiddleName, DateOfBirth, PassportNumber, P
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13885,7 +13912,7 @@ SELECT CreditID, ClientID, AccountID, CreditAmount, InterestRate, StartDate, End
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14273,7 +14300,7 @@ SELECT CreditID, ClientID, AccountID, CreditAmount, InterestRate, StartDate, End
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14604,7 +14631,7 @@ SELECT CurrencyID, Name, Symbol, ExchangeRate FROM Currencies WHERE (CurrencyID 
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14952,7 +14979,7 @@ SELECT CurrencyID, Name, Symbol, ExchangeRate FROM Currencies WHERE (CurrencyID 
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15246,10 +15273,11 @@ SELECT CurrencyID, Name, Symbol, ExchangeRate FROM Currencies WHERE (CurrencyID 
             tableMapping.ColumnMappings.Add("BranchID", "BranchID");
             tableMapping.ColumnMappings.Add("Phone", "Phone");
             tableMapping.ColumnMappings.Add("Email", "Email");
+            tableMapping.ColumnMappings.Add("PasswordHash", "PasswordHash");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Employees] WHERE (([EmployeeID] = @Original_EmployeeID) AND ([FirstName] = @Original_FirstName) AND ([LastName] = @Original_LastName) AND ([MiddleName] = @Original_MiddleName) AND ([RoleID] = @Original_RoleID) AND ([BranchID] = @Original_BranchID) AND ((@IsNull_Phone = 1 AND [Phone] IS NULL) OR ([Phone] = @Original_Phone)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Employees] WHERE (([EmployeeID] = @Original_EmployeeID) AND ([FirstName] = @Original_FirstName) AND ([LastName] = @Original_LastName) AND ([MiddleName] = @Original_MiddleName) AND ([RoleID] = @Original_RoleID) AND ([BranchID] = @Original_BranchID) AND ((@IsNull_Phone = 1 AND [Phone] IS NULL) OR ([Phone] = @Original_Phone)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)) AND ([PasswordHash] = @Original_PasswordHash))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_EmployeeID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "EmployeeID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FirstName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FirstName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -15261,10 +15289,11 @@ SELECT CurrencyID, Name, Symbol, ExchangeRate FROM Currencies WHERE (CurrencyID 
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Phone", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Phone", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Email", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PasswordHash", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PasswordHash", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Employees] ([FirstName], [LastName], [MiddleName], [RoleID], [BranchID], [Phone], [Email]) VALUES (@FirstName, @LastName, @MiddleName, @RoleID, @BranchID, @Phone, @Email);
-SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email FROM Employees WHERE (EmployeeID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Employees] ([FirstName], [LastName], [MiddleName], [RoleID], [BranchID], [Phone], [Email], [PasswordHash]) VALUES (@FirstName, @LastName, @MiddleName, @RoleID, @BranchID, @Phone, @Email, @PasswordHash);
+SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email, PasswordHash FROM Employees WHERE (EmployeeID = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FirstName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FirstName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -15273,10 +15302,11 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BranchID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BranchID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Phone", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Phone", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PasswordHash", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PasswordHash", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Employees] SET [FirstName] = @FirstName, [LastName] = @LastName, [MiddleName] = @MiddleName, [RoleID] = @RoleID, [BranchID] = @BranchID, [Phone] = @Phone, [Email] = @Email WHERE (([EmployeeID] = @Original_EmployeeID) AND ([FirstName] = @Original_FirstName) AND ([LastName] = @Original_LastName) AND ([MiddleName] = @Original_MiddleName) AND ([RoleID] = @Original_RoleID) AND ([BranchID] = @Original_BranchID) AND ((@IsNull_Phone = 1 AND [Phone] IS NULL) OR ([Phone] = @Original_Phone)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)));
-SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email FROM Employees WHERE (EmployeeID = @EmployeeID)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Employees] SET [FirstName] = @FirstName, [LastName] = @LastName, [MiddleName] = @MiddleName, [RoleID] = @RoleID, [BranchID] = @BranchID, [Phone] = @Phone, [Email] = @Email, [PasswordHash] = @PasswordHash WHERE (([EmployeeID] = @Original_EmployeeID) AND ([FirstName] = @Original_FirstName) AND ([LastName] = @Original_LastName) AND ([MiddleName] = @Original_MiddleName) AND ([RoleID] = @Original_RoleID) AND ([BranchID] = @Original_BranchID) AND ((@IsNull_Phone = 1 AND [Phone] IS NULL) OR ([Phone] = @Original_Phone)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)) AND ([PasswordHash] = @Original_PasswordHash));
+SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email, PasswordHash FROM Employees WHERE (EmployeeID = @EmployeeID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@FirstName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FirstName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastName", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -15285,6 +15315,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BranchID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BranchID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Phone", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Phone", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PasswordHash", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PasswordHash", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_EmployeeID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "EmployeeID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_FirstName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "FirstName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LastName", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastName", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -15295,6 +15326,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Phone", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Phone", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Email", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PasswordHash", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PasswordHash", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@EmployeeID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "EmployeeID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -15304,7 +15336,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15314,7 +15346,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Emai" +
-                "l FROM dbo.Employees";
+                "l, PasswordHash FROM dbo.Employees";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -15375,7 +15407,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_EmployeeID, string Original_FirstName, string Original_LastName, string Original_MiddleName, int Original_RoleID, int Original_BranchID, string Original_Phone, string Original_Email) {
+        public virtual int Delete(int Original_EmployeeID, string Original_FirstName, string Original_LastName, string Original_MiddleName, int Original_RoleID, int Original_BranchID, string Original_Phone, string Original_Email, string Original_PasswordHash) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_EmployeeID));
             if ((Original_FirstName == null)) {
                 throw new global::System.ArgumentNullException("Original_FirstName");
@@ -15413,6 +15445,12 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
                 this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[9].Value = ((string)(Original_Email));
             }
+            if ((Original_PasswordHash == null)) {
+                throw new global::System.ArgumentNullException("Original_PasswordHash");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_PasswordHash));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -15433,7 +15471,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string FirstName, string LastName, string MiddleName, int RoleID, int BranchID, string Phone, string Email) {
+        public virtual int Insert(string FirstName, string LastName, string MiddleName, int RoleID, int BranchID, string Phone, string Email, string PasswordHash) {
             if ((FirstName == null)) {
                 throw new global::System.ArgumentNullException("FirstName");
             }
@@ -15466,6 +15504,12 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             else {
                 this.Adapter.InsertCommand.Parameters[6].Value = ((string)(Email));
             }
+            if ((PasswordHash == null)) {
+                throw new global::System.ArgumentNullException("PasswordHash");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(PasswordHash));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -15494,6 +15538,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
                     int BranchID, 
                     string Phone, 
                     string Email, 
+                    string PasswordHash, 
                     int Original_EmployeeID, 
                     string Original_FirstName, 
                     string Original_LastName, 
@@ -15502,6 +15547,7 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
                     int Original_BranchID, 
                     string Original_Phone, 
                     string Original_Email, 
+                    string Original_PasswordHash, 
                     int EmployeeID) {
             if ((FirstName == null)) {
                 throw new global::System.ArgumentNullException("FirstName");
@@ -15535,44 +15581,56 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
             else {
                 this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Email));
             }
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_EmployeeID));
+            if ((PasswordHash == null)) {
+                throw new global::System.ArgumentNullException("PasswordHash");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(PasswordHash));
+            }
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_EmployeeID));
             if ((Original_FirstName == null)) {
                 throw new global::System.ArgumentNullException("Original_FirstName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_FirstName));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_FirstName));
             }
             if ((Original_LastName == null)) {
                 throw new global::System.ArgumentNullException("Original_LastName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_LastName));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_LastName));
             }
             if ((Original_MiddleName == null)) {
                 throw new global::System.ArgumentNullException("Original_MiddleName");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_MiddleName));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_MiddleName));
             }
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_RoleID));
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_BranchID));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_RoleID));
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_BranchID));
             if ((Original_Phone == null)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_Phone));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_Phone));
             }
             if ((Original_Email == null)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_Email));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(Original_Email));
             }
-            this.Adapter.UpdateCommand.Parameters[17].Value = ((int)(EmployeeID));
+            if ((Original_PasswordHash == null)) {
+                throw new global::System.ArgumentNullException("Original_PasswordHash");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(Original_PasswordHash));
+            }
+            this.Adapter.UpdateCommand.Parameters[19].Value = ((int)(EmployeeID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -15593,8 +15651,25 @@ SELECT EmployeeID, FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Ema
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string FirstName, string LastName, string MiddleName, int RoleID, int BranchID, string Phone, string Email, int Original_EmployeeID, string Original_FirstName, string Original_LastName, string Original_MiddleName, int Original_RoleID, int Original_BranchID, string Original_Phone, string Original_Email) {
-            return this.Update(FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email, Original_EmployeeID, Original_FirstName, Original_LastName, Original_MiddleName, Original_RoleID, Original_BranchID, Original_Phone, Original_Email, Original_EmployeeID);
+        public virtual int Update(
+                    string FirstName, 
+                    string LastName, 
+                    string MiddleName, 
+                    int RoleID, 
+                    int BranchID, 
+                    string Phone, 
+                    string Email, 
+                    string PasswordHash, 
+                    int Original_EmployeeID, 
+                    string Original_FirstName, 
+                    string Original_LastName, 
+                    string Original_MiddleName, 
+                    int Original_RoleID, 
+                    int Original_BranchID, 
+                    string Original_Phone, 
+                    string Original_Email, 
+                    string Original_PasswordHash) {
+            return this.Update(FirstName, LastName, MiddleName, RoleID, BranchID, Phone, Email, PasswordHash, Original_EmployeeID, Original_FirstName, Original_LastName, Original_MiddleName, Original_RoleID, Original_BranchID, Original_Phone, Original_Email, Original_PasswordHash, Original_EmployeeID);
         }
     }
     
@@ -15768,7 +15843,7 @@ SELECT PaymentID, CreditID, PaymentTypeID, PaymentDate, Amount FROM Payments WHE
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16080,7 +16155,7 @@ SELECT PaymentID, CreditID, PaymentTypeID, PaymentDate, Amount FROM Payments WHE
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16427,7 +16502,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16779,7 +16854,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16788,7 +16863,8 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Accounts";
+            this._commandCollection[0].CommandText = "SELECT ClientFullName, AccountTypeName, CurrencyName, BranchName, EmployeeFullNam" +
+                "e, Balance, OpenDate, CloseDate FROM dbo.vw_Accounts";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -16812,6 +16888,181 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
         public virtual BankDBDataSet.vw_AccountsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             BankDBDataSet.vw_AccountsDataTable dataTable = new BankDBDataSet.vw_AccountsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class vw_TransactionsTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public vw_TransactionsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "vw_Transactions";
+            tableMapping.ColumnMappings.Add("AccountNumber", "AccountNumber");
+            tableMapping.ColumnMappings.Add("TransactionType", "TransactionType");
+            tableMapping.ColumnMappings.Add("Amount", "Amount");
+            tableMapping.ColumnMappings.Add("TransactionDate", "TransactionDate");
+            tableMapping.ColumnMappings.Add("Description", "Description");
+            tableMapping.ColumnMappings.Add("EmployeeFullName", "EmployeeFullName");
+            this._adapter.TableMappings.Add(tableMapping);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
+                "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
+                "0;TrustServerCertificate=True";
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT AccountNumber, TransactionType, Amount, TransactionDate, Description, Empl" +
+                "oyeeFullName FROM dbo.vw_Transactions";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(BankDBDataSet.vw_TransactionsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual BankDBDataSet.vw_TransactionsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            BankDBDataSet.vw_TransactionsDataTable dataTable = new BankDBDataSet.vw_TransactionsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -16951,7 +17202,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16960,7 +17211,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_BankBranches";
+            this._commandCollection[0].CommandText = "SELECT BranchName, BranchTypeName, Address, Phone FROM dbo.vw_BankBranches";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17128,7 +17379,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17137,7 +17388,8 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Clients";
+            this._commandCollection[0].CommandText = "SELECT LastName, FirstName, MiddleName, DateOfBirth, PassportNumber, Phone, Email" +
+                ", Address, RegistrationDate FROM dbo.vw_Clients";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17304,7 +17556,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17313,7 +17565,8 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Credits";
+            this._commandCollection[0].CommandText = "SELECT ClientFullName, AccountNumber, CreditAmount, InterestRate, StartDate, EndD" +
+                "ate, CreditStatus, EmployeeFullName FROM dbo.vw_Credits";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17477,7 +17730,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17486,7 +17739,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Employees";
+            this._commandCollection[0].CommandText = "SELECT FullName, RoleName, BranchName, Phone, Email FROM dbo.vw_Employees";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17649,7 +17902,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._connection = new global::System.Data.SqlClient.SqlConnection();
             this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
                 "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
+                "0;TrustServerCertificate=True";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17658,7 +17911,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Payments";
+            this._commandCollection[0].CommandText = "SELECT CreditNumber, PaymentTypeName, PaymentDate, Amount FROM dbo.vw_Payments";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -17682,180 +17935,6 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
         public virtual BankDBDataSet.vw_PaymentsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             BankDBDataSet.vw_PaymentsDataTable dataTable = new BankDBDataSet.vw_PaymentsDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class vw_TransactionsTableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public vw_TransactionsTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "vw_Transactions";
-            tableMapping.ColumnMappings.Add("AccountNumber", "AccountNumber");
-            tableMapping.ColumnMappings.Add("TransactionType", "TransactionType");
-            tableMapping.ColumnMappings.Add("Amount", "Amount");
-            tableMapping.ColumnMappings.Add("TransactionDate", "TransactionDate");
-            tableMapping.ColumnMappings.Add("Description", "Description");
-            tableMapping.ColumnMappings.Add("EmployeeFullName", "EmployeeFullName");
-            this._adapter.TableMappings.Add(tableMapping);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = "Data Source=.\\OBZIVAYU;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\MS" +
-                "SQL16.OBZIVAYU\\MSSQL\\DATA\\BankDB.mdf\";Integrated Security=True;Connect Timeout=3" +
-                "0;Encrypt=True;TrustServerCertificate=True";
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM vw_Transactions";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(BankDBDataSet.vw_TransactionsDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual BankDBDataSet.vw_TransactionsDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            BankDBDataSet.vw_TransactionsDataTable dataTable = new BankDBDataSet.vw_TransactionsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
