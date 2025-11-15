@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Commands.BranchesCommands
 {
-    public class UpdateBranchCommand : AbstrCommandWithDA<BankBranch>
+    public class UpdateBranchCommand : AbstrCommandWithDA<bool>
     {
         private BankBranchDto branchDto;
         public UpdateBranchCommand(BankBranchDto branchDTO, IUnitOfWork unitOfWork, IMapper mapper)
@@ -18,7 +18,7 @@ namespace BLL.Commands.BranchesCommands
         {
             this.branchDto = branchDTO;
         }
-        public override BankBranch Execute()
+        public override bool Execute()
         {
             var branch = dAPoint.BankBranchRepository.GetById(branchDto.BranchId);
             if (branch == null)
@@ -28,7 +28,7 @@ namespace BLL.Commands.BranchesCommands
             mapper.Map(branchDto, branch);
             dAPoint.BankBranchRepository.Update(branch);
             dAPoint.Save();
-            return branch;
+            return true;
         }
     }
 }

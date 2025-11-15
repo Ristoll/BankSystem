@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Commands.EmployeesCommands
 {
-    public class UpdateEmployeeCommand : AbstrCommandWithDA<Employee>
+    public class UpdateEmployeeCommand : AbstrCommandWithDA<bool>
     {
         private EmployeeDto employeeDto;
         public UpdateEmployeeCommand(EmployeeDto employeeDTO, IUnitOfWork unitOfWork, IMapper mapper)
@@ -18,12 +18,19 @@ namespace BLL.Commands.EmployeesCommands
         {
             this.employeeDto = employeeDTO;
         }
-        public override Employee Execute()
+        public override bool Execute()
         {
-            var employee = mapper.Map<Employee>(employeeDto);
+            var employee = dAPoint.EmployeeRepository.GetById(employeeDto.EmployeeId);
+
+            if (employee == null)
+                throw new Exception("Employee not found");
+
+            mapper.Map(employeeDto, employee);
+
             dAPoint.EmployeeRepository.Update(employee);
             dAPoint.Save();
-            return employee;
+
+            return true;
         }
     }
 }

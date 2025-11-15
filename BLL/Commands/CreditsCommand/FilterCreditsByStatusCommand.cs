@@ -12,8 +12,8 @@ namespace BLL.Commands.CreditsCommand
 {
     public class FilterCreditsByStatusCommand : AbstrCommandWithDA<List<Credit>>
     {
-        private string status;
-        public FilterCreditsByStatusCommand(string status, IUnitOfWork unitOfWork, IMapper mapper)
+        private CreditStatusDto status;
+        public FilterCreditsByStatusCommand(CreditStatusDto status, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
             this.status = status;
@@ -21,7 +21,7 @@ namespace BLL.Commands.CreditsCommand
         public override List<Credit> Execute()
         {
             var credits = dAPoint.CreditRepository.GetAll()
-                .Where(c => c.Status.Name.Equals(status, StringComparison.OrdinalIgnoreCase))
+                .Where(c => c.Status.StatusId == status.StatusId)
                 .ToList();
             return credits;
         }

@@ -9,24 +9,23 @@ namespace BLL.Commands.ClientsCommands
 {
     public class FilterClientsByAccountTypeCommand : AbstrCommandWithDA<List<Client>>
     {
-        private readonly string accountTypeName;
+        private readonly AccountType accountType;
 
-        public FilterClientsByAccountTypeCommand(string accountTypeName, IUnitOfWork unitOfWork, IMapper mapper)
+        public FilterClientsByAccountTypeCommand(AccountType accountType, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.accountTypeName = accountTypeName;
+            this.accountType = accountType
+                ?? throw new ArgumentException("AccountType cannot be null.");
         }
 
         public override List<Client> Execute()
         {
-            if (string.IsNullOrWhiteSpace(accountTypeName))
-                throw new ArgumentException("Account type cannot be empty.");
-
             var clients = dAPoint.ClientRepository.GetAll()
-                .Where(client => client.Accounts != null && client.Accounts.Any(a =>
-                    !string.IsNullOrEmpty(a.AccountType?.Name) &&
-                    a.AccountType.Name.ToLower().Contains(accountTypeName.ToLower())
-                ))
+                .Where(client => client.Accounts != null &&
+                                 client.Accounts.Any(acc =>
+                                     acc.AccountType != null &&
+                                     acc.AccountType.AccountTypeId == accountType.AccountTypeId
+                                 ))
                 .ToList();
 
             if (!clients.Any())

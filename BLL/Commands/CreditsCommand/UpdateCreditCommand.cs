@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Commands.CreditsCommand
 {
-    public class UpdateCreditCommand : AbstrCommandWithDA<Credit>
+    public class UpdateCreditCommand : AbstrCommandWithDA<bool>
     {
         private CreditDto creditDto;
         public UpdateCreditCommand(CreditDto creditDto, IUnitOfWork unitOfWork, IMapper mapper)
@@ -18,17 +18,18 @@ namespace BLL.Commands.CreditsCommand
         {
             this.creditDto = creditDto;
         }
-        public override Credit Execute()
+        public override bool Execute()
         {
             var credit = dAPoint.CreditRepository.GetById(creditDto.CreditId);
             if (credit == null)
             {
                 throw new Exception("Credit not found");
             }
+
             mapper.Map(creditDto, credit);
             dAPoint.CreditRepository.Update(credit);
             dAPoint.Save();
-            return credit;
+            return true;
         }
     }
 }

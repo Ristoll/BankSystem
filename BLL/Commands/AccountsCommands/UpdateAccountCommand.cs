@@ -20,9 +20,15 @@ namespace BLL.Commands.AccountsCommands
         }
         public override bool Execute()
         {
-            var account = mapper.Map<Account>(accountDto);
+            var account = dAPoint.AccountRepository.GetById(accountDto.AccountId);
+
+            if (account == null)
+                throw new Exception("Account not found.");
+
+            mapper.Map(accountDto, account);
             dAPoint.AccountRepository.Update(account);
             dAPoint.Save();
+
             return true;
         }
     }
