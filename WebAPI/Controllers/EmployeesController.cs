@@ -38,7 +38,7 @@ public class EmployeesController : Controller
         return Ok(result);
     }
 
-    [HttpPost("login-empployee")]
+    [HttpPost("login-employee")]
     public IActionResult LoginEmployee(string phone, string password)
     {
         var result = creditsCommandManager.LoginEmployee(phone, password);

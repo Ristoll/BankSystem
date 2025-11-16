@@ -1,0 +1,56 @@
+﻿using BankSystem.ApiClients;
+using DTO;
+using System.Net.Http.Json;
+
+namespace BankSystem.ApiClients;
+
+public class EmployeesApiClient : AbstractApiClient
+{
+    public EmployeesApiClient(HttpClient client) : base(client)
+    {
+    }
+
+    /// <summary>
+    /// POST api/employees/add-employee
+    /// </summary>
+    public async Task<bool> AddEmployeeAsync(EmployeeDto employeeDto)
+    {
+        var response = await client.PostAsJsonAsync("api/employees/add-employee", employeeDto);
+        return await HandleErrorAsync(response);
+    }
+
+    /// <summary>
+    /// PUT api/employees/update-employee
+    /// </summary>
+    public async Task<bool> UpdateEmployeeAsync(EmployeeDto employeeDto)
+    {
+        var response = await client.PutAsJsonAsync("api/employees/update-employee", employeeDto);
+        return await HandleErrorAsync(response);
+    }
+
+    /// <summary>
+    /// DELETE api/employees/delete-employee?employeeId=...
+    /// </summary>
+    public async Task<bool> DeleteEmployeeAsync(int employeeId)
+    {
+        var response = await client.DeleteAsync(
+            $"api/employees/delete-employee?employeeId={employeeId}");
+
+        return await HandleErrorAsync(response);
+    }
+
+    /// <summary>
+    /// POST api/employees/login-empployee
+    /// </summary>
+    public async Task<EmployeeDto?> LoginEmployeeAsync(string phone, string password)
+    {
+        // Формуємо URL з query
+        var url = $"api/employees/login-empployee?phone={phone}&password={password}";
+
+        var response = await client.PostAsync(url, null);
+
+        if (!await HandleErrorAsync(response)) return null;
+
+        return await response.Content.ReadFromJsonAsync<EmployeeDto>();
+    }
+}

@@ -18,17 +18,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="BankDBDataSet.Designer.cs">
+    <ProjectReference Include="..\DTO\DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BankSystemDBDataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>BankDBDataSet.xsd</DependentUpon>
+      <DependentUpon>BankSystemDBDataSet.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="BankDBDataSet.xsd">
+    <None Update="BankSystemDBDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BankDBDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>BankSystemDBDataSet.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

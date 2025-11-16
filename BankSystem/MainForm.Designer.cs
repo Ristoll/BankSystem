@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             menuStrip1 = new MenuStrip();
             клієнтиToolStripMenuItem = new ToolStripMenuItem();
             рахункиToolStripMenuItem = new ToolStripMenuItem();
@@ -42,19 +41,21 @@
             splitContainer1 = new SplitContainer();
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
-            vw_AccountsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_AccountsTableAdapter();
-            vw_BankBranchesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_BankBranchesTableAdapter();
-            vw_ClientsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_ClientsTableAdapter();
-            vw_CreditsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_CreditsTableAdapter();
-            vw_EmployeesTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_EmployeesTableAdapter();
-            vw_PaymentsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_PaymentsTableAdapter();
-            vw_TransactionsTableAdapter1 = new BankSystem.BankDBDataSetTableAdapters.vw_TransactionsTableAdapter();
+            vw_AccountsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_AccountsTableAdapter();
+            vw_BankBranchesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_BankBranchesTableAdapter();
+            vw_ClientsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_ClientsTableAdapter();
+            vw_CreditsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_CreditsTableAdapter();
+            vw_EmployeesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_EmployeesTableAdapter();
+            vw_PaymentsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter();
+            vw_TransactionsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter();
+            bankSystemdbDataSet1 = new BankSystemDBDataSet();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bankSystemdbDataSet1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -149,10 +150,6 @@
             dataGridView1.Size = new Size(800, 203);
             dataGridView1.TabIndex = 1;
             // 
-            // bindingSource1
-            // 
-            bindingSource1.Position = 0;
-            // 
             // vw_AccountsTableAdapter1
             // 
             vw_AccountsTableAdapter1.ClearBeforeFill = true;
@@ -181,6 +178,12 @@
             // 
             vw_TransactionsTableAdapter1.ClearBeforeFill = true;
             // 
+            // bankSystemdbDataSet1
+            // 
+            bankSystemdbDataSet1.DataSetName = "BankSystemDBDataSet";
+            bankSystemdbDataSet1.Namespace = "http://tempuri.org/BankSystemDBDataSet.xsd";
+            bankSystemdbDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -199,6 +202,7 @@
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bankSystemdbDataSet1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -216,25 +220,14 @@
         private ToolStripMenuItem звітиToolStripMenuItem;
         private SplitContainer splitContainer1;
         private BindingSource bindingSource1;
-        private BankDBDataSet bankdbDataSet1;
-        private BankDBDataSetTableAdapters.AccountsTableAdapter accountsTableAdapter1;
-        private BankDBDataSetTableAdapters.BankBranchesTableAdapter bankBranchesTableAdapter1;
-        private BankDBDataSetTableAdapters.CreditStatusesTableAdapter creditStatusesTableAdapter1;
-        private BankDBDataSetTableAdapters.CreditsTableAdapter creditsTableAdapter1;
-        private BankDBDataSetTableAdapters.CurrenciesTableAdapter currenciesTableAdapter1;
-        private BankDBDataSetTableAdapters.EmployeeRolesTableAdapter employeeRolesTableAdapter1;
-        private BankDBDataSetTableAdapters.PaymentTypesTableAdapter paymentTypesTableAdapter1;
-        private BankDBDataSetTableAdapters.PaymentsTableAdapter paymentsTableAdapter1;
-        private BankDBDataSetTableAdapters.TableAdapterManager tableAdapterManager1;
-        private BankDBDataSetTableAdapters.TransactionTypesTableAdapter transactionTypesTableAdapter1;
-        private BankDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
         private DataGridView dataGridView1;
-        private BankDBDataSetTableAdapters.vw_AccountsTableAdapter vw_AccountsTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_BankBranchesTableAdapter vw_BankBranchesTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_ClientsTableAdapter vw_ClientsTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_CreditsTableAdapter vw_CreditsTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_EmployeesTableAdapter vw_EmployeesTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_PaymentsTableAdapter vw_PaymentsTableAdapter1;
-        private BankDBDataSetTableAdapters.vw_TransactionsTableAdapter vw_TransactionsTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_AccountsTableAdapter vw_AccountsTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_BankBranchesTableAdapter vw_BankBranchesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_ClientsTableAdapter vw_ClientsTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_CreditsTableAdapter vw_CreditsTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_EmployeesTableAdapter vw_EmployeesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter vw_PaymentsTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter vw_TransactionsTableAdapter1;
+        private BankSystemDBDataSet bankSystemdbDataSet1;
     }
 }

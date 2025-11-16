@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="BankDBDataSet" targetNamespace="http://tempuri.org/BankDBDataSet.xsd" xmlns:mstns="http://tempuri.org/BankDBDataSet.xsd" xmlns="http://tempuri.org/BankDBDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="BankSystemDBDataSet" targetNamespace="http://tempuri.org/BankSystemDBDataSet.xsd" xmlns:mstns="http://tempuri.org/BankSystemDBDataSet.xsd" xmlns="http://tempuri.org/BankSystemDBDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection ConnectionStringObject="Data Source=.\OBZIVAYU;AttachDbFilename=&quot;C:\Program Files\Microsoft SQL Server\MSSQL16.OBZIVAYU\MSSQL\DATA\BankDB.mdf&quot;;Integrated Security=True;Connect Timeout=30;TrustServerCertificate=True" IsAppSettingsProperty="false" Modifier="Assembly" Name="BankDBConnectionString" ParameterPrefix="@" Provider="System.Data.SqlClient" />
+          <Connection ConnectionStringObject="Data Source=.\OBZIVAYU;AttachDbFilename=&quot;C:\Program Files\Microsoft SQL Server\MSSQL16.OBZIVAYU\MSSQL\DATA\BankDB.mdf&quot;;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True" IsAppSettingsProperty="false" Modifier="Assembly" Name="BankDBConnectionString" ParameterPrefix="@" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="AccountsTableAdapter" GeneratorDataComponentClassName="AccountsTableAdapter" Name="Accounts" UserDataComponentName="AccountsTableAdapter">
@@ -928,6 +928,25 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vw_BankBranchesTableAdapter" GeneratorDataComponentClassName="vw_BankBranchesTableAdapter" Name="vw_BankBranches" UserDataComponentName="vw_BankBranchesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BankDBConnectionString" DbObjectName="dbo.vw_BankBranches" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT BranchName, BranchTypeName, Address, Phone FROM dbo.vw_BankBranches</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="BranchName" DataSetColumn="BranchName" />
+              <Mapping SourceColumn="BranchTypeName" DataSetColumn="BranchTypeName" />
+              <Mapping SourceColumn="Address" DataSetColumn="Address" />
+              <Mapping SourceColumn="Phone" DataSetColumn="Phone" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vw_TransactionsTableAdapter" GeneratorDataComponentClassName="vw_TransactionsTableAdapter" Name="vw_Transactions" UserDataComponentName="vw_TransactionsTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="BankDBConnectionString" DbObjectName="dbo.vw_Transactions" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -946,25 +965,6 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
               <Mapping SourceColumn="TransactionDate" DataSetColumn="TransactionDate" />
               <Mapping SourceColumn="Description" DataSetColumn="Description" />
               <Mapping SourceColumn="EmployeeFullName" DataSetColumn="EmployeeFullName" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vw_BankBranchesTableAdapter" GeneratorDataComponentClassName="vw_BankBranchesTableAdapter" Name="vw_BankBranches" UserDataComponentName="vw_BankBranchesTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="BankDBConnectionString" DbObjectName="dbo.vw_BankBranches" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT BranchName, BranchTypeName, Address, Phone FROM dbo.vw_BankBranches</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="BranchName" DataSetColumn="BranchName" />
-              <Mapping SourceColumn="BranchTypeName" DataSetColumn="BranchTypeName" />
-              <Mapping SourceColumn="Address" DataSetColumn="Address" />
-              <Mapping SourceColumn="Phone" DataSetColumn="Phone" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -1059,7 +1059,7 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="BankDBDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="BankDBDataSet" msprop:Generator_DataSetName="BankDBDataSet">
+  <xs:element name="BankSystemDBDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="BankSystemDBDataSet" msprop:Generator_DataSetName="BankSystemDBDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="Accounts" msprop:Generator_RowEvHandlerName="AccountsRowChangeEventHandler" msprop:Generator_RowDeletedName="AccountsRowDeleted" msprop:Generator_RowDeletingName="AccountsRowDeleting" msprop:Generator_RowEvArgName="AccountsRowChangeEvent" msprop:Generator_TablePropName="Accounts" msprop:Generator_RowChangedName="AccountsRowChanged" msprop:Generator_RowChangingName="AccountsRowChanging" msprop:Generator_TableClassName="AccountsDataTable" msprop:Generator_RowClassName="AccountsRow" msprop:Generator_TableVarName="tableAccounts" msprop:Generator_UserTableName="Accounts">
@@ -1410,6 +1410,40 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="vw_BankBranches" msprop:Generator_RowEvHandlerName="vw_BankBranchesRowChangeEventHandler" msprop:Generator_RowDeletedName="vw_BankBranchesRowDeleted" msprop:Generator_RowDeletingName="vw_BankBranchesRowDeleting" msprop:Generator_RowEvArgName="vw_BankBranchesRowChangeEvent" msprop:Generator_TablePropName="vw_BankBranches" msprop:Generator_RowChangedName="vw_BankBranchesRowChanged" msprop:Generator_RowChangingName="vw_BankBranchesRowChanging" msprop:Generator_TableClassName="vw_BankBranchesDataTable" msprop:Generator_RowClassName="vw_BankBranchesRow" msprop:Generator_TableVarName="tablevw_BankBranches" msprop:Generator_UserTableName="vw_BankBranches">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BranchName" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" msprop:Generator_ColumnVarNameInTable="columnBranchName" msprop:Generator_UserColumnName="BranchName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="BranchTypeName" msprop:Generator_ColumnPropNameInRow="BranchTypeName" msprop:Generator_ColumnPropNameInTable="BranchTypeNameColumn" msprop:Generator_ColumnVarNameInTable="columnBranchTypeName" msprop:Generator_UserColumnName="BranchTypeName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Address" msprop:Generator_ColumnPropNameInRow="Address" msprop:Generator_ColumnPropNameInTable="AddressColumn" msprop:Generator_ColumnVarNameInTable="columnAddress" msprop:Generator_UserColumnName="Address">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Phone" msprop:Generator_ColumnPropNameInRow="Phone" msprop:Generator_ColumnPropNameInTable="PhoneColumn" msprop:Generator_ColumnVarNameInTable="columnPhone" msprop:Generator_UserColumnName="Phone" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
         <xs:element name="vw_Transactions" msprop:Generator_RowEvHandlerName="vw_TransactionsRowChangeEventHandler" msprop:Generator_RowDeletedName="vw_TransactionsRowDeleted" msprop:Generator_RowDeletingName="vw_TransactionsRowDeleting" msprop:Generator_RowEvArgName="vw_TransactionsRowChangeEvent" msprop:Generator_TablePropName="vw_Transactions" msprop:Generator_RowChangedName="vw_TransactionsRowChanged" msprop:Generator_RowChangingName="vw_TransactionsRowChanging" msprop:Generator_TableClassName="vw_TransactionsDataTable" msprop:Generator_RowClassName="vw_TransactionsRow" msprop:Generator_TableVarName="tablevw_Transactions" msprop:Generator_UserTableName="vw_Transactions">
           <xs:complexType>
             <xs:sequence>
@@ -1440,40 +1474,6 @@ SELECT TransactionID, AccountID, TransactionTypeID, Amount, TransactionDate, Des
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="152" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="vw_BankBranches" msprop:Generator_RowEvHandlerName="vw_BankBranchesRowChangeEventHandler" msprop:Generator_RowDeletedName="vw_BankBranchesRowDeleted" msprop:Generator_RowDeletingName="vw_BankBranchesRowDeleting" msprop:Generator_RowEvArgName="vw_BankBranchesRowChangeEvent" msprop:Generator_TablePropName="vw_BankBranches" msprop:Generator_RowChangedName="vw_BankBranchesRowChanged" msprop:Generator_RowChangingName="vw_BankBranchesRowChanging" msprop:Generator_TableClassName="vw_BankBranchesDataTable" msprop:Generator_RowClassName="vw_BankBranchesRow" msprop:Generator_TableVarName="tablevw_BankBranches" msprop:Generator_UserTableName="vw_BankBranches">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="BranchName" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" msprop:Generator_ColumnVarNameInTable="columnBranchName" msprop:Generator_UserColumnName="BranchName">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="BranchTypeName" msprop:Generator_ColumnPropNameInRow="BranchTypeName" msprop:Generator_ColumnPropNameInTable="BranchTypeNameColumn" msprop:Generator_ColumnVarNameInTable="columnBranchTypeName" msprop:Generator_UserColumnName="BranchTypeName">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Address" msprop:Generator_ColumnPropNameInRow="Address" msprop:Generator_ColumnPropNameInTable="AddressColumn" msprop:Generator_ColumnVarNameInTable="columnAddress" msprop:Generator_UserColumnName="Address">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="200" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Phone" msprop:Generator_ColumnPropNameInRow="Phone" msprop:Generator_ColumnPropNameInTable="PhoneColumn" msprop:Generator_ColumnVarNameInTable="columnPhone" msprop:Generator_UserColumnName="Phone" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="20" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
