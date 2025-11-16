@@ -42,6 +42,8 @@
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
             reportPanel = new Panel();
+            textBox9 = new TextBox();
+            searchPanel = new Panel();
             clientPanel = new Panel();
             button1 = new Button();
             textBox7 = new TextBox();
@@ -60,8 +62,6 @@
             textBox3 = new TextBox();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
-            textBox9 = new TextBox();
-            searchPanel = new Panel();
             button2 = new Button();
             label9 = new Label();
             textBox8 = new TextBox();
@@ -83,6 +83,7 @@
             vw_EmployeesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_EmployeesTableAdapter();
             vw_PaymentsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter();
             vw_TransactionsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter();
+            accountTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -91,8 +92,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             reportPanel.SuspendLayout();
-            clientPanel.SuspendLayout();
             searchPanel.SuspendLayout();
+            clientPanel.SuspendLayout();
             menuStrip2.SuspendLayout();
             SuspendLayout();
             // 
@@ -175,6 +176,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(reportPanel);
+            splitContainer1.Panel2.Controls.Add(searchPanel);
             splitContainer1.Panel2.Controls.Add(menuStrip2);
             splitContainer1.Size = new Size(800, 422);
             splitContainer1.SplitterDistance = 203;
@@ -195,14 +197,32 @@
             // 
             // reportPanel
             // 
-            reportPanel.Controls.Add(clientPanel);
             reportPanel.Controls.Add(textBox9);
-            reportPanel.Controls.Add(searchPanel);
-            reportPanel.Location = new Point(0, 31);
+            reportPanel.Location = new Point(3, 31);
             reportPanel.Name = "reportPanel";
             reportPanel.Size = new Size(797, 184);
             reportPanel.TabIndex = 5;
             reportPanel.Visible = false;
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(12, 12);
+            textBox9.Multiline = true;
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(776, 160);
+            textBox9.TabIndex = 0;
+            // 
+            // searchPanel
+            // 
+            searchPanel.Controls.Add(clientPanel);
+            searchPanel.Controls.Add(button2);
+            searchPanel.Controls.Add(label9);
+            searchPanel.Controls.Add(textBox8);
+            searchPanel.Location = new Point(0, 34);
+            searchPanel.Name = "searchPanel";
+            searchPanel.Size = new Size(791, 181);
+            searchPanel.TabIndex = 4;
+            searchPanel.Visible = false;
             // 
             // clientPanel
             // 
@@ -224,7 +244,7 @@
             clientPanel.Controls.Add(textBox3);
             clientPanel.Controls.Add(textBox2);
             clientPanel.Controls.Add(textBox1);
-            clientPanel.Location = new Point(3, 3);
+            clientPanel.Location = new Point(0, 19);
             clientPanel.Name = "clientPanel";
             clientPanel.Size = new Size(800, 181);
             clientPanel.TabIndex = 1;
@@ -368,26 +388,6 @@
             textBox1.Size = new Size(173, 27);
             textBox1.TabIndex = 0;
             // 
-            // textBox9
-            // 
-            textBox9.Location = new Point(12, 12);
-            textBox9.Multiline = true;
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(776, 160);
-            textBox9.TabIndex = 0;
-            textBox9.TextChanged += textBox9_TextChanged;
-            // 
-            // searchPanel
-            // 
-            searchPanel.Controls.Add(button2);
-            searchPanel.Controls.Add(label9);
-            searchPanel.Controls.Add(textBox8);
-            searchPanel.Location = new Point(3, 3);
-            searchPanel.Name = "searchPanel";
-            searchPanel.Size = new Size(791, 181);
-            searchPanel.TabIndex = 4;
-            searchPanel.Visible = false;
-            // 
             // button2
             // 
             button2.Location = new Point(12, 62);
@@ -528,6 +528,10 @@
             // 
             vw_TransactionsTableAdapter1.ClearBeforeFill = true;
             // 
+            // accountTypesTableAdapter1
+            // 
+            accountTypesTableAdapter1.ClearBeforeFill = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -550,10 +554,10 @@
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             reportPanel.ResumeLayout(false);
             reportPanel.PerformLayout();
-            clientPanel.ResumeLayout(false);
-            clientPanel.PerformLayout();
             searchPanel.ResumeLayout(false);
             searchPanel.PerformLayout();
+            clientPanel.ResumeLayout(false);
+            clientPanel.PerformLayout();
             menuStrip2.ResumeLayout(false);
             menuStrip2.PerformLayout();
             ResumeLayout(false);
@@ -617,5 +621,6 @@
         private ToolStripMenuItem списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem;
         private Panel reportPanel;
         private TextBox textBox9;
+        private BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
     }
 }

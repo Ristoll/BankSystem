@@ -1,4 +1,5 @@
 using BankSystem.ApiClients;
+using BankSystem.BankSystemDBDataSetTableAdapters;
 using BLL.Services;
 using DTO;
 using System.Data;
@@ -28,7 +29,6 @@ namespace BankSystem
             // Динамічно створюємо підменю
             PopulateAccountTypesSubMenu();
         }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
 
@@ -101,6 +101,7 @@ namespace BankSystem
         private void додатиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
+            ClearClientForm();
             button1.Text = "Оформити клієнта";
         }
 
@@ -152,32 +153,36 @@ namespace BankSystem
             // Очищаємо старі пункти
             клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Clear();
 
-            // Перевіряємо, що таблиця існує
-            var accountTypesTable = bankSystemdbDataSet1.Tables["AccountTypes"];
-            if (accountTypesTable == null)
-                return;
+            // Створюємо тимчасову таблицю
+            var accountTypesTable = new BankSystemDBDataSet.AccountTypesDataTable();
 
-            // Перебираємо типи рахунків з DataSet
-            foreach (DataRow row in accountTypesTable.Rows)
+            // Заповнюємо через TableAdapter
+            accountTypesTableAdapter1.Fill(accountTypesTable);
+
+            // Перевіряємо, чи є дані
+            if (accountTypesTable.Rows.Count == 0)
             {
-                string accountTypeName = row["Name"].ToString();
+                MessageBox.Show("Типи рахунків відсутні.");
+                return;
+            }
 
-                // Створюємо DTO для кожного підменю
+            // Перебираємо рядки і створюємо підменю
+            foreach (var row in accountTypesTable)
+            {
+                string accountTypeName = row.Name; // колонка Name у AccountTypes
+
                 var accountTypeDto = new AccountTypeDto { Name = accountTypeName };
 
-                // Створюємо ToolStripMenuItem
                 ToolStripMenuItem subItem = new ToolStripMenuItem(accountTypeName);
-
-                // Додаємо подію натискання
                 subItem.Click += async (s, e) =>
                 {
                     await LoadClientsByAccountTypeAsync(accountTypeDto);
                 };
 
-                // Додаємо до підменю
                 клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
+
         private async Task LoadClientsByAccountTypeAsync(AccountTypeDto accountTypeDto)
         {
             // Викликаємо метод API
@@ -238,14 +243,24 @@ namespace BankSystem
         private void FillClientFields(DataGridViewRow row)
         {
             textBox1.Text = row.Cells["FirstName"].Value?.ToString();
-            textBox2.Text = row.Cells["SecondName"].Value?.ToString();
+            textBox2.Text = row.Cells["LastName"].Value?.ToString();
             textBox3.Text = row.Cells["MiddleName"].Value?.ToString();
-            textBox5.Text = row.Cells["PhoneNumber"].Value?.ToString();
+            textBox5.Text = row.Cells["Phone"].Value?.ToString();
             if (row.Cells["DateOfBirth"].Value != null)
                 dateTimePicker1.Value = Convert.ToDateTime(row.Cells["DateOfBirth"].Value);
             textBox4.Text = row.Cells["Email"].Value?.ToString();
             textBox6.Text = row.Cells["PassportNumber"].Value?.ToString();
             textBox7.Text = row.Cells["Address"].Value?.ToString();
+        }
+        private void ClearClientForm()
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+            textBox7.Text = "";
         }
         private void FillFieldsFromSelectedRow()
         {
@@ -299,15 +314,16 @@ namespace BankSystem
         //Допоміжні методи
         private void ShowPanel(Panel panelToShow)
         {
-            // Ховаємо всі панелі
             clientPanel.Visible = false;
+            clientPanel.Parent = splitContainer1.Panel2;
             searchPanel.Visible = false;
+            searchPanel.Parent = splitContainer1.Panel2;
             reportPanel.Visible = false;
-            // і т.д.
+            reportPanel.Parent = splitContainer1.Panel2;
 
-            // Показуємо потрібну панель
-            panelToShow.BringToFront();
             panelToShow.Visible = true;
+            panelToShow.BringToFront();
+            menuStrip2.BringToFront();
         }
         private async Task ShowTemporaryMessage(string message, int milliseconds = 3000)
         {
@@ -381,7 +397,6 @@ namespace BankSystem
             else
                 await ShowTemporaryMessage("Помилка.", 3000);
         }
-
         private void ShowSubMenuForTable(string tableName)
         {
             // Спочатку ховаємо все
@@ -428,11 +443,6 @@ namespace BankSystem
                     // Меню для транзакцій
                     break;
             }
-        }
-
-        private void textBox9_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
