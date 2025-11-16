@@ -1,6 +1,8 @@
 using BankSystem.ApiClients;
 using BankSystem.BankSystemDBDataSetTableAdapters;
+using BLL.Commands.ClientsCommands;
 using BLL.Services;
+using Core.Entities;
 using DTO;
 using System.Data;
 using System.Windows.Forms;
@@ -19,7 +21,7 @@ namespace BankSystem
             InitializeComponent();
             HttpClient httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://localhost:5001/") // або адреса твого WebAPI
+                BaseAddress = new Uri("http://localhost:5136/") // або адреса твого WebAPI
             };
 
             clientsApiClient = new ClientsApiClient(httpClient);
@@ -52,6 +54,7 @@ namespace BankSystem
         private void рахункиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Accounts";
+            ShowSubMenuForTable(currentTable);
             vw_AccountsTableAdapter1.Fill(bankSystemdbDataSet1.vw_Accounts);
             ShowTable(bankSystemdbDataSet1.vw_Accounts);
             HighlightMenuColor(рахункиToolStripMenuItem);
@@ -68,6 +71,7 @@ namespace BankSystem
         private void кредитиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Credits";
+            ShowSubMenuForTable(currentTable);
             vw_CreditsTableAdapter1.Fill(bankSystemdbDataSet1.vw_Credits);
             ShowTable(bankSystemdbDataSet1.vw_Credits);
             HighlightMenuColor(кредитиToolStripMenuItem);
@@ -76,6 +80,7 @@ namespace BankSystem
         private void платежіToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Payments";
+            ShowSubMenuForTable(currentTable);
             vw_PaymentsTableAdapter1.Fill(bankSystemdbDataSet1.vw_Payments);
             ShowTable(bankSystemdbDataSet1.vw_Payments);
             HighlightMenuColor(платежіToolStripMenuItem);
@@ -84,6 +89,7 @@ namespace BankSystem
         private void співробитникиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Employees";
+            ShowSubMenuForTable(currentTable);
             vw_EmployeesTableAdapter1.Fill(bankSystemdbDataSet1.vw_Employees);
             ShowTable(bankSystemdbDataSet1.vw_Employees);
             HighlightMenuColor(співробитникиToolStripMenuItem);
@@ -92,23 +98,20 @@ namespace BankSystem
         private void відділенняToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "BankBranches";
+            ShowSubMenuForTable(currentTable);
             vw_BankBranchesTableAdapter1.Fill(bankSystemdbDataSet1.vw_BankBranches);
             ShowTable(bankSystemdbDataSet1.vw_BankBranches);
             HighlightMenuColor(відділенняToolStripMenuItem);
         }
 
         //Меню операцій
+        //1.Клієнти
         private void додатиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
             ClearClientForm();
             button1.Text = "Оформити клієнта";
         }
-
-        //---------------
-
-
-        //Панель клінтів
         private async void button1_Click(object sender, EventArgs e)
         {
             ClientDto clientDto = new ClientDto()
@@ -145,7 +148,24 @@ namespace BankSystem
             FillFieldsFromSelectedRow();
         }
         //---------------
+        //2.Рахунки
+        private void додатиРахункиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(accountPanel);
+            ClearClientForm();
+            button1.Text = "Оформити рахунок";
+        }
 
+        private void редагуватиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(accountPanel);
+            button1.Text = "Підтвердити редагування";
+            FillFieldsFromSelectedRow();
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
         //Меню фільтрації
         //1.Клієнти
         private void PopulateAccountTypesSubMenu()
@@ -252,6 +272,11 @@ namespace BankSystem
             textBox6.Text = row.Cells["PassportNumber"].Value?.ToString();
             textBox7.Text = row.Cells["Address"].Value?.ToString();
         }
+
+        private void FillAccountFields(DataGridView row)
+        {
+            
+        }
         private void ClearClientForm()
         {
             textBox1.Text = "";
@@ -273,6 +298,7 @@ namespace BankSystem
                     FillClientFields(row);
                     break;
                 case "Accounts":
+                    FillClientFields(row);
                     break;
                 case "Branches":
                     break;
@@ -316,6 +342,8 @@ namespace BankSystem
         {
             clientPanel.Visible = false;
             clientPanel.Parent = splitContainer1.Panel2;
+            accountPanel.Visible = false;
+            accountPanel.Parent = splitContainer1.Panel2;
             searchPanel.Visible = false;
             searchPanel.Parent = splitContainer1.Panel2;
             reportPanel.Visible = false;
@@ -387,7 +415,7 @@ namespace BankSystem
         {
             if (dataGridView1.CurrentRow == null) return null;
 
-            var cellValue = dataGridView1.CurrentRow.Cells["PhoneNumber"].Value;
+            var cellValue = dataGridView1.CurrentRow.Cells["Phone"].Value;
             return cellValue?.ToString();
         }
         private async void ShowResult(bool result)
@@ -399,13 +427,21 @@ namespace BankSystem
         }
         private void ShowSubMenuForTable(string tableName)
         {
-            // Спочатку ховаємо все
+            // Клієнти
             додатиКлієнтаToolStripMenuItem.Visible = false;
             редагуватиКлієнтаToolStripMenuItem.Visible = false;
             клієнтиЗаТипомРахункуToolStripMenuItem.Visible = false;
             КлієнтаЗаІменемToolStripMenuItem1.Visible = false;
             клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = false;
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = false;
+
+            //Рахунки
+            додатиРахунокToolStripMenuItem.Visible = false;
+            редагуватиРахунокToolStripMenuItem.Visible = false;
+            рахункиЗаВалютоюToolStripMenuItem.Visible = false;
+            рахункиЗаСтатусомToolStripMenuItem.Visible = false;
+            рахункуЗаВласникомToolStripMenuItem.Visible = false;
+            випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = false;
 
             // Потім показуємо потрібне залежно від таблиці
             switch (tableName)
@@ -420,7 +456,12 @@ namespace BankSystem
                     break;
 
                 case "Accounts":
-                    // Тут аналогічно показуєш меню для рахунків
+                    додатиРахунокToolStripMenuItem.Visible = true;
+                    редагуватиРахунокToolStripMenuItem.Visible = true;
+                    рахункиЗаВалютоюToolStripMenuItem.Visible = true;
+                    рахункиЗаСтатусомToolStripMenuItem.Visible = true;
+                    рахункуЗаВласникомToolStripMenuItem.Visible = true;
+                    випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = true;
                     break;
 
                 case "Branches":
@@ -444,5 +485,6 @@ namespace BankSystem
                     break;
             }
         }
+
     }
 }

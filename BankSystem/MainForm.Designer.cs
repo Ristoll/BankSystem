@@ -41,10 +41,20 @@
             splitContainer1 = new SplitContainer();
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
-            reportPanel = new Panel();
-            textBox9 = new TextBox();
+            accountPanel = new Panel();
+            button3 = new Button();
+            comboBox2 = new ComboBox();
+            comboBox1 = new ComboBox();
+            textBox11 = new TextBox();
+            textBox10 = new TextBox();
+            label13 = new Label();
+            label12 = new Label();
+            label11 = new Label();
+            label10 = new Label();
             searchPanel = new Panel();
             clientPanel = new Panel();
+            reportPanel = new Panel();
+            textBox9 = new TextBox();
             button1 = new Button();
             textBox7 = new TextBox();
             textBox4 = new TextBox();
@@ -69,13 +79,19 @@
             операцToolStripMenuItem = new ToolStripMenuItem();
             додатиКлієнтаToolStripMenuItem = new ToolStripMenuItem();
             редагуватиКлієнтаToolStripMenuItem = new ToolStripMenuItem();
+            додатиРахунокToolStripMenuItem = new ToolStripMenuItem();
+            редагуватиРахунокToolStripMenuItem = new ToolStripMenuItem();
             фільтраціяToolStripMenuItem = new ToolStripMenuItem();
             клієнтиЗаТипомРахункуToolStripMenuItem = new ToolStripMenuItem();
+            рахункиЗаВалютоюToolStripMenuItem = new ToolStripMenuItem();
+            рахункиЗаСтатусомToolStripMenuItem = new ToolStripMenuItem();
             пошукToolStripMenuItem = new ToolStripMenuItem();
             КлієнтаЗаІменемToolStripMenuItem1 = new ToolStripMenuItem();
             клієнтаЗаНомеромТелефонуToolStripMenuItem = new ToolStripMenuItem();
+            рахункуЗаВласникомToolStripMenuItem = new ToolStripMenuItem();
             генераціяЗвітуToolStripMenuItem = new ToolStripMenuItem();
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem = new ToolStripMenuItem();
+            випискаПоРахункуЗаПеріодToolStripMenuItem = new ToolStripMenuItem();
             vw_AccountsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_AccountsTableAdapter();
             vw_BankBranchesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_BankBranchesTableAdapter();
             vw_ClientsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_ClientsTableAdapter();
@@ -84,6 +100,12 @@
             vw_PaymentsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter();
             vw_TransactionsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter();
             accountTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter();
+            branchTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.BranchTypesTableAdapter();
+            creditStatusesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.CreditStatusesTableAdapter();
+            currenciesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.CurrenciesTableAdapter();
+            employeeRolesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.EmployeeRolesTableAdapter();
+            paymentTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.PaymentTypesTableAdapter();
+            transactionTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.TransactionTypesTableAdapter();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -91,9 +113,10 @@
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
-            reportPanel.SuspendLayout();
+            accountPanel.SuspendLayout();
             searchPanel.SuspendLayout();
             clientPanel.SuspendLayout();
+            reportPanel.SuspendLayout();
             menuStrip2.SuspendLayout();
             SuspendLayout();
             // 
@@ -175,7 +198,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(reportPanel);
+            splitContainer1.Panel2.Controls.Add(accountPanel);
             splitContainer1.Panel2.Controls.Add(searchPanel);
             splitContainer1.Panel2.Controls.Add(menuStrip2);
             splitContainer1.Size = new Size(800, 422);
@@ -195,22 +218,98 @@
             dataGridView1.Size = new Size(800, 203);
             dataGridView1.TabIndex = 1;
             // 
-            // reportPanel
+            // accountPanel
             // 
-            reportPanel.Controls.Add(textBox9);
-            reportPanel.Location = new Point(3, 31);
-            reportPanel.Name = "reportPanel";
-            reportPanel.Size = new Size(797, 184);
-            reportPanel.TabIndex = 5;
-            reportPanel.Visible = false;
+            accountPanel.Controls.Add(button3);
+            accountPanel.Controls.Add(comboBox2);
+            accountPanel.Controls.Add(comboBox1);
+            accountPanel.Controls.Add(textBox11);
+            accountPanel.Controls.Add(textBox10);
+            accountPanel.Controls.Add(label13);
+            accountPanel.Controls.Add(label12);
+            accountPanel.Controls.Add(label11);
+            accountPanel.Controls.Add(label10);
+            accountPanel.Location = new Point(3, 31);
+            accountPanel.Name = "accountPanel";
+            accountPanel.Size = new Size(797, 184);
+            accountPanel.TabIndex = 5;
+            accountPanel.Visible = false;
             // 
-            // textBox9
+            // button3
             // 
-            textBox9.Location = new Point(12, 12);
-            textBox9.Multiline = true;
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(776, 160);
-            textBox9.TabIndex = 0;
+            button3.Location = new Point(9, 143);
+            button3.Name = "button3";
+            button3.Size = new Size(157, 29);
+            button3.TabIndex = 8;
+            button3.Text = "Оформити рахунок";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(584, 64);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(151, 28);
+            comboBox2.TabIndex = 7;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(151, 64);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(151, 28);
+            comboBox1.TabIndex = 6;
+            // 
+            // textBox11
+            // 
+            textBox11.Location = new Point(584, 26);
+            textBox11.Name = "textBox11";
+            textBox11.Size = new Size(151, 27);
+            textBox11.TabIndex = 5;
+            // 
+            // textBox10
+            // 
+            textBox10.Location = new Point(151, 26);
+            textBox10.Name = "textBox10";
+            textBox10.Size = new Size(151, 27);
+            textBox10.TabIndex = 4;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(440, 29);
+            label13.Name = "label13";
+            label13.Size = new Size(58, 20);
+            label13.TabIndex = 3;
+            label13.Text = "Баланс";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(438, 67);
+            label12.Name = "label12";
+            label12.Size = new Size(60, 20);
+            label12.TabIndex = 2;
+            label12.Text = "Валюта";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(9, 67);
+            label11.Name = "label11";
+            label11.Size = new Size(93, 20);
+            label11.TabIndex = 1;
+            label11.Text = "Тип рахунку";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(9, 29);
+            label10.Name = "label10";
+            label10.Size = new Size(86, 20);
+            label10.TabIndex = 0;
+            label10.Text = "Номер тел.";
             // 
             // searchPanel
             // 
@@ -218,7 +317,7 @@
             searchPanel.Controls.Add(button2);
             searchPanel.Controls.Add(label9);
             searchPanel.Controls.Add(textBox8);
-            searchPanel.Location = new Point(0, 34);
+            searchPanel.Location = new Point(783, 191);
             searchPanel.Name = "searchPanel";
             searchPanel.Size = new Size(791, 181);
             searchPanel.TabIndex = 4;
@@ -227,6 +326,7 @@
             // clientPanel
             // 
             clientPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            clientPanel.Controls.Add(reportPanel);
             clientPanel.Controls.Add(button1);
             clientPanel.Controls.Add(textBox7);
             clientPanel.Controls.Add(textBox4);
@@ -249,6 +349,23 @@
             clientPanel.Size = new Size(800, 181);
             clientPanel.TabIndex = 1;
             clientPanel.Visible = false;
+            // 
+            // reportPanel
+            // 
+            reportPanel.Controls.Add(textBox9);
+            reportPanel.Location = new Point(778, 137);
+            reportPanel.Name = "reportPanel";
+            reportPanel.Size = new Size(797, 184);
+            reportPanel.TabIndex = 5;
+            reportPanel.Visible = false;
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(12, 12);
+            textBox9.Multiline = true;
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(776, 160);
+            textBox9.TabIndex = 0;
             // 
             // button1
             // 
@@ -426,7 +543,7 @@
             // 
             // операцToolStripMenuItem
             // 
-            операцToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { додатиКлієнтаToolStripMenuItem, редагуватиКлієнтаToolStripMenuItem });
+            операцToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { додатиКлієнтаToolStripMenuItem, редагуватиКлієнтаToolStripMenuItem, додатиРахунокToolStripMenuItem, редагуватиРахунокToolStripMenuItem });
             операцToolStripMenuItem.Name = "операцToolStripMenuItem";
             операцToolStripMenuItem.Size = new Size(89, 24);
             операцToolStripMenuItem.Text = "Операція";
@@ -434,7 +551,7 @@
             // додатиКлієнтаToolStripMenuItem
             // 
             додатиКлієнтаToolStripMenuItem.Name = "додатиКлієнтаToolStripMenuItem";
-            додатиКлієнтаToolStripMenuItem.Size = new Size(221, 26);
+            додатиКлієнтаToolStripMenuItem.Size = new Size(228, 26);
             додатиКлієнтаToolStripMenuItem.Text = "Додати клієнта";
             додатиКлієнтаToolStripMenuItem.Visible = false;
             додатиКлієнтаToolStripMenuItem.Click += додатиКлієнтаToolStripMenuItem_Click;
@@ -442,14 +559,30 @@
             // редагуватиКлієнтаToolStripMenuItem
             // 
             редагуватиКлієнтаToolStripMenuItem.Name = "редагуватиКлієнтаToolStripMenuItem";
-            редагуватиКлієнтаToolStripMenuItem.Size = new Size(221, 26);
+            редагуватиКлієнтаToolStripMenuItem.Size = new Size(228, 26);
             редагуватиКлієнтаToolStripMenuItem.Text = "Редагувати клієнта";
             редагуватиКлієнтаToolStripMenuItem.Visible = false;
             редагуватиКлієнтаToolStripMenuItem.Click += редагуватиКлієнтаToolStripMenuItem_Click;
             // 
+            // додатиРахунокToolStripMenuItem
+            // 
+            додатиРахунокToolStripMenuItem.Name = "додатиРахунокToolStripMenuItem";
+            додатиРахунокToolStripMenuItem.Size = new Size(228, 26);
+            додатиРахунокToolStripMenuItem.Text = "Додати рахунок";
+            додатиРахунокToolStripMenuItem.Visible = false;
+            додатиРахунокToolStripMenuItem.Click += додатиРахункиToolStripMenuItem_Click;
+            // 
+            // редагуватиРахунокToolStripMenuItem
+            // 
+            редагуватиРахунокToolStripMenuItem.Name = "редагуватиРахунокToolStripMenuItem";
+            редагуватиРахунокToolStripMenuItem.Size = new Size(228, 26);
+            редагуватиРахунокToolStripMenuItem.Text = "Редагувати рахунок";
+            редагуватиРахунокToolStripMenuItem.Visible = false;
+            редагуватиРахунокToolStripMenuItem.Click += редагуватиРахунокToolStripMenuItem_Click;
+            // 
             // фільтраціяToolStripMenuItem
             // 
-            фільтраціяToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { клієнтиЗаТипомРахункуToolStripMenuItem });
+            фільтраціяToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { клієнтиЗаТипомРахункуToolStripMenuItem, рахункиЗаВалютоюToolStripMenuItem, рахункиЗаСтатусомToolStripMenuItem });
             фільтраціяToolStripMenuItem.Name = "фільтраціяToolStripMenuItem";
             фільтраціяToolStripMenuItem.Size = new Size(98, 24);
             фільтраціяToolStripMenuItem.Text = "Фільтрація";
@@ -462,9 +595,23 @@
             клієнтиЗаТипомРахункуToolStripMenuItem.Visible = false;
             клієнтиЗаТипомРахункуToolStripMenuItem.Click += клієнтиЗаТипомРахункуToolStripMenuItem_Click;
             // 
+            // рахункиЗаВалютоюToolStripMenuItem
+            // 
+            рахункиЗаВалютоюToolStripMenuItem.Name = "рахункиЗаВалютоюToolStripMenuItem";
+            рахункиЗаВалютоюToolStripMenuItem.Size = new Size(269, 26);
+            рахункиЗаВалютоюToolStripMenuItem.Text = "Рахунки за валютою";
+            рахункиЗаВалютоюToolStripMenuItem.Visible = false;
+            // 
+            // рахункиЗаСтатусомToolStripMenuItem
+            // 
+            рахункиЗаСтатусомToolStripMenuItem.Name = "рахункиЗаСтатусомToolStripMenuItem";
+            рахункиЗаСтатусомToolStripMenuItem.Size = new Size(269, 26);
+            рахункиЗаСтатусомToolStripMenuItem.Text = "Рахунки за статусом";
+            рахункиЗаСтатусомToolStripMenuItem.Visible = false;
+            // 
             // пошукToolStripMenuItem
             // 
-            пошукToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КлієнтаЗаІменемToolStripMenuItem1, клієнтаЗаНомеромТелефонуToolStripMenuItem });
+            пошукToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { КлієнтаЗаІменемToolStripMenuItem1, клієнтаЗаНомеромТелефонуToolStripMenuItem, рахункуЗаВласникомToolStripMenuItem });
             пошукToolStripMenuItem.Name = "пошукToolStripMenuItem";
             пошукToolStripMenuItem.Size = new Size(69, 24);
             пошукToolStripMenuItem.Text = "Пошук";
@@ -485,9 +632,16 @@
             клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = false;
             клієнтаЗаНомеромТелефонуToolStripMenuItem.Click += клієнтаЗаНомеромТелефонуToolStripMenuItem_Click;
             // 
+            // рахункуЗаВласникомToolStripMenuItem
+            // 
+            рахункуЗаВласникомToolStripMenuItem.Name = "рахункуЗаВласникомToolStripMenuItem";
+            рахункуЗаВласникомToolStripMenuItem.Size = new Size(301, 26);
+            рахункуЗаВласникомToolStripMenuItem.Text = "Рахунку за власником";
+            рахункуЗаВласникомToolStripMenuItem.Visible = false;
+            // 
             // генераціяЗвітуToolStripMenuItem
             // 
-            генераціяЗвітуToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem });
+            генераціяЗвітуToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem, випискаПоРахункуЗаПеріодToolStripMenuItem });
             генераціяЗвітуToolStripMenuItem.Name = "генераціяЗвітуToolStripMenuItem";
             генераціяЗвітуToolStripMenuItem.Size = new Size(129, 24);
             генераціяЗвітуToolStripMenuItem.Text = "Генерація звіту";
@@ -499,6 +653,13 @@
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Text = "Список активних рахунків конкретного клієнта";
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = false;
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Click += списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem_Click;
+            // 
+            // випискаПоРахункуЗаПеріодToolStripMenuItem
+            // 
+            випискаПоРахункуЗаПеріодToolStripMenuItem.Name = "випискаПоРахункуЗаПеріодToolStripMenuItem";
+            випискаПоРахункуЗаПеріодToolStripMenuItem.Size = new Size(417, 26);
+            випискаПоРахункуЗаПеріодToolStripMenuItem.Text = "Виписка по рахунку за період";
+            випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = false;
             // 
             // vw_AccountsTableAdapter1
             // 
@@ -532,6 +693,30 @@
             // 
             accountTypesTableAdapter1.ClearBeforeFill = true;
             // 
+            // branchTypesTableAdapter1
+            // 
+            branchTypesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // creditStatusesTableAdapter1
+            // 
+            creditStatusesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // currenciesTableAdapter1
+            // 
+            currenciesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // employeeRolesTableAdapter1
+            // 
+            employeeRolesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // paymentTypesTableAdapter1
+            // 
+            paymentTypesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // transactionTypesTableAdapter1
+            // 
+            transactionTypesTableAdapter1.ClearBeforeFill = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -552,12 +737,14 @@
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
-            reportPanel.ResumeLayout(false);
-            reportPanel.PerformLayout();
+            accountPanel.ResumeLayout(false);
+            accountPanel.PerformLayout();
             searchPanel.ResumeLayout(false);
             searchPanel.PerformLayout();
             clientPanel.ResumeLayout(false);
             clientPanel.PerformLayout();
+            reportPanel.ResumeLayout(false);
+            reportPanel.PerformLayout();
             menuStrip2.ResumeLayout(false);
             menuStrip2.PerformLayout();
             ResumeLayout(false);
@@ -622,5 +809,27 @@
         private Panel reportPanel;
         private TextBox textBox9;
         private BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
+        private ToolStripMenuItem додатиРахунокToolStripMenuItem;
+        private ToolStripMenuItem редагуватиРахунокToolStripMenuItem;
+        private ToolStripMenuItem рахункиЗаВалютоюToolStripMenuItem;
+        private ToolStripMenuItem рахункиЗаСтатусомToolStripMenuItem;
+        private ToolStripMenuItem рахункуЗаВласникомToolStripMenuItem;
+        private ToolStripMenuItem випискаПоРахункуЗаПеріодToolStripMenuItem;
+        private BankSystemDBDataSetTableAdapters.BranchTypesTableAdapter branchTypesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.CreditStatusesTableAdapter creditStatusesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.CurrenciesTableAdapter currenciesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.EmployeeRolesTableAdapter employeeRolesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.PaymentTypesTableAdapter paymentTypesTableAdapter1;
+        private BankSystemDBDataSetTableAdapters.TransactionTypesTableAdapter transactionTypesTableAdapter1;
+        private Panel accountPanel;
+        private Label label12;
+        private Label label11;
+        private Label label10;
+        private TextBox textBox11;
+        private TextBox textBox10;
+        private Label label13;
+        private Button button3;
+        private ComboBox comboBox2;
+        private ComboBox comboBox1;
     }
 }
