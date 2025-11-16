@@ -61,7 +61,7 @@ public class ClientsApiClient : AbstractApiClient
     {
         // Розбираємо у query параметри accountTypeDto
         var url =
-            $"api/clients/filter-client-by-accounttype?TypeName={accountTypeDto.TypeName}";
+            $"api/clients/filter-client-by-accounttype?TypeName={accountTypeDto.Name}";
 
         var response = await client.GetAsync(url);
 

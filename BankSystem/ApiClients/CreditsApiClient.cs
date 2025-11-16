@@ -34,7 +34,7 @@ public class CreditsApiClient : AbstractApiClient
     public async Task<List<CreditDto>?> FilterByStatusAsync(CreditStatusDto statusDto)
     {
         var url =
-            $"api/credits/filter-credit-by-status?StatusName={statusDto.StatusName}";
+            $"api/credits/filter-credit-by-status?StatusName={statusDto.Name}";
 
         var response = await client.GetAsync(url);
 

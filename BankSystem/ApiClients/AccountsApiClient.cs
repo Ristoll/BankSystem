@@ -33,7 +33,7 @@ public class AccountsApiClient : AbstractApiClient
     public async Task<List<AccountDto>?> FilterByCurrencyAsync(CurrencyDto dto)
     {
         var response = await client.GetAsync(
-            $"api/accounts/filter-account-by-currency?CurrencyName={dto.CurrencyName}");
+            $"api/accounts/filter-account-by-currency?CurrencyName={dto.Name}");
 
         if (!await HandleErrorAsync(response)) return null;
 
