@@ -20,15 +20,9 @@ namespace BLL.Commands.ClientsCommands
 
         public override List<Client> Execute()
         {
-            if (string.IsNullOrWhiteSpace(phonePart) || phonePart.Length < 4)
-                throw new ArgumentException("Enter at least 4 digits for search.");
-
             var clients = dAPoint.ClientRepository.GetAll()
                 .Where(c => !string.IsNullOrEmpty(c.Phone) && c.Phone.Contains(phonePart))
                 .ToList();
-
-            if (!clients.Any())
-                throw new Exception("No clients found.");
 
             return clients;
         }

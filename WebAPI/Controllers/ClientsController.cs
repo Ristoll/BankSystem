@@ -48,9 +48,9 @@ public class ClientsController : Controller
         return Ok(result);
     }
     [HttpGet("filter-client-by-accounttype")]
-    public IActionResult FilterClientsByAccountType([FromQuery] AccountTypeDto accountTypeDto)
+    public IActionResult FilterClientsByAccountType(int accountTypeId)
     {
-        var result = clientsCommandManager.FilterClientsByAccountType(accountTypeDto);
+        var result = clientsCommandManager.FilterClientsByAccountType(accountTypeId);
         return Ok(result);
     }
 }

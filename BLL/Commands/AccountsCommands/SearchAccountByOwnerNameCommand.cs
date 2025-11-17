@@ -19,9 +19,6 @@ namespace BLL.Commands.AccountsCommands
 
         public override List<Account> Execute()
         {
-            if (string.IsNullOrWhiteSpace(ownerName))
-                throw new ArgumentException("Owner name cannot be empty.");
-
             var searchWords = ownerName
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(w => w.Trim().ToLower())
@@ -37,9 +34,6 @@ namespace BLL.Commands.AccountsCommands
                     )
                 )
                 .ToList();
-
-            if (!accounts.Any())
-                throw new Exception("No accounts found for this owner.");
 
             return accounts;
         }

@@ -8,27 +8,31 @@ using DTO;
 
 namespace BLL.Commands.ClientsCommands
 {
-    public class FilterClientsByAccountTypeCommand : AbstrCommandWithDA<List<Client>>
+    public class FilterClientsByAccountTypeCommand : AbstrCommandWithDA<List<ClientDto>>
     {
-        private readonly AccountTypeDto accountTypeDto;
+        private readonly int accountTypeId;
 
-        public FilterClientsByAccountTypeCommand(AccountTypeDto accountTypeDto, IUnitOfWork unitOfWork, IMapper mapper)
+        public FilterClientsByAccountTypeCommand(int accountTypeId, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.accountTypeDto = accountTypeDto;
+            this.accountTypeId = accountTypeId;
         }
 
-        public override List<Client> Execute()
+        public override List<ClientDto> Execute()
         {
-            var accountType = mapper.Map<AccountType>(accountTypeDto);
-            var clients = dAPoint.ClientRepository.GetAll()
-                .Where(c => c.Accounts.Any(a => a.AccountType == accountType))
+            var accounts = dAPoint.AccountRepository.GetQueryable()
+                .Where(a => a.AccountTypeId == accountTypeId)
                 .ToList();
 
-            if (!clients.Any())
-                throw new Exception("No clients found with this account type.");
+            var clientIds = accounts.Select(a => a.ClientId).Distinct().ToList();
 
-            return clients;
+            var clients = dAPoint.ClientRepository.GetQueryable()
+                .Where(c => clientIds.Contains(c.ClientId))
+                .ToList();
+
+            return mapper.Map<List<ClientDto>>(clients);
         }
+
+
     }
 }

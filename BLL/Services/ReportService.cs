@@ -4,7 +4,7 @@ using Core;
 
 namespace BLL.Services
 {
-    public class ReportService
+    public class ReportService : IReportService
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -29,15 +29,26 @@ namespace BLL.Services
         // 2. Список активних рахунків конкретного клієнта
         public string GenerateActiveAccountsReportContent(int clientId)
         {
+            var client = unitOfWork.ClientRepository.GetById(clientId);
             var accounts = unitOfWork.AccountRepository
                             .GetQueryable()
                             .Where(a => a.ClientId == clientId && a.CloseDate == null)
                             .ToList();
 
-            var reportText = $"Активні рахунки клієнта {clientId}:\n";
-            reportText += string.Join("\n", accounts.Select(a => $"{a.AccountId} | Тип {a.AccountTypeId} | Баланс {a.Balance}"));
+            var reportText = $"Активні рахунки клієнта {client.LastName} {client.FirstName} {client.MiddleName}:\n";
+
+            foreach (var account in accounts)
+            {
+                // Беремо тип рахунку з репозиторію
+                var accountType = unitOfWork.AccountTypeRepository.GetById(account.AccountTypeId);
+                var accountTypeName = accountType != null ? accountType.Name : "Невідомий тип";
+
+                reportText += $"{account.AccountId} | Тип #{account.AccountTypeId} {accountTypeName} | Баланс {account.Balance}\n";
+            }
+
             return reportText;
         }
+
 
         // 3. Сумарний кредитний портфель банку
         public string GenerateCreditPortfolioReportContent()

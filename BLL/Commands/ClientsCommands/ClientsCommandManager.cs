@@ -40,9 +40,9 @@ namespace BLL.Commands.ClientsCommands
             var command = new SearchClientByPhoneNumberCommand(phonePart, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося знайти клієнтів за вказаним номером телефону.");
         }
-        public List<Client> FilterClientsByAccountType(AccountTypeDto accountTypeDto)
+        public List<ClientDto> FilterClientsByAccountType(int accountTypeId)
         {
-            var command = new FilterClientsByAccountTypeCommand(accountTypeDto, unitOfWork, mapper);
+            var command = new FilterClientsByAccountTypeCommand(accountTypeId, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося відфільтрувати клієнтів за типом рахунку.");
         }
 

@@ -20,8 +20,6 @@ namespace BLL.Commands.AccountsCommands
         public override List<Currency> Execute()
         {
             var currencies = dAPoint.CurrencyRepository.GetAll();
-            if (currencies == null || !currencies.Any())
-                throw new Exception("Accounts not found.");
             return currencies;
         }
     }

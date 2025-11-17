@@ -20,8 +20,6 @@ internal class LoadCreditsCommand : AbstrCommandWithDA<List<Credit>>
     public override List<Credit> Execute()
     {
         var credits = dAPoint.CreditRepository.GetAll();
-        if (credits == null || !credits.Any())
-            throw new Exception("Accounts not found.");
         return credits;
     }
 }

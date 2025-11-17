@@ -1,4 +1,5 @@
 using BLL.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,9 @@ builder.Services.AddSwaggerGen();
 
 BLLInitializer.AddAutoMapperToServices(builder.Services);
 BLLInitializer.AddCommandDependenciesToServices(builder.Services);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 

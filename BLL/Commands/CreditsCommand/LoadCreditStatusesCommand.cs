@@ -20,8 +20,6 @@ namespace BLL.Commands.CreditsCommand
         public override List<CreditStatus> Execute()
         {
             var credits = dAPoint.CreditStatusRepository.GetAll();
-            if (credits == null || !credits.Any())
-                throw new Exception("Accounts not found.");
             return credits;
         }
     }

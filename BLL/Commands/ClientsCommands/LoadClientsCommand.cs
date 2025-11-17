@@ -20,8 +20,6 @@ internal class LoadClientsCommand : AbstrCommandWithDA<List<Client>>
     public override List<Client> Execute()
     {
         var clients = dAPoint.ClientRepository.GetAll();
-        if (clients == null || !clients.Any())
-            throw new Exception("Accounts not found.");
         return clients;
     }
 }

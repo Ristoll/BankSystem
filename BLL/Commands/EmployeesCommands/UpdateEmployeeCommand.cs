@@ -22,9 +22,6 @@ namespace BLL.Commands.EmployeesCommands
         {
             var employee = dAPoint.EmployeeRepository.GetById(employeeDto.EmployeeId);
 
-            if (employee == null)
-                throw new Exception("Employee not found");
-
             mapper.Map(employeeDto, employee);
 
             dAPoint.EmployeeRepository.Update(employee);

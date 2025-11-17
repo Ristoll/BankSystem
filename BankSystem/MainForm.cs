@@ -1,5 +1,6 @@
 using BankSystem.ApiClients;
 using BLL.Services;
+using DAL;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace BankSystem
 {
     public partial class MainForm : Form
     {
-        private readonly ReportService reportService;
+        private readonly IReportService reportService;
         private readonly ClientsApiClient clientsApiClient;
         private readonly AccountsApiClient accountsApiClient;
         private readonly TransactionsApiClient transactionsApiClient;
@@ -20,13 +21,13 @@ namespace BankSystem
         private readonly PaymentsApiClient paymentsApiClient;
         private readonly EmployeesApiClient employeesApiClient;
         private readonly BranchesApiClient branchesApiClient;
-
         private string currentTable = "";
 
-        public MainForm()
+        public MainForm(IReportService reportService)
         {
             InitializeComponent();
 
+            this.reportService = reportService;
             HttpClient httpClient = new HttpClient
             {
                 BaseAddress = new Uri("http://localhost:5136/") // або адреса твого WebAPI
@@ -41,7 +42,7 @@ namespace BankSystem
             paymentsApiClient = new PaymentsApiClient(httpClient);
             employeesApiClient = new EmployeesApiClient(httpClient);
             branchesApiClient = new BranchesApiClient(httpClient);
-
+            
             dataGridView1.AutoGenerateColumns = true;
 
             // Динамічно створюємо підменю
@@ -161,14 +162,17 @@ namespace BankSystem
             }
             else
             {
-                var clients = await clientsApiClient.SearchByPhoneNumberAsync(textBox5.Text);
-                if (clients == null || clients.Count == 0)
+                if (dataGridView1.CurrentRow == null)
                 {
-                    MessageBox.Show("Клієнта з таким номером телефону не знайдено.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Будь ласка, оберіть клієнта для редагування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                var client = clients[0];
-                clientDto.ClientId = client.ClientId;
+
+                // Отримуємо ClientId з виділеного рядка
+                var row = dataGridView1.CurrentRow;
+                clientDto.ClientId = Convert.ToInt32(row.Cells["ClientId"].Value);
+
+                // Тепер можна апдейтити
                 result = await clientsApiClient.UpdateClientAsync(clientDto);
             }
 
@@ -200,15 +204,15 @@ namespace BankSystem
                 ToolStripMenuItem subItem = new ToolStripMenuItem(accountTypeDto.Name);
                 subItem.Click += async (s, e) =>
                 {
-                    await LoadClientsByAccountTypeAsync(accountTypeDto);
+                    await LoadClientsByAccountTypeAsync(accountTypeDto.AccountTypeId);
                 };
                 клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
 
-        private async Task LoadClientsByAccountTypeAsync(AccountTypeDto accountTypeDto)
+        private async Task LoadClientsByAccountTypeAsync(int accountTypeId)
         {
-            var clients = await clientsApiClient.FilterByAccountTypeAsync(accountTypeDto);
+            var clients = await clientsApiClient.FilterByAccountTypeAsync(accountTypeId);
             if (clients != null)
             {
                 dataGridView1.DataSource = clients;
@@ -224,9 +228,13 @@ namespace BankSystem
         private void ShowPanel(Panel panelToShow)
         {
             clientPanel.Visible = false;
+            clientPanel.Parent = splitContainer1.Panel2;
             accountPanel.Visible = false;
+            accountPanel.Parent = splitContainer1.Panel2;
             searchPanel.Visible = false;
+            searchPanel.Parent = splitContainer1.Panel2;
             reportPanel.Visible = false;
+            reportPanel.Parent = splitContainer1.Panel2;
 
             panelToShow.Visible = true;
             panelToShow.BringToFront();
@@ -275,7 +283,16 @@ namespace BankSystem
                     textBox3.Text = row.Cells["MiddleName"].Value?.ToString();
                     textBox5.Text = row.Cells["Phone"].Value?.ToString();
                     if (row.Cells["DateOfBirth"].Value != null)
-                        dateTimePicker1.Value = Convert.ToDateTime(row.Cells["DateOfBirth"].Value);
+                    {
+                        if (row.Cells["DateOfBirth"].Value is DateOnly dateOnly)
+                        {
+                            dateTimePicker1.Value = dateOnly.ToDateTime(TimeOnly.MinValue);
+                        }
+                        else
+                        {
+                            dateTimePicker1.Value = Convert.ToDateTime(row.Cells["DateOfBirth"].Value);
+                        }
+                    }
                     textBox4.Text = row.Cells["Email"].Value?.ToString();
                     textBox6.Text = row.Cells["PassportNumber"].Value?.ToString();
                     textBox7.Text = row.Cells["Address"].Value?.ToString();
@@ -301,7 +318,7 @@ namespace BankSystem
             };
             msgForm.Controls.Add(lbl);
             msgForm.Show();
-            await Task.Delay(3000);
+            await Task.Delay(2000);
             msgForm.Close();
         }
         private void ShowSubMenuForTable(string tableName)
@@ -406,27 +423,22 @@ namespace BankSystem
                 return;
             }
 
-            // Беремо номер телефону (або будь-яке унікальне поле)
-            string? phone = dataGridView1.CurrentRow.Cells["Phone"].Value?.ToString();
-            if (string.IsNullOrEmpty(phone))
+            // Отримуємо ClientId із виділеного рядка
+            var cellValue = dataGridView1.CurrentRow.Cells["ClientId"].Value;
+
+            if (cellValue == null || cellValue == DBNull.Value)
             {
-                MessageBox.Show("Неможливо визначити клієнта.");
+                MessageBox.Show("У виділеного клієнта відсутній ClientId.");
                 return;
             }
 
-            // Викликаємо API, щоб отримати реального клієнта
-            var clients = await clientsApiClient.SearchByPhoneNumberAsync(phone);
-            if (clients == null || clients.Count == 0)
-            {
-                MessageBox.Show("Клієнта не знайдено через API.");
-                return;
-            }
+            int clientId = Convert.ToInt32(cellValue);
 
-            int clientId = clients[0].ClientId;
-
+            // Генеруємо звіт
             string report = reportService.GenerateActiveAccountsReportContent(clientId);
             textBox9.Text = report;
         }
+
 
     }
 }

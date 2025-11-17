@@ -20,8 +20,6 @@ namespace BLL.Commands.PaymentsCommands
         public override List<PaymentType> Execute()
         {
             var payments = dAPoint.PaymentTypeRepository.GetAll();
-            if (payments == null || !payments.Any())
-                throw new Exception("Accounts not found.");
             return payments;
         }
     }

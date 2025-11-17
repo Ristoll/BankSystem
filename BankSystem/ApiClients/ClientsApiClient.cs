@@ -69,15 +69,14 @@ public class ClientsApiClient : AbstractApiClient
     /// <summary>
     /// GET api/clients/filter-client-by-accounttype
     /// </summary>
-    public async Task<List<ClientDto>?> FilterByAccountTypeAsync(AccountTypeDto accountTypeDto)
+    public async Task<List<ClientDto>?> FilterByAccountTypeAsync(int accountTypeId)
     {
-        // Розбираємо у query параметри accountTypeDto
-        var url =
-            $"api/clients/filter-client-by-accounttype?TypeName={accountTypeDto.Name}";
+        var url = $"api/clients/filter-client-by-accounttype?accountTypeId={accountTypeId}";
 
         var response = await client.GetAsync(url);
 
-        if (!await HandleErrorAsync(response)) return null;
+        if (!await HandleErrorAsync(response))
+            return null;
 
         return await response.Content.ReadFromJsonAsync<List<ClientDto>>();
     }

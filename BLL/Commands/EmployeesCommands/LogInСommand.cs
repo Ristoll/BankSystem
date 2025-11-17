@@ -24,12 +24,6 @@ public class LogInCommand : AbstrCommandWithDA<bool>
 
     public override bool Execute()
     {
-        if (string.IsNullOrWhiteSpace(phone))
-            throw new ArgumentException("Phone number cannot be empty.");
-
-        if (string.IsNullOrWhiteSpace(password))
-            throw new ArgumentException("Password cannot be empty.");
-
         // Шукаємо працівника по телефону
         var employee = dAPoint.EmployeeRepository
             .FirstOrDefault(e => e.Phone == phone);

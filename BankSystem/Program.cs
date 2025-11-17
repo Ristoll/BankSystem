@@ -1,3 +1,8 @@
+using BLL.Services;
+using Core;
+using DAL;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace BankSystem
 {
     internal static class Program
@@ -8,10 +13,16 @@ namespace BankSystem
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            var services = new ServiceCollection();
+
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<MainForm>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<BankDbContext>();
+            var provider = services.BuildServiceProvider();
+
+            Application.Run(provider.GetRequiredService<MainForm>());
         }
     }
 }

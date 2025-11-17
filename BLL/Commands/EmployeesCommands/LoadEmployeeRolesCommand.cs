@@ -20,8 +20,6 @@ namespace BLL.Commands.EmployeesCommands
         public override List<EmployeeRole> Execute()
         {
             var employees = dAPoint.EmployeeRoleRepository.GetAll();
-            if (employees == null || !employees.Any())
-                throw new Exception("Accounts not found.");
             return employees;
         }
     }

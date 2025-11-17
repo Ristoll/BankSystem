@@ -20,8 +20,6 @@ public class LoadTransactionTypesCommand : AbstrCommandWithDA<List<TransactionTy
     public override List<TransactionType> Execute()
     {
         var transactions = dAPoint.TransactionTypeRepository.GetAll();
-        if (transactions == null || !transactions.Any())
-            throw new Exception("Accounts not found.");
         return transactions;
     }
 }

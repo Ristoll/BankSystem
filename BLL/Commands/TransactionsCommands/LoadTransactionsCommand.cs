@@ -20,8 +20,6 @@ namespace BLL.Commands.TransactionsCommands
         public override List<Transaction> Execute()
         {
             var transactions = dAPoint.TransactionRepository.GetAll();
-            if (transactions == null || !transactions.Any())
-                throw new Exception("Accounts not found.");
             return transactions;
         }
     }

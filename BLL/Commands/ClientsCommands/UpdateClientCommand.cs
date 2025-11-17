@@ -19,19 +19,13 @@ public class UpdateClientCommand : AbstrCommandWithDA<bool>
     }
     public override bool Execute()
     {
-
-        var client = dAPoint.AccountRepository.GetById(clientDto.ClientId);
-
-        if (client == null)
-            throw new Exception("Account not found.");
+        var client = dAPoint.ClientRepository.GetById(clientDto.ClientId);
 
         mapper.Map(clientDto, client);
 
-        dAPoint.AccountRepository.Update(client);
+        dAPoint.ClientRepository.Update(client);
         dAPoint.Save();
 
         return true;
     }
-
-
 }

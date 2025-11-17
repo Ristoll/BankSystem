@@ -20,9 +20,6 @@ namespace BLL.Commands.ClientsCommands
 
         public override List<Client> Execute()
         {
-            if (string.IsNullOrWhiteSpace(searchString))
-                throw new ArgumentException("Search string cannot be empty.");
-
             // Розбиваємо введений рядок на слова
             var searchWords = searchString
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
@@ -38,9 +35,6 @@ namespace BLL.Commands.ClientsCommands
                     )
                 )
                 .ToList();
-
-            if (!clients.Any())
-                throw new Exception("No clients found.");
 
             return clients;
         }

@@ -34,9 +34,6 @@ namespace BLL.Commands.AccountsCommands
                     .ToList();
             }
 
-            if (!accounts.Any())
-                throw new Exception("No accounts found with this status.");
-
             return accounts;
         }
     }

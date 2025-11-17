@@ -20,8 +20,6 @@ namespace BLL.Commands.AccountsCommands
         public override List<Account> Execute()
         {
             var accounts = dAPoint.AccountRepository.GetAll();
-            if (accounts == null || !accounts.Any())
-                throw new Exception("Accounts not found.");
             return accounts;
         }
     }

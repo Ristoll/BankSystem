@@ -21,11 +21,6 @@ namespace BLL.Commands.CreditsCommands
         public override bool Execute()
         {
             var credit = dAPoint.CreditRepository.GetById(creditDto.CreditId);
-            if (credit == null)
-            {
-                throw new Exception("Credit not found");
-            }
-
             mapper.Map(creditDto, credit);
             dAPoint.CreditRepository.Update(credit);
             dAPoint.Save();

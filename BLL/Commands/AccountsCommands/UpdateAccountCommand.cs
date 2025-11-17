@@ -22,9 +22,6 @@ namespace BLL.Commands.AccountsCommands
         {
             var account = dAPoint.AccountRepository.GetById(accountDto.AccountId);
 
-            if (account == null)
-                throw new Exception("Account not found.");
-
             mapper.Map(accountDto, account);
             dAPoint.AccountRepository.Update(account);
             dAPoint.Save();
