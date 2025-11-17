@@ -20,11 +20,11 @@ public class TransactionsApiClient : AbstractApiClient
         return await HandleErrorAsync(response);
     }
     /// <summary>
-    /// GET api/accounts/load-transactions
+    /// GET api/transactions/load-transactions
     /// </summary>
     public async Task<List<TransactionDto>?> LoadTransactionsAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-transactions");
+        var response = await client.GetAsync("api/transactions/load-transactions");
 
         if (!await HandleErrorAsync(response))
             return null;
@@ -32,11 +32,11 @@ public class TransactionsApiClient : AbstractApiClient
         return await response.Content.ReadFromJsonAsync<List<TransactionDto>>();
     }
     /// <summary>
-    /// GET api/accounts/load-transactionTypes
+    /// GET api/transactions/load-transactionTypes
     /// </summary>
     public async Task<List<TransactionTypeDto>?> LoadTransactionTypesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-transactionTypes");
+        var response = await client.GetAsync("api/transactions/load-transactionTypes");
 
         if (!await HandleErrorAsync(response))
             return null;

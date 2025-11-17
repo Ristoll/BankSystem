@@ -28,11 +28,11 @@ public class EmployeesApiClient : AbstractApiClient
         return await HandleErrorAsync(response);
     }
     /// <summary>
-    /// GET api/accounts/load-employees
+    /// GET api/employees/load-employees
     /// </summary>
     public async Task<List<EmployeeDto>?> LoadEmployeesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-employees");
+        var response = await client.GetAsync("api/employees/load-employees");
 
         if (!await HandleErrorAsync(response))
             return null;
@@ -40,11 +40,11 @@ public class EmployeesApiClient : AbstractApiClient
         return await response.Content.ReadFromJsonAsync<List<EmployeeDto>>();
     }
     /// <summary>
-    /// GET api/accounts/load-employeeRoles
+    /// GET api/employees/load-employeeRoles
     /// </summary>
     public async Task<List<EmployeeRoleDto>?> LoadEmployeeRolesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-employeeRoles");
+        var response = await client.GetAsync("api/employees/load-employeeRoles");
 
         if (!await HandleErrorAsync(response))
             return null;

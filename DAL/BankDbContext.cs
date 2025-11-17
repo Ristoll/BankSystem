@@ -46,8 +46,9 @@ public partial class BankDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // Заміни Server=DESKTOP-N27H27E\SQLEXPRESS на свій інстанс
         optionsBuilder.UseSqlServer(
-            "Data Source=.\\OBZIVAYU;Database=BankDB;Integrated Security=True;TrustServerCertificate=True");
+            @"Server=DESKTOP-N27H27E; Database=BankDB; Integrated Security=True; TrustServerCertificate=True");
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

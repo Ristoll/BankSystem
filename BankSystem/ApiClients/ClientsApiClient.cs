@@ -29,11 +29,11 @@ public class ClientsApiClient : AbstractApiClient
     }
 
     /// <summary>
-    /// GET api/accounts/load-clients
+    /// GET api/clients/load-clients
     /// </summary>
     public async Task<List<ClientDto>?> LoadClientsAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-clients");
+        var response = await client.GetAsync("api/clients/load-clients");
 
         if (!await HandleErrorAsync(response))
             return null;

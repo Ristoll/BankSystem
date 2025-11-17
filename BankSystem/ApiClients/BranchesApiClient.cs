@@ -29,11 +29,11 @@ public class BranchesApiClient : AbstractApiClient
         return await HandleErrorAsync(response);
     }
     /// <summary>
-    /// GET api/accounts/load-branches
+    /// GET api/branches/load-branches
     /// </summary>
     public async Task<List<BankBranchDto>?> LoadBranchesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-branches");
+        var response = await client.GetAsync("api/branches/load-branches");
 
         if (!await HandleErrorAsync(response))
             return null;
@@ -41,11 +41,11 @@ public class BranchesApiClient : AbstractApiClient
         return await response.Content.ReadFromJsonAsync<List<BankBranchDto>>();
     }
     /// <summary>
-    /// GET api/accounts/load-branchTypes
+    /// GET api/branches/load-branchTypes
     /// </summary>
     public async Task<List<BranchTypeDto>?> LoadBranchTypesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-branchTypes");
+        var response = await client.GetAsync("api/branches/load-branchTypes");
 
         if (!await HandleErrorAsync(response))
             return null;

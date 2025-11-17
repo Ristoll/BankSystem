@@ -19,11 +19,11 @@ public class PaymentsApiClient : AbstractApiClient
         return await HandleErrorAsync(response);
     }
     /// <summary>
-    /// GET api/accounts/load-payments
+    /// GET api/payments/load-payments
     /// </summary>
     public async Task<List<PaymentDto>?> LoadPaymentsAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-payments");
+        var response = await client.GetAsync("api/payments/load-payments");
 
         if (!await HandleErrorAsync(response))
             return null;
@@ -31,11 +31,11 @@ public class PaymentsApiClient : AbstractApiClient
         return await response.Content.ReadFromJsonAsync<List<PaymentDto>>();
     }
     /// <summary>
-    /// GET api/accounts/load-paymentTypes
+    /// GET api/payments/load-paymentTypes
     /// </summary>
     public async Task<List<PaymentTypeDto>?> LoadPaymentTypesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-paymentTypes");
+        var response = await client.GetAsync("api/payments/load-paymentTypes");
 
         if (!await HandleErrorAsync(response))
             return null;

@@ -1,4 +1,5 @@
-﻿namespace BankSystem
+﻿
+namespace BankSystem
 {
     partial class MainForm
     {
@@ -39,8 +40,6 @@
             відділенняToolStripMenuItem = new ToolStripMenuItem();
             звітиToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
-            dataGridView1 = new DataGridView();
-            bindingSource1 = new BindingSource(components);
             accountPanel = new Panel();
             button3 = new Button();
             comboBox2 = new ComboBox();
@@ -51,6 +50,8 @@
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
+            dataGridView1 = new DataGridView();
+            bindingSource1 = new BindingSource(components);
             searchPanel = new Panel();
             clientPanel = new Panel();
             reportPanel = new Panel();
@@ -92,28 +93,14 @@
             генераціяЗвітуToolStripMenuItem = new ToolStripMenuItem();
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem = new ToolStripMenuItem();
             випискаПоРахункуЗаПеріодToolStripMenuItem = new ToolStripMenuItem();
-            vw_AccountsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_AccountsTableAdapter();
-            vw_BankBranchesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_BankBranchesTableAdapter();
-            vw_ClientsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_ClientsTableAdapter();
-            vw_CreditsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_CreditsTableAdapter();
-            vw_EmployeesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_EmployeesTableAdapter();
-            vw_PaymentsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter();
-            vw_TransactionsTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter();
-            accountTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter();
-            branchTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.BranchTypesTableAdapter();
-            creditStatusesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.CreditStatusesTableAdapter();
-            currenciesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.CurrenciesTableAdapter();
-            employeeRolesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.EmployeeRolesTableAdapter();
-            paymentTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.PaymentTypesTableAdapter();
-            transactionTypesTableAdapter1 = new BankSystem.BankSystemDBDataSetTableAdapters.TransactionTypesTableAdapter();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            accountPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
-            accountPanel.SuspendLayout();
             searchPanel.SuspendLayout();
             clientPanel.SuspendLayout();
             reportPanel.SuspendLayout();
@@ -194,29 +181,16 @@
             // 
             // splitContainer1.Panel1
             // 
+            splitContainer1.Panel1.Controls.Add(accountPanel);
             splitContainer1.Panel1.Controls.Add(dataGridView1);
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(accountPanel);
             splitContainer1.Panel2.Controls.Add(searchPanel);
             splitContainer1.Panel2.Controls.Add(menuStrip2);
             splitContainer1.Size = new Size(800, 422);
             splitContainer1.SplitterDistance = 203;
             splitContainer1.TabIndex = 1;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.DataSource = bindingSource1;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(0, 0);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(800, 203);
-            dataGridView1.TabIndex = 1;
             // 
             // accountPanel
             // 
@@ -229,7 +203,7 @@
             accountPanel.Controls.Add(label12);
             accountPanel.Controls.Add(label11);
             accountPanel.Controls.Add(label10);
-            accountPanel.Location = new Point(3, 31);
+            accountPanel.Location = new Point(462, 33);
             accountPanel.Name = "accountPanel";
             accountPanel.Size = new Size(797, 184);
             accountPanel.TabIndex = 5;
@@ -243,7 +217,6 @@
             button3.TabIndex = 8;
             button3.Text = "Оформити рахунок";
             button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // comboBox2
             // 
@@ -311,13 +284,26 @@
             label10.TabIndex = 0;
             label10.Text = "Номер тел.";
             // 
+            // dataGridView1
+            // 
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.DataSource = bindingSource1;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(800, 203);
+            dataGridView1.TabIndex = 1;
+            // 
             // searchPanel
             // 
             searchPanel.Controls.Add(clientPanel);
             searchPanel.Controls.Add(button2);
             searchPanel.Controls.Add(label9);
             searchPanel.Controls.Add(textBox8);
-            searchPanel.Location = new Point(783, 191);
+            searchPanel.Location = new Point(0, 34);
             searchPanel.Name = "searchPanel";
             searchPanel.Size = new Size(791, 181);
             searchPanel.TabIndex = 4;
@@ -344,7 +330,7 @@
             clientPanel.Controls.Add(textBox3);
             clientPanel.Controls.Add(textBox2);
             clientPanel.Controls.Add(textBox1);
-            clientPanel.Location = new Point(0, 19);
+            clientPanel.Location = new Point(3, 3);
             clientPanel.Name = "clientPanel";
             clientPanel.Size = new Size(800, 181);
             clientPanel.TabIndex = 1;
@@ -353,7 +339,7 @@
             // reportPanel
             // 
             reportPanel.Controls.Add(textBox9);
-            reportPanel.Location = new Point(778, 137);
+            reportPanel.Location = new Point(574, 3);
             reportPanel.Name = "reportPanel";
             reportPanel.Size = new Size(797, 184);
             reportPanel.TabIndex = 5;
@@ -570,7 +556,6 @@
             додатиРахунокToolStripMenuItem.Size = new Size(228, 26);
             додатиРахунокToolStripMenuItem.Text = "Додати рахунок";
             додатиРахунокToolStripMenuItem.Visible = false;
-            додатиРахунокToolStripMenuItem.Click += додатиРахункиToolStripMenuItem_Click;
             // 
             // редагуватиРахунокToolStripMenuItem
             // 
@@ -578,7 +563,6 @@
             редагуватиРахунокToolStripMenuItem.Size = new Size(228, 26);
             редагуватиРахунокToolStripMenuItem.Text = "Редагувати рахунок";
             редагуватиРахунокToolStripMenuItem.Visible = false;
-            редагуватиРахунокToolStripMenuItem.Click += редагуватиРахунокToolStripMenuItem_Click;
             // 
             // фільтраціяToolStripMenuItem
             // 
@@ -593,7 +577,6 @@
             клієнтиЗаТипомРахункуToolStripMenuItem.Size = new Size(269, 26);
             клієнтиЗаТипомРахункуToolStripMenuItem.Text = "Клієнти за типом рахунку";
             клієнтиЗаТипомРахункуToolStripMenuItem.Visible = false;
-            клієнтиЗаТипомРахункуToolStripMenuItem.Click += клієнтиЗаТипомРахункуToolStripMenuItem_Click;
             // 
             // рахункиЗаВалютоюToolStripMenuItem
             // 
@@ -622,7 +605,7 @@
             КлієнтаЗаІменемToolStripMenuItem1.Size = new Size(301, 26);
             КлієнтаЗаІменемToolStripMenuItem1.Text = "Клієнта за іменем";
             КлієнтаЗаІменемToolStripMenuItem1.Visible = false;
-            КлієнтаЗаІменемToolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            КлієнтаЗаІменемToolStripMenuItem1.Click += КлієнтаЗаІменемToolStripMenuItem1_Click;
             // 
             // клієнтаЗаНомеромТелефонуToolStripMenuItem
             // 
@@ -661,62 +644,6 @@
             випискаПоРахункуЗаПеріодToolStripMenuItem.Text = "Виписка по рахунку за період";
             випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = false;
             // 
-            // vw_AccountsTableAdapter1
-            // 
-            vw_AccountsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_BankBranchesTableAdapter1
-            // 
-            vw_BankBranchesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_ClientsTableAdapter1
-            // 
-            vw_ClientsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_CreditsTableAdapter1
-            // 
-            vw_CreditsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_EmployeesTableAdapter1
-            // 
-            vw_EmployeesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_PaymentsTableAdapter1
-            // 
-            vw_PaymentsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // vw_TransactionsTableAdapter1
-            // 
-            vw_TransactionsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // accountTypesTableAdapter1
-            // 
-            accountTypesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // branchTypesTableAdapter1
-            // 
-            branchTypesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // creditStatusesTableAdapter1
-            // 
-            creditStatusesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // currenciesTableAdapter1
-            // 
-            currenciesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // employeeRolesTableAdapter1
-            // 
-            employeeRolesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // paymentTypesTableAdapter1
-            // 
-            paymentTypesTableAdapter1.ClearBeforeFill = true;
-            // 
-            // transactionTypesTableAdapter1
-            // 
-            transactionTypesTableAdapter1.ClearBeforeFill = true;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -735,10 +662,10 @@
             splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             accountPanel.ResumeLayout(false);
             accountPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             searchPanel.ResumeLayout(false);
             searchPanel.PerformLayout();
             clientPanel.ResumeLayout(false);
@@ -765,14 +692,6 @@
         private SplitContainer splitContainer1;
         private BindingSource bindingSource1;
         private DataGridView dataGridView1;
-        private BankSystemDBDataSetTableAdapters.vw_AccountsTableAdapter vw_AccountsTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_BankBranchesTableAdapter vw_BankBranchesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_ClientsTableAdapter vw_ClientsTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_CreditsTableAdapter vw_CreditsTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_EmployeesTableAdapter vw_EmployeesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_PaymentsTableAdapter vw_PaymentsTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.vw_TransactionsTableAdapter vw_TransactionsTableAdapter1;
-        private BankSystemDBDataSet bankSystemdbDataSet1;
         private MenuStrip menuStrip2;
         private ToolStripMenuItem операцToolStripMenuItem;
         private ToolStripMenuItem фільтраціяToolStripMenuItem;
@@ -808,19 +727,12 @@
         private ToolStripMenuItem списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem;
         private Panel reportPanel;
         private TextBox textBox9;
-        private BankSystemDBDataSetTableAdapters.AccountTypesTableAdapter accountTypesTableAdapter1;
         private ToolStripMenuItem додатиРахунокToolStripMenuItem;
         private ToolStripMenuItem редагуватиРахунокToolStripMenuItem;
         private ToolStripMenuItem рахункиЗаВалютоюToolStripMenuItem;
         private ToolStripMenuItem рахункиЗаСтатусомToolStripMenuItem;
         private ToolStripMenuItem рахункуЗаВласникомToolStripMenuItem;
         private ToolStripMenuItem випискаПоРахункуЗаПеріодToolStripMenuItem;
-        private BankSystemDBDataSetTableAdapters.BranchTypesTableAdapter branchTypesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.CreditStatusesTableAdapter creditStatusesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.CurrenciesTableAdapter currenciesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.EmployeeRolesTableAdapter employeeRolesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.PaymentTypesTableAdapter paymentTypesTableAdapter1;
-        private BankSystemDBDataSetTableAdapters.TransactionTypesTableAdapter transactionTypesTableAdapter1;
         private Panel accountPanel;
         private Label label12;
         private Label label11;

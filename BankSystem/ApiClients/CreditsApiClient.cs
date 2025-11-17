@@ -29,11 +29,11 @@ public class CreditsApiClient : AbstractApiClient
     }
 
     /// <summary>
-    /// GET api/accounts/load-credits
+    /// GET api/credits/load-credits
     /// </summary>
     public async Task<List<CreditDto>?> LoadCreditsAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-credits");
+        var response = await client.GetAsync("api/credits/load-credits");
 
         if (!await HandleErrorAsync(response))
             return null;
@@ -41,11 +41,11 @@ public class CreditsApiClient : AbstractApiClient
         return await response.Content.ReadFromJsonAsync<List<CreditDto>>();
     }
     /// <summary>
-    /// GET api/accounts/load-creditStatuses
+    /// GET api/credits/load-creditStatuses
     /// </summary>
     public async Task<List<CreditStatusDto>?> LoadCreditStatusesAsync()
     {
-        var response = await client.GetAsync("api/accounts/load-creditStatuses");
+        var response = await client.GetAsync("api/credits/load-creditStatuses");
 
         if (!await HandleErrorAsync(response))
             return null;
