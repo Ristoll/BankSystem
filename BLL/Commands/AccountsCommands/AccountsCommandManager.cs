@@ -42,9 +42,9 @@ namespace BLL.Commands.AccountsCommands
             var command = new LoadCurrenciesCommand(unitOfWork,mapper);
             return ExecuteCommand(command, "Не вдалося завантажити валюти.");
         }
-        public List<Account> FilterAccountsByCurrency(CurrencyDto currencySymbol)
+        public List<Account> FilterAccountsByCurrency(int currencyId)
         {
-            var command = new FilterAccountsByCurrencyCommand(currencySymbol, unitOfWork, mapper);
+            var command = new FilterAccountsByCurrencyCommand(currencyId, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося відфільтрувати акаунти");
         }
 

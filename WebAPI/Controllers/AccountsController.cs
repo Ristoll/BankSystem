@@ -47,9 +47,9 @@ public class AccountsController : Controller
         return Ok(result);
     }
     [HttpGet("filter-account-by-currency")]
-    public IActionResult FilterAccountsByCurrency([FromQuery] CurrencyDto currencyDto)
+    public IActionResult FilterAccountsByCurrency(int currencyId)
     {
-        var result = accountsCommandManager.FilterAccountsByCurrency(currencyDto);
+        var result = accountsCommandManager.FilterAccountsByCurrency(currencyId);
         return Ok(result);
     }
     [HttpGet("filter-account-by-status")]

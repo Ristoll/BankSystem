@@ -66,16 +66,15 @@ public class AccountsApiClient : AbstractApiClient
     /// <summary>
     /// GET api/accounts/filter-account-by-currency
     /// </summary>
-    public async Task<List<AccountDto>?> FilterByCurrencyAsync(CurrencyDto dto)
+    public async Task<List<AccountDto>?> FilterByCurrencyAsync(int currencyId)
     {
         var response = await client.GetAsync(
-            $"api/accounts/filter-account-by-currency?CurrencyName={dto.Name}");
+            $"api/accounts/filter-account-by-currency?currencyId={currencyId}");
 
         if (!await HandleErrorAsync(response)) return null;
 
         return await response.Content.ReadFromJsonAsync<List<AccountDto>>();
     }
-
     /// <summary>
     /// GET api/accounts/filter-account-by-status?status=true
     /// </summary>

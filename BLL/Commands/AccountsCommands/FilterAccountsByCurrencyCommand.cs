@@ -10,16 +10,16 @@ namespace BLL.Commands.AccountsCommands
 {
     public class FilterAccountsByCurrencyCommand : AbstrCommandWithDA<List<Account>>
     {
-        private readonly CurrencyDto currencyDto;
+        private readonly int currencyId;
 
-        public FilterAccountsByCurrencyCommand(CurrencyDto currencyDto, IUnitOfWork unitOfWork, IMapper mapper)
+        public FilterAccountsByCurrencyCommand(int currencyId, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.currencyDto = currencyDto;
+            this.currencyId = currencyId;
         }
         public override List<Account> Execute()
         {
-            var currency = mapper.Map<Currency>(currencyDto);
+            var currency = dAPoint.CurrencyRepository.GetById(currencyId);
             var accounts = dAPoint.AccountRepository.GetAll()
                 .Where(account => account.Currency == currency)
                 .ToList();

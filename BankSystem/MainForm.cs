@@ -1,5 +1,7 @@
+using AutoMapper;
 using BankSystem.ApiClients;
 using BLL.Services;
+using Core;
 using DAL;
 using DTO;
 using System;
@@ -14,6 +16,7 @@ namespace BankSystem
     public partial class MainForm : Form
     {
         private readonly IReportService reportService;
+        private readonly ICurrentUserService currentUserService;
         private readonly ClientsApiClient clientsApiClient;
         private readonly AccountsApiClient accountsApiClient;
         private readonly TransactionsApiClient transactionsApiClient;
@@ -23,7 +26,7 @@ namespace BankSystem
         private readonly BranchesApiClient branchesApiClient;
         private string currentTable = "";
 
-        public MainForm(IReportService reportService)
+        public MainForm(IReportService reportService, ICurrentUserService currentUserService)
         {
             InitializeComponent();
 
@@ -42,14 +45,22 @@ namespace BankSystem
             paymentsApiClient = new PaymentsApiClient(httpClient);
             employeesApiClient = new EmployeesApiClient(httpClient);
             branchesApiClient = new BranchesApiClient(httpClient);
-            
+
             dataGridView1.AutoGenerateColumns = true;
 
             // Динамічно створюємо підменю
             PopulateAccountTypesSubMenu();
+            PopulateAccountsByCurrencySubMenu();
+            PopulateAccountsByStatusSubMenu();
+            
+            this.currentUserService = currentUserService;
         }
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
+            await PopulateAccountTypesComboBoxAsync(comboBox1);
+            await PopulateAccountTypesComboBoxAsync(comboBox4);
+            await PopulateCurrenciesComboBoxAsync(comboBox2);
+            await PopulateCurrenciesComboBoxAsync(comboBox3);
         }
         private void ShowTable<T>(List<T> list)
         {
@@ -79,6 +90,8 @@ namespace BankSystem
             ShowTable(accounts ?? new List<AccountDto>());
 
             HighlightMenuColor(рахункиToolStripMenuItem);
+            PopulateAccountsByCurrencySubMenu();
+            PopulateAccountsByStatusSubMenu();
         }
 
         private async void транзакціїToolStripMenuItem_Click(object sender, EventArgs e)
@@ -155,12 +168,13 @@ namespace BankSystem
                 RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
             };
 
-            bool result;
+            bool result = true;
+
             if (button1.Text == "Оформити клієнта")
             {
                 result = await clientsApiClient.AddClientAsync(clientDto);
             }
-            else
+            else if (button1.Text == "Підтвердити редагування")
             {
                 if (dataGridView1.CurrentRow == null)
                 {
@@ -168,12 +182,29 @@ namespace BankSystem
                     return;
                 }
 
-                // Отримуємо ClientId з виділеного рядка
                 var row = dataGridView1.CurrentRow;
                 clientDto.ClientId = Convert.ToInt32(row.Cells["ClientId"].Value);
 
-                // Тепер можна апдейтити
                 result = await clientsApiClient.UpdateClientAsync(clientDto);
+            }
+            else if (button1.Text == "Додати рахунок")
+            {
+                if (dataGridView1.CurrentRow == null)
+                {
+                    MessageBox.Show("Будь ласка, оберіть клієнта для редагування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                var row = dataGridView1.CurrentRow;
+                AccountDto accountDto = new AccountDto()
+                {
+                    ClientId = Convert.ToInt32(row.Cells["ClientId"].Value),
+                    AccountTypeId = comboBox1.SelectedIndex + 1,
+                    CurrencyId = comboBox2.SelectedIndex + 1,
+                    BranchId = currentUserService.BankBranchId,
+                    EmployeeId = currentUserService.EmployeeId,
+                    Balance = 0,
+                    OpenDate = DateOnly.FromDateTime(DateTime.Now),
+                };
             }
 
             ShowResult(result);
@@ -184,6 +215,47 @@ namespace BankSystem
             ShowPanel(clientPanel);
             button1.Text = "Підтвердити редагування";
             FillFieldsFromSelectedRow();
+        }
+
+        private async Task PopulateAccountTypesComboBoxAsync(ComboBox comboBox1)
+        {
+            comboBox1.Items.Clear();
+
+            var accountTypes = await accountsApiClient.LoadAccountTypesAsync();
+            if (accountTypes == null || accountTypes.Count == 0)
+            {
+                MessageBox.Show("Типи рахунків відсутні.");
+                return;
+            }
+
+            // Прив'язка через DataSource
+            comboBox1.DataSource = accountTypes;
+            comboBox1.DisplayMember = "Name";       // що буде показано
+            comboBox1.ValueMember = "AccountTypeId"; // значення, яке можна використовувати у коді
+        }
+        private async Task PopulateCurrenciesComboBoxAsync(ComboBox comboBox2)
+        {
+            comboBox2.Items.Clear();
+
+            try
+            {
+                // Використовуємо сервіс / команду для отримання валют
+                var currencies = await accountsApiClient.LoadCurrenciesAsync();
+                if (currencies == null || currencies.Count == 0)
+                {
+                    MessageBox.Show("Валюти відсутні.");
+                    return;
+                }
+
+                // Прив'язуємо до ComboBox
+                comboBox2.DataSource = currencies;
+                comboBox2.DisplayMember = "Name";        // що буде показано у ComboBox
+                comboBox2.ValueMember = "CurrencyId";   // ID для використання у коді
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка при завантаженні валют: {ex.Message}");
+            }
         }
 
         // -------------------- Меню фільтрації --------------------
@@ -209,6 +281,65 @@ namespace BankSystem
                 клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
+        private async void PopulateAccountsByCurrencySubMenu()
+        {
+            рахункиЗаВалютоюToolStripMenuItem.DropDownItems.Clear();
+
+            var currencies = await accountsApiClient.LoadCurrenciesAsync(); // Метод API-клієнта для валют
+            if (currencies == null || currencies.Count == 0)
+            {
+                MessageBox.Show("Валюти відсутні.");
+                return;
+            }
+
+            foreach (var currency in currencies)
+            {
+                ToolStripMenuItem subItem = new ToolStripMenuItem(currency.Name);
+                subItem.Click += async (s, e) =>
+                {
+                    await LoadAccountsByCurrencyAsync(currency.CurrencyId);
+                };
+                рахункиЗаВалютоюToolStripMenuItem.DropDownItems.Add(subItem);
+            }
+        }
+        private void PopulateAccountsByStatusSubMenu()
+        {
+            рахункиЗаСтатусомToolStripMenuItem.DropDownItems.Clear();
+
+            var statuses = new Dictionary<string, bool>
+            {
+                { "Активні", true },
+                { "Неактивні", false }
+            };
+
+            foreach (var status in statuses)
+            {
+                ToolStripMenuItem subItem = new ToolStripMenuItem(status.Key);
+                subItem.Click += async (s, e) =>
+                {
+                    await LoadAccountsByStatusAsync(status.Value);
+                };
+                рахункиЗаСтатусомToolStripMenuItem.DropDownItems.Add(subItem);
+            }
+        }
+
+        private async Task LoadAccountsByStatusAsync(bool isActive)
+        {
+            var accounts = await accountsApiClient.FilterByStatusAsync(isActive); // API-клієнт повинен підтримувати фільтр
+            if (accounts != null)
+                dataGridView1.DataSource = accounts;
+            else
+                MessageBox.Show("Рахунків з таким статусом не знайдено або сталася помилка.");
+        }
+
+        private async Task LoadAccountsByCurrencyAsync(int currencyId)
+        {
+            var accounts = await accountsApiClient.FilterByCurrencyAsync(currencyId); // Твоє API має підтримувати цей метод
+            if (accounts != null)
+                dataGridView1.DataSource = accounts;
+            else
+                MessageBox.Show("Рахунків з цією валютою не знайдено або сталася помилка.");
+        }
 
         private async Task LoadClientsByAccountTypeAsync(int accountTypeId)
         {
@@ -229,12 +360,15 @@ namespace BankSystem
         {
             clientPanel.Visible = false;
             clientPanel.Parent = splitContainer1.Panel2;
+            accountClientPanel.Visible = false;
+            accountClientPanel.Parent = clientPanel;
             accountPanel.Visible = false;
             accountPanel.Parent = splitContainer1.Panel2;
             searchPanel.Visible = false;
             searchPanel.Parent = splitContainer1.Panel2;
             reportPanel.Visible = false;
             reportPanel.Parent = splitContainer1.Panel2;
+            reportAccountPanel.Parent = reportPanel;
 
             panelToShow.Visible = true;
             panelToShow.BringToFront();
@@ -329,8 +463,9 @@ namespace BankSystem
             КлієнтаЗаІменемToolStripMenuItem1.Visible = false;
             клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = false;
             списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = false;
-            //Рахунки
             додатиРахунокToolStripMenuItem.Visible = false;
+
+            //Рахунки
             редагуватиРахунокToolStripMenuItem.Visible = false;
             рахункиЗаВалютоюToolStripMenuItem.Visible = false;
             рахункиЗаСтатусомToolStripMenuItem.Visible = false;
@@ -342,13 +477,13 @@ namespace BankSystem
                 case "Clients":
                     додатиКлієнтаToolStripMenuItem.Visible = true;
                     редагуватиКлієнтаToolStripMenuItem.Visible = true;
+                    додатиРахунокToolStripMenuItem.Visible = true;
                     клієнтиЗаТипомРахункуToolStripMenuItem.Visible = true;
                     КлієнтаЗаІменемToolStripMenuItem1.Visible = true;
                     клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = true;
                     списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = true;
                     break;
                 case "Accounts":
-                    додатиРахунокToolStripMenuItem.Visible = true;
                     редагуватиРахунокToolStripMenuItem.Visible = true;
                     рахункиЗаВалютоюToolStripMenuItem.Visible = true;
                     рахункиЗаСтатусомToolStripMenuItem.Visible = true;
@@ -375,6 +510,7 @@ namespace BankSystem
         private async void button2_Click(object sender, EventArgs e)
         {
             List<ClientDto>? clients = null;
+            List<AccountDto>? accounts = null;
 
             if (button2.Text == "Знайти за іменем") // шукаємо по повному імені
             {
@@ -384,21 +520,28 @@ namespace BankSystem
             {
                 clients = await clientsApiClient.SearchByPhoneNumberAsync(textBox8.Text);
             }
+            else if (button2.Text == "Знайти за іменем власника") // шукаємо рахунок
+            {
+                accounts = await accountsApiClient.SearchByOwnerAsync(textBox8.Text);
+            }
 
             if (clients != null && clients.Count > 0)
             {
-                // Відображаємо результат у DataGridView
                 dataGridView1.DataSource = clients;
-
-                // За бажанням виділяємо першого клієнта
+                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
+            }
+            else if (accounts != null && accounts.Count > 0)
+            {
+                dataGridView1.DataSource = accounts;
                 dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
             }
             else
             {
-                MessageBox.Show("Клієнта не знайдено.", "Результат пошуку", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Об’єкт не знайдено.", "Результат пошуку", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.DataSource = null;
             }
         }
+
 
         private void клієнтаЗаНомеромТелефонуToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -412,7 +555,7 @@ namespace BankSystem
             button2.Text = "Знайти за іменем";
         }
 
-        private async void списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(reportPanel);
 
@@ -437,6 +580,97 @@ namespace BankSystem
             // Генеруємо звіт
             string report = reportService.GenerateActiveAccountsReportContent(clientId);
             textBox9.Text = report;
+        }
+
+        private void додатиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(clientPanel);
+            accountClientPanel.Show();
+            button1.Text = "Додати рахунок";
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void редагуватиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                return;
+            }
+            ShowPanel(accountPanel);
+        }
+
+        private void рахункуЗаВласникомToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(searchPanel);
+            button2.Text = "Знайти за іменем власника";
+        }
+
+        private void випискаПоРахункуЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                return;
+            }
+
+            ShowPanel(reportPanel);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var cellValue = dataGridView1.CurrentRow.Cells["AccountId"].Value;
+            int accountId = Convert.ToInt32(cellValue);
+            if (dateTimePicker2.Value <= dateTimePicker3.Value)
+            {
+                var result = reportService.GenerateAccountStatementContent(accountId, dateTimePicker2.Value, dateTimePicker3.Value);
+                textBox9.Text = result;
+            }
+        }
+
+        private void операцToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            var row = dataGridView1.CurrentRow;
+            if (row == null) return;
+
+            DateOnly? closeDate = checkBox1.Checked ? DateOnly.FromDateTime(DateTime.Now) : null;
+
+            // Заповнюємо комбо-бокси правильно через SelectedValue
+            comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
+            comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
+
+            // Баланс
+            textBox10.Text = row.Cells["Balance"].Value?.ToString();
+
+            AccountDto accountDto = new AccountDto()
+            {
+                AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
+                ClientId = Convert.ToInt32(row.Cells["ClientId"].Value),
+                AccountTypeId = Convert.ToInt32(comboBox4.SelectedValue),
+                CurrencyId = Convert.ToInt32(comboBox3.SelectedValue),
+                BranchId = currentUserService.BankBranchId,
+                EmployeeId = currentUserService.EmployeeId,
+                Balance = decimal.TryParse(textBox10.Text, out var bal) ? bal : 0,
+                OpenDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["OpenDate"].Value)),
+                CloseDate = closeDate
+            };
+
+            var result = await accountsApiClient.UpdateAccountAsync(accountDto);
+            ShowResult(result);
         }
 
 

@@ -16,13 +16,22 @@ namespace BLL.Services
         // 1. Виписка по рахунку за період
         public string GenerateAccountStatementContent(int accountId, DateTime from, DateTime to)
         {
+            var account = unitOfWork.AccountRepository.GetById(accountId);
+            var client = unitOfWork.ClientRepository.GetById(account.ClientId);
+            var accountType = unitOfWork.AccountTypeRepository.GetById(account.AccountTypeId);
             var transactions = unitOfWork.TransactionRepository
                                 .GetQueryable()
                                 .Where(t => t.AccountId == accountId && t.TransactionDate >= from && t.TransactionDate <= to)
                                 .ToList();
 
-            var reportText = $"Виписка по рахунку {accountId} з {from:d} по {to:d}\n\n";
-            reportText += string.Join("\n", transactions.Select(t => $"{t.TransactionDate:d} | {t.Amount} | Тип транзакції {t.TransactionTypeId}"));
+            var reportText = $"Виписка по рахунку {client.LastName} {client.FirstName} {client.MiddleName} #{account.AccountId} типу '{accountType.Name}' з {from:d} по {to:d}\r\n";
+
+            foreach (var t in transactions)
+            {
+                var transactionType = unitOfWork.TransactionTypeRepository.GetById(t.TransactionTypeId);
+                reportText += $"{t.TransactionDate:d} | {t.Amount} | Тип транзакції #{t.TransactionTypeId} {transactionType.Name}\r\n";
+            }
+
             return reportText;
         }
 

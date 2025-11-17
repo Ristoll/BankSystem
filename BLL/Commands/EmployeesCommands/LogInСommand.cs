@@ -37,8 +37,7 @@ public class LogInCommand : AbstrCommandWithDA<bool>
             return false;
 
         // Зберігаємо ID поточного працівника
-        currentUser.SetEmployee(employee.EmployeeId);
-
+        currentUser.SetEmployee(employee.EmployeeId, employee.BranchId);
         return true;
     }
 }
