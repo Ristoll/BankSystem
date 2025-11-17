@@ -28,6 +28,24 @@ public class AccountsController : Controller
         var result = accountsCommandManager.UpdateAccount(accountDto);
         return Ok(result);
     }
+    [HttpGet("load-accounts")]
+    public IActionResult LoadTransactions()
+    {
+        var result = accountsCommandManager.LoadAccounts();
+        return Ok(result);
+    }
+    [HttpGet("load-accountTypes")]
+    public IActionResult LoadAccountTypes()
+    {
+        var result = accountsCommandManager.LoadAccountTypes();
+        return Ok(result);
+    }
+    [HttpGet("load-currencies")]
+    public IActionResult LoadCurrencies()
+    {
+        var result = accountsCommandManager.LoadCurrencies();
+        return Ok(result);
+    }
     [HttpGet("filter-account-by-currency")]
     public IActionResult FilterAccountsByCurrency([FromQuery] CurrencyDto currencyDto)
     {

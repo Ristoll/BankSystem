@@ -22,6 +22,18 @@ public class TransactionsController : Controller
         var result = transactionsCommandManager.AddTransaction(transactionDto);
         return Ok(result);
     }
+    [HttpGet("load-transactions")]
+    public IActionResult LoadTransactions()
+    {
+        var result = transactionsCommandManager.LoadTransactions();
+        return Ok(result);
+    }
+    [HttpGet("load-transactionTypes")]
+    public IActionResult LoadTransactionTypes()
+    {
+        var result = transactionsCommandManager.LoadTransactionTypes();
+        return Ok(result);
+    }
     [HttpGet("search-transaction-by-period")]
     public IActionResult SearchTransactionByPeriod([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
     {

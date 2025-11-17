@@ -28,6 +28,18 @@ public class CreditsController : Controller
         var result = creditsCommandManager.UpdateCredit(creditDto);
         return Ok(result);
     }
+    [HttpGet("load-credits")]
+    public IActionResult LoadCredits()
+    {
+        var result = creditsCommandManager.LoadCredits();
+        return Ok(result);
+    }
+    [HttpGet("load-creditStatuses")]
+    public IActionResult LoadCreditStatuses()
+    {
+        var result = creditsCommandManager.LoadCreditStatuses();
+        return Ok(result);
+    }
     [HttpGet("filter-credit-by-status")]
     public IActionResult FilterCreditsByStatus([FromQuery] CreditStatusDto statusDto)
     {

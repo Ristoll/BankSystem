@@ -23,19 +23,4 @@
     <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="BankSystemDBDataSet.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BankSystemDBDataSet.xsd</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="BankSystemDBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BankSystemDBDataSet.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
 </Project>

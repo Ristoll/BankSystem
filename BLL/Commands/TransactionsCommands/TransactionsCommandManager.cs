@@ -20,7 +20,16 @@ namespace BLL.Commands.TransactionsCommands
             var command = new AddTransactionCommand(transactionDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вділося додати транзакцію.");
         }
-
+        public List<Transaction> LoadTransactions()
+        {
+            var command = new LoadTransactionsCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити транзакції");
+        }
+        public List<TransactionType> LoadTransactionTypes()
+        {
+            var command = new LoadTransactionTypesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити транзакції");
+        }
         public List<Transaction> SearchTransactionByPeriod(DateTime startDate, DateTime endDate)
         {
             var command = new SearchTransactionByPeriodCommand(startDate, endDate, unitOfWork, mapper);

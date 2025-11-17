@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using BLL.Commands.AccountsCommands;
 using BLL.Commands.BranchesCommands;
-using Microsoft.AspNetCore.Mvc;
 using DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
@@ -33,6 +34,18 @@ public class BranchesController : Controller
         return Ok(result);
     }
 
+    [HttpGet("load-branches")]
+    public IActionResult LoadBranches()
+    {
+        var result = branchesCommandManager.LoadBranches();
+        return Ok(result);
+    }
+    [HttpGet("load-branchType")]
+    public IActionResult LoadBranchTypes()
+    {
+        var result = branchesCommandManager.LoadBranchTypes();
+        return Ok(result);
+    }
     [HttpDelete("delete-branch/{branchId}")]
     public IActionResult DeleteBranch(int branchId)
     {

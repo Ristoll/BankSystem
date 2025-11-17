@@ -25,6 +25,16 @@ namespace BLL.Commands.BranchesCommands
             var command = new UpdateBranchCommand(bankBranchDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося оновити відділок.");
         }
+        public List<BankBranch> LoadBranches()
+        {
+            var command = new LoadBranchesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити відділки.");
+        }
+        public List<BranchType> LoadBranchTypes()
+        {
+            var command = new LoadBranchTypesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити відділки.");
+        }
         public bool DeleteBranch(int branchId)
         {
             var command = new DeleteBranchCommand(branchId, unitOfWork, mapper);

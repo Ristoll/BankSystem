@@ -27,7 +27,30 @@ public class EmployeesApiClient : AbstractApiClient
         var response = await client.PutAsJsonAsync("api/employees/update-employee", employeeDto);
         return await HandleErrorAsync(response);
     }
+    /// <summary>
+    /// GET api/accounts/load-employees
+    /// </summary>
+    public async Task<List<EmployeeDto>?> LoadEmployeesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-employees");
 
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<EmployeeDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-employeeRoles
+    /// </summary>
+    public async Task<List<EmployeeRoleDto>?> LoadEmployeeRolesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-employeeRoles");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<EmployeeRoleDto>>();
+    }
     /// <summary>
     /// DELETE api/employees/delete-employee?employeeId=...
     /// </summary>

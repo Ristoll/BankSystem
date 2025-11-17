@@ -27,6 +27,21 @@ namespace BLL.Commands.AccountsCommands
             return ExecuteCommand(command, "Не вдалося оновити акаунт.");
         }
 
+        public List<Account> LoadAccounts()
+        {
+            var command = new LoadAccountsCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити акаунти.");
+        }
+        public List<AccountType> LoadAccountTypes()
+        {
+            var command = new LoadAccountTypesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити типи акаунтів.");
+        }
+        public List<Currency> LoadCurrencies()
+        {
+            var command = new LoadCurrenciesCommand(unitOfWork,mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити валюти.");
+        }
         public List<Account> FilterAccountsByCurrency(CurrencyDto currencySymbol)
         {
             var command = new FilterAccountsByCurrencyCommand(currencySymbol, unitOfWork, mapper);

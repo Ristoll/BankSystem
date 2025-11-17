@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities;
 
 namespace BLL.Commands.EmployeesCommands
 {
@@ -29,6 +30,16 @@ namespace BLL.Commands.EmployeesCommands
         {
             var command = new UpdateEmployeeCommand(employeeDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося оновити інформацію про працівника.");
+        }
+        public List<Employee> LoadEmployees()
+        {
+            var command = new LoadEmployeesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити працівників.");
+        }
+        public List<EmployeeRole> LoadEmployeeRoles()
+        {
+            var command = new LoadEmployeeRolesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити ролі працівників.");
         }
         public bool DeleteEmployee(int employeeId)
         {

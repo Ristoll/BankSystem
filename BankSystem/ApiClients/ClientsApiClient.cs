@@ -29,6 +29,18 @@ public class ClientsApiClient : AbstractApiClient
     }
 
     /// <summary>
+    /// GET api/accounts/load-clients
+    /// </summary>
+    public async Task<List<ClientDto>?> LoadClientsAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-clients");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<ClientDto>>();
+    }
+    /// <summary>
     /// GET api/clients/search-client-by-fullname?clientName=...
     /// </summary>
     public async Task<List<ClientDto>?> SearchByFullNameAsync(string clientName)

@@ -26,8 +26,6 @@ namespace BankSystem
 
             clientsApiClient = new ClientsApiClient(httpClient);
             dataGridView1.AutoGenerateColumns = true;
-
-            bankSystemdbDataSet1 = new BankSystemDBDataSet();
             // Динамічно створюємо підменю
             PopulateAccountTypesSubMenu();
         }
@@ -126,7 +124,6 @@ namespace BankSystem
                 Address = textBox7.Text,
                 RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
             };
-
             bool result;
             if (button1.Text == "Оформити клієнта")
             {
@@ -136,11 +133,22 @@ namespace BankSystem
             }
             else
             {
-                result = await clientsApiClient.UpdateClientAsync(clientDto);
+                var clients = await clientsApiClient.SearchByPhoneNumberAsync(textBox5.Text);
 
+                if (clients == null || clients.Count == 0)
+                {
+                    MessageBox.Show("Клієнта з таким номером телефону не знайдено.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var client = clients[0];
+                clientDto.ClientId = client.ClientId;
+
+                result = await clientsApiClient.UpdateClientAsync(clientDto);
                 ShowResult(result);
             }
         }
+            
         private void редагуватиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);

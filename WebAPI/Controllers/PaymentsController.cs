@@ -22,4 +22,16 @@ public class PaymentsController : Controller
         var result = paymentsCommandManager.AddPayment(paymentDto);
         return Ok(result);
     }
+    [HttpGet("load-payments")]
+    public IActionResult LoadPayments()
+    {
+        var result = paymentsCommandManager.LoadPayments();
+        return Ok(result);
+    }
+    [HttpGet("load-paymentTypes")]
+    public IActionResult LoadPaymentTypes()
+    {
+        var result = paymentsCommandManager.LoadPaymentTypes();
+        return Ok(result);
+    }
 }

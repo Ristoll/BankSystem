@@ -18,4 +18,28 @@ public class PaymentsApiClient : AbstractApiClient
         var response = await client.PostAsJsonAsync("api/payments/add-payment", paymentDto);
         return await HandleErrorAsync(response);
     }
+    /// <summary>
+    /// GET api/accounts/load-payments
+    /// </summary>
+    public async Task<List<PaymentDto>?> LoadPaymentsAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-payments");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<PaymentDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-paymentTypes
+    /// </summary>
+    public async Task<List<PaymentTypeDto>?> LoadPaymentTypesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-paymentTypes");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<PaymentTypeDto>>();
+    }
 }

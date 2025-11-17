@@ -29,6 +29,12 @@ public class ClientsController : Controller
         var result = clientsCommandManager.UpdateClient(clientDto);
         return Ok(result);
     }
+    [HttpGet("load-clients")]
+    public IActionResult LoadClients()
+    {
+        var result = clientsCommandManager.LoadClients();
+        return Ok(result);
+    }
     [HttpGet("search-client-by-fullname")]
     public IActionResult SearchClientByFullName([FromQuery] string clientName)
     {

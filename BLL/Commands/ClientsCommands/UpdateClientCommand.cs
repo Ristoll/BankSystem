@@ -19,6 +19,7 @@ public class UpdateClientCommand : AbstrCommandWithDA<bool>
     }
     public override bool Execute()
     {
+
         var client = dAPoint.AccountRepository.GetById(clientDto.ClientId);
 
         if (client == null)

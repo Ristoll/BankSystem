@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.Commands.CreditsCommand;
 using Core;
 using Core.Entities;
 using DTO;
@@ -24,6 +25,16 @@ namespace BLL.Commands.CreditsCommands
         {
             var command = new UpdateCreditCommand(creditDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося оновити кредит.");
+        }
+        public List<Credit> LoadCredits()
+        {
+            var command = new LoadCreditsCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити кредити.");
+        }
+        public List<CreditStatus> LoadCreditStatuses()
+        {
+            var command = new LoadCreditStatusesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити статуси.");
         }
         public List<Credit> FilterCreditsByStatus(CreditStatusDto status)
         {

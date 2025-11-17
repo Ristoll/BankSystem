@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core;
+using Core.Entities;
 using DTO;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,16 @@ namespace BLL.Commands.PaymentsCommands
         {
             var command = new AddPaymentCommand(paymentDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося додати новий платіж.");
+        }
+        public List<Payment> LoadPayments()
+        {
+            var command = new LoadPaymentsCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити платежі.");
+        }
+        public List<PaymentType> LoadPaymentTypes()
+        {
+            var command = new LoadPaymentTypesCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити платежі.");
         }
     }
 }

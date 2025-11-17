@@ -25,6 +25,11 @@ namespace BLL.Commands.ClientsCommands
             var command = new UpdateClientCommand(clientDto, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося оновити інформацію про клієнта.");
         }
+        public List<Client> LoadClients()
+        {
+            var command = new LoadClientsCommand(unitOfWork, mapper);
+            return ExecuteCommand(command, "Не вдалося завантажити дані про клієнтів.");
+        }
         public List<Client> SearchClientByFullName(string fullName)
         {
             var command = new SearchClientByNamePartsCommand(fullName, unitOfWork, mapper);

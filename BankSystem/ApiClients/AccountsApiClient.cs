@@ -1,4 +1,5 @@
-﻿using DTO;
+﻿using Core.Entities;
+using DTO;
 using System.Net.Http.Json;
 
 namespace BankSystem.ApiClients;
@@ -26,7 +27,42 @@ public class AccountsApiClient : AbstractApiClient
         var response = await client.PutAsJsonAsync("api/accounts/update-account", account);
         return await HandleErrorAsync(response);
     }
+    /// <summary>
+    /// GET api/accounts/load-accounts
+    /// </summary>
+    public async Task<List<AccountDto>?> LoadAccountsAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-accounts");
 
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<AccountDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-accountTypes
+    /// </summary>
+    public async Task<List<AccountTypeDto>?> LoadAccountTypesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-accountTypes");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<AccountTypeDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-currencies
+    /// </summary>
+    public async Task<List<CurrencyDto>?> LoadCurrenciesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-currencies");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<CurrencyDto>>();
+    }
     /// <summary>
     /// GET api/accounts/filter-account-by-currency
     /// </summary>

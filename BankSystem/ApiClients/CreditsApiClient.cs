@@ -29,6 +29,30 @@ public class CreditsApiClient : AbstractApiClient
     }
 
     /// <summary>
+    /// GET api/accounts/load-credits
+    /// </summary>
+    public async Task<List<CreditDto>?> LoadCreditsAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-credits");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<CreditDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-creditStatuses
+    /// </summary>
+    public async Task<List<CreditStatusDto>?> LoadCreditStatusesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-creditStatuses");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<CreditStatusDto>>();
+    }
+    /// <summary>
     /// GET api/credits/filter-credit-by-status
     /// </summary>
     public async Task<List<CreditDto>?> FilterByStatusAsync(CreditStatusDto statusDto)

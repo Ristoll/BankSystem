@@ -19,7 +19,30 @@ public class TransactionsApiClient : AbstractApiClient
         var response = await client.PostAsJsonAsync("api/transactions/add-transaction", transactionDto);
         return await HandleErrorAsync(response);
     }
+    /// <summary>
+    /// GET api/accounts/load-transactions
+    /// </summary>
+    public async Task<List<TransactionDto>?> LoadTransactionsAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-transactions");
 
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<TransactionDto>>();
+    }
+    /// <summary>
+    /// GET api/accounts/load-transactionTypes
+    /// </summary>
+    public async Task<List<TransactionTypeDto>?> LoadTransactionTypesAsync()
+    {
+        var response = await client.GetAsync("api/accounts/load-transactionTypes");
+
+        if (!await HandleErrorAsync(response))
+            return null;
+
+        return await response.Content.ReadFromJsonAsync<List<TransactionTypeDto>>();
+    }
     /// <summary>
     /// GET api/transactions/search-transaction-by-period?startDate=...&endDate=...
     /// </summary>
