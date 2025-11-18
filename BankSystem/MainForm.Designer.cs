@@ -41,6 +41,69 @@ namespace BankSystem
             splitContainer1 = new SplitContainer();
             dataGridView1 = new DataGridView();
             bindingSource1 = new BindingSource(components);
+            clientPanel = new Panel();
+            button1 = new Button();
+            accountClientPanel = new Panel();
+            comboBox2 = new ComboBox();
+            comboBox1 = new ComboBox();
+            label12 = new Label();
+            label11 = new Label();
+            textBox7 = new TextBox();
+            textBox4 = new TextBox();
+            textBox5 = new TextBox();
+            textBox6 = new TextBox();
+            label8 = new Label();
+            label7 = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            textBox3 = new TextBox();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            employeePanel = new Panel();
+            button8 = new Button();
+            comboBox10 = new ComboBox();
+            comboBox9 = new ComboBox();
+            label39 = new Label();
+            label38 = new Label();
+            textBox14 = new TextBox();
+            textBox16 = new TextBox();
+            textBox21 = new TextBox();
+            label25 = new Label();
+            label27 = new Label();
+            label34 = new Label();
+            label35 = new Label();
+            label36 = new Label();
+            label37 = new Label();
+            textBox22 = new TextBox();
+            textBox23 = new TextBox();
+            textBox24 = new TextBox();
+            branchPanel = new Panel();
+            comboBox8 = new ComboBox();
+            label33 = new Label();
+            button7 = new Button();
+            textBox20 = new TextBox();
+            label32 = new Label();
+            textBox19 = new TextBox();
+            label31 = new Label();
+            textBox18 = new TextBox();
+            label30 = new Label();
+            creditPaymentPanel = new Panel();
+            button6 = new Button();
+            comboBox7 = new ComboBox();
+            label29 = new Label();
+            textBox17 = new TextBox();
+            label28 = new Label();
+            creditPanel = new Panel();
+            button5 = new Button();
+            comboBox6 = new ComboBox();
+            label26 = new Label();
+            textBox15 = new TextBox();
+            label24 = new Label();
             searchPanel = new Panel();
             label18 = new Label();
             label19 = new Label();
@@ -50,6 +113,11 @@ namespace BankSystem
             label9 = new Label();
             textBox8 = new TextBox();
             accountPanel = new Panel();
+            creditAccountPanel = new Panel();
+            textBox13 = new TextBox();
+            textBox12 = new TextBox();
+            label22 = new Label();
+            label23 = new Label();
             transactionClientPanel = new Panel();
             comboBox5 = new ComboBox();
             textBox11 = new TextBox();
@@ -103,29 +171,6 @@ namespace BankSystem
             dateTimePicker3 = new DateTimePicker();
             dateTimePicker2 = new DateTimePicker();
             textBox9 = new TextBox();
-            clientPanel = new Panel();
-            button1 = new Button();
-            accountClientPanel = new Panel();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
-            label12 = new Label();
-            label11 = new Label();
-            textBox7 = new TextBox();
-            textBox4 = new TextBox();
-            textBox5 = new TextBox();
-            textBox6 = new TextBox();
-            label8 = new Label();
-            label7 = new Label();
-            label6 = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            dateTimePicker1 = new DateTimePicker();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
-            textBox3 = new TextBox();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -133,14 +178,19 @@ namespace BankSystem
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            clientPanel.SuspendLayout();
+            accountClientPanel.SuspendLayout();
+            employeePanel.SuspendLayout();
+            branchPanel.SuspendLayout();
+            creditPaymentPanel.SuspendLayout();
+            creditPanel.SuspendLayout();
             searchPanel.SuspendLayout();
             accountPanel.SuspendLayout();
+            creditAccountPanel.SuspendLayout();
             transactionClientPanel.SuspendLayout();
             menuStrip2.SuspendLayout();
             reportPanel.SuspendLayout();
             reportAccountPanel.SuspendLayout();
-            clientPanel.SuspendLayout();
-            accountClientPanel.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -215,11 +265,15 @@ namespace BankSystem
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(clientPanel);
+            splitContainer1.Panel2.Controls.Add(employeePanel);
+            splitContainer1.Panel2.Controls.Add(branchPanel);
+            splitContainer1.Panel2.Controls.Add(creditPaymentPanel);
+            splitContainer1.Panel2.Controls.Add(creditPanel);
             splitContainer1.Panel2.Controls.Add(searchPanel);
             splitContainer1.Panel2.Controls.Add(accountPanel);
             splitContainer1.Panel2.Controls.Add(menuStrip2);
             splitContainer1.Panel2.Controls.Add(reportPanel);
-            splitContainer1.Panel2.Controls.Add(clientPanel);
             splitContainer1.Size = new Size(1902, 1005);
             splitContainer1.SplitterDistance = 481;
             splitContainer1.TabIndex = 1;
@@ -238,6 +292,583 @@ namespace BankSystem
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
+            // clientPanel
+            // 
+            clientPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            clientPanel.Controls.Add(button1);
+            clientPanel.Controls.Add(accountClientPanel);
+            clientPanel.Controls.Add(textBox7);
+            clientPanel.Controls.Add(textBox4);
+            clientPanel.Controls.Add(textBox5);
+            clientPanel.Controls.Add(textBox6);
+            clientPanel.Controls.Add(label8);
+            clientPanel.Controls.Add(label7);
+            clientPanel.Controls.Add(label6);
+            clientPanel.Controls.Add(label5);
+            clientPanel.Controls.Add(label4);
+            clientPanel.Controls.Add(dateTimePicker1);
+            clientPanel.Controls.Add(label3);
+            clientPanel.Controls.Add(label2);
+            clientPanel.Controls.Add(label1);
+            clientPanel.Controls.Add(textBox3);
+            clientPanel.Controls.Add(textBox2);
+            clientPanel.Controls.Add(textBox1);
+            clientPanel.Location = new Point(1246, 373);
+            clientPanel.Name = "clientPanel";
+            clientPanel.Size = new Size(731, 233);
+            clientPanel.TabIndex = 1;
+            clientPanel.Visible = false;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(9, 182);
+            button1.Name = "button1";
+            button1.Size = new Size(147, 29);
+            button1.TabIndex = 15;
+            button1.Text = "Оформити клієнта";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // accountClientPanel
+            // 
+            accountClientPanel.Controls.Add(comboBox2);
+            accountClientPanel.Controls.Add(comboBox1);
+            accountClientPanel.Controls.Add(label12);
+            accountClientPanel.Controls.Add(label11);
+            accountClientPanel.Location = new Point(364, 140);
+            accountClientPanel.Name = "accountClientPanel";
+            accountClientPanel.Size = new Size(356, 76);
+            accountClientPanel.TabIndex = 5;
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(164, 43);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(173, 28);
+            comboBox2.TabIndex = 7;
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(164, 7);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(173, 28);
+            comboBox1.TabIndex = 6;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(11, 46);
+            label12.Name = "label12";
+            label12.Size = new Size(60, 20);
+            label12.TabIndex = 2;
+            label12.Text = "Валюта";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(11, 10);
+            label11.Name = "label11";
+            label11.Size = new Size(93, 20);
+            label11.TabIndex = 1;
+            label11.Text = "Тип рахунку";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(527, 114);
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(173, 27);
+            textBox7.TabIndex = 14;
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(527, 79);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(173, 27);
+            textBox4.TabIndex = 13;
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(527, 46);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(173, 27);
+            textBox5.TabIndex = 12;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(527, 13);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(173, 27);
+            textBox6.TabIndex = 11;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(374, 117);
+            label8.Name = "label8";
+            label8.Size = new Size(59, 20);
+            label8.TabIndex = 10;
+            label8.Text = "Адреса";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(374, 82);
+            label7.Name = "label7";
+            label7.Size = new Size(76, 20);
+            label7.TabIndex = 9;
+            label7.Text = "Ел. пошта";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(374, 49);
+            label6.Name = "label6";
+            label6.Size = new Size(126, 20);
+            label6.TabIndex = 8;
+            label6.Text = "Номер телефону";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(374, 16);
+            label5.Name = "label5";
+            label5.Size = new Size(126, 20);
+            label5.TabIndex = 7;
+            label5.Text = "Номер паспорта";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(18, 117);
+            label4.Name = "label4";
+            label4.Size = new Size(133, 20);
+            label4.TabIndex = 6;
+            label4.Text = "Дата народження";
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(157, 112);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(173, 27);
+            dateTimePicker1.TabIndex = 5;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(18, 82);
+            label3.Name = "label3";
+            label3.Size = new Size(92, 20);
+            label3.TabIndex = 4;
+            label3.Text = "По батькові";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(18, 49);
+            label2.Name = "label2";
+            label2.Size = new Size(77, 20);
+            label2.TabIndex = 3;
+            label2.Text = "Прізвище";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(18, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(35, 20);
+            label1.TabIndex = 2;
+            label1.Text = "Ім'я";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(157, 79);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(173, 27);
+            textBox3.TabIndex = 2;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(157, 46);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(173, 27);
+            textBox2.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(157, 13);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(173, 27);
+            textBox1.TabIndex = 0;
+            // 
+            // employeePanel
+            // 
+            employeePanel.Controls.Add(button8);
+            employeePanel.Controls.Add(comboBox10);
+            employeePanel.Controls.Add(comboBox9);
+            employeePanel.Controls.Add(label39);
+            employeePanel.Controls.Add(label38);
+            employeePanel.Controls.Add(textBox14);
+            employeePanel.Controls.Add(textBox16);
+            employeePanel.Controls.Add(textBox21);
+            employeePanel.Controls.Add(label25);
+            employeePanel.Controls.Add(label27);
+            employeePanel.Controls.Add(label34);
+            employeePanel.Controls.Add(label35);
+            employeePanel.Controls.Add(label36);
+            employeePanel.Controls.Add(label37);
+            employeePanel.Controls.Add(textBox22);
+            employeePanel.Controls.Add(textBox23);
+            employeePanel.Controls.Add(textBox24);
+            employeePanel.Location = new Point(12, 310);
+            employeePanel.Name = "employeePanel";
+            employeePanel.Size = new Size(712, 204);
+            employeePanel.TabIndex = 20;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(11, 169);
+            button8.Name = "button8";
+            button8.Size = new Size(281, 29);
+            button8.TabIndex = 30;
+            button8.Text = "Додати співробітника";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
+            // comboBox10
+            // 
+            comboBox10.FormattingEnabled = true;
+            comboBox10.Location = new Point(520, 119);
+            comboBox10.Name = "comboBox10";
+            comboBox10.Size = new Size(173, 28);
+            comboBox10.TabIndex = 29;
+            // 
+            // comboBox9
+            // 
+            comboBox9.FormattingEnabled = true;
+            comboBox9.Location = new Point(150, 119);
+            comboBox9.Name = "comboBox9";
+            comboBox9.Size = new Size(173, 28);
+            comboBox9.TabIndex = 28;
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(367, 122);
+            label39.Name = "label39";
+            label39.Size = new Size(50, 20);
+            label39.TabIndex = 27;
+            label39.Text = "Відділ";
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(14, 122);
+            label38.Name = "label38";
+            label38.Size = new Size(60, 20);
+            label38.TabIndex = 26;
+            label38.Text = "Посада";
+            // 
+            // textBox14
+            // 
+            textBox14.Location = new Point(520, 82);
+            textBox14.Name = "textBox14";
+            textBox14.Size = new Size(173, 27);
+            textBox14.TabIndex = 25;
+            // 
+            // textBox16
+            // 
+            textBox16.Location = new Point(520, 49);
+            textBox16.Name = "textBox16";
+            textBox16.Size = new Size(173, 27);
+            textBox16.TabIndex = 24;
+            // 
+            // textBox21
+            // 
+            textBox21.Location = new Point(520, 16);
+            textBox21.Name = "textBox21";
+            textBox21.Size = new Size(173, 27);
+            textBox21.TabIndex = 23;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(367, 85);
+            label25.Name = "label25";
+            label25.Size = new Size(76, 20);
+            label25.TabIndex = 22;
+            label25.Text = "Ел. пошта";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(367, 52);
+            label27.Name = "label27";
+            label27.Size = new Size(126, 20);
+            label27.TabIndex = 21;
+            label27.Text = "Номер телефону";
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(367, 19);
+            label34.Name = "label34";
+            label34.Size = new Size(62, 20);
+            label34.TabIndex = 20;
+            label34.Text = "Пароль";
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(11, 85);
+            label35.Name = "label35";
+            label35.Size = new Size(92, 20);
+            label35.TabIndex = 19;
+            label35.Text = "По батькові";
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(11, 52);
+            label36.Name = "label36";
+            label36.Size = new Size(77, 20);
+            label36.TabIndex = 18;
+            label36.Text = "Прізвище";
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(11, 19);
+            label37.Name = "label37";
+            label37.Size = new Size(35, 20);
+            label37.TabIndex = 16;
+            label37.Text = "Ім'я";
+            // 
+            // textBox22
+            // 
+            textBox22.Location = new Point(150, 82);
+            textBox22.Name = "textBox22";
+            textBox22.Size = new Size(173, 27);
+            textBox22.TabIndex = 17;
+            // 
+            // textBox23
+            // 
+            textBox23.Location = new Point(150, 49);
+            textBox23.Name = "textBox23";
+            textBox23.Size = new Size(173, 27);
+            textBox23.TabIndex = 15;
+            // 
+            // textBox24
+            // 
+            textBox24.Location = new Point(150, 16);
+            textBox24.Name = "textBox24";
+            textBox24.Size = new Size(173, 27);
+            textBox24.TabIndex = 14;
+            // 
+            // branchPanel
+            // 
+            branchPanel.Controls.Add(comboBox8);
+            branchPanel.Controls.Add(label33);
+            branchPanel.Controls.Add(button7);
+            branchPanel.Controls.Add(textBox20);
+            branchPanel.Controls.Add(label32);
+            branchPanel.Controls.Add(textBox19);
+            branchPanel.Controls.Add(label31);
+            branchPanel.Controls.Add(textBox18);
+            branchPanel.Controls.Add(label30);
+            branchPanel.Location = new Point(1323, 45);
+            branchPanel.Name = "branchPanel";
+            branchPanel.Size = new Size(576, 314);
+            branchPanel.TabIndex = 19;
+            // 
+            // comboBox8
+            // 
+            comboBox8.FormattingEnabled = true;
+            comboBox8.Location = new Point(146, 147);
+            comboBox8.Name = "comboBox8";
+            comboBox8.Size = new Size(173, 28);
+            comboBox8.TabIndex = 28;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
+            label33.Location = new Point(11, 150);
+            label33.Name = "label33";
+            label33.Size = new Size(113, 20);
+            label33.TabIndex = 27;
+            label33.Text = "Тип відділення";
+            // 
+            // button7
+            // 
+            button7.Location = new Point(11, 193);
+            button7.Name = "button7";
+            button7.Size = new Size(222, 29);
+            button7.TabIndex = 26;
+            button7.Text = "Додати відділення";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
+            // textBox20
+            // 
+            textBox20.Location = new Point(146, 55);
+            textBox20.Name = "textBox20";
+            textBox20.Size = new Size(173, 27);
+            textBox20.TabIndex = 25;
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(11, 105);
+            label32.Name = "label32";
+            label32.Size = new Size(69, 20);
+            label32.TabIndex = 24;
+            label32.Text = "Телефон";
+            // 
+            // textBox19
+            // 
+            textBox19.Location = new Point(146, 102);
+            textBox19.Name = "textBox19";
+            textBox19.Size = new Size(173, 27);
+            textBox19.TabIndex = 23;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(11, 58);
+            label31.Name = "label31";
+            label31.Size = new Size(59, 20);
+            label31.TabIndex = 22;
+            label31.Text = "Адреса";
+            // 
+            // textBox18
+            // 
+            textBox18.Location = new Point(146, 13);
+            textBox18.Name = "textBox18";
+            textBox18.Size = new Size(173, 27);
+            textBox18.TabIndex = 21;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(11, 16);
+            label30.Name = "label30";
+            label30.Size = new Size(129, 20);
+            label30.TabIndex = 20;
+            label30.Text = "Назва відділення";
+            // 
+            // creditPaymentPanel
+            // 
+            creditPaymentPanel.Controls.Add(button6);
+            creditPaymentPanel.Controls.Add(comboBox7);
+            creditPaymentPanel.Controls.Add(label29);
+            creditPaymentPanel.Controls.Add(textBox17);
+            creditPaymentPanel.Controls.Add(label28);
+            creditPaymentPanel.Location = new Point(670, 368);
+            creditPaymentPanel.Name = "creditPaymentPanel";
+            creditPaymentPanel.Size = new Size(296, 149);
+            creditPaymentPanel.TabIndex = 18;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(10, 100);
+            button6.Name = "button6";
+            button6.Size = new Size(128, 29);
+            button6.TabIndex = 24;
+            button6.Text = "Підтвердити";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
+            // comboBox7
+            // 
+            comboBox7.FormattingEnabled = true;
+            comboBox7.Location = new Point(108, 47);
+            comboBox7.Name = "comboBox7";
+            comboBox7.Size = new Size(173, 28);
+            comboBox7.TabIndex = 22;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.LiveSetting = System.Windows.Forms.Automation.AutomationLiveSetting.Polite;
+            label29.Location = new Point(7, 50);
+            label29.Name = "label29";
+            label29.Size = new Size(96, 20);
+            label29.TabIndex = 21;
+            label29.Text = "Тип платежу";
+            // 
+            // textBox17
+            // 
+            textBox17.Location = new Point(108, 14);
+            textBox17.Name = "textBox17";
+            textBox17.Size = new Size(173, 27);
+            textBox17.TabIndex = 19;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(10, 17);
+            label28.Name = "label28";
+            label28.Size = new Size(44, 20);
+            label28.TabIndex = 18;
+            label28.Text = "Сума";
+            // 
+            // creditPanel
+            // 
+            creditPanel.Controls.Add(button5);
+            creditPanel.Controls.Add(comboBox6);
+            creditPanel.Controls.Add(label26);
+            creditPanel.Controls.Add(textBox15);
+            creditPanel.Controls.Add(label24);
+            creditPanel.Location = new Point(603, 349);
+            creditPanel.Name = "creditPanel";
+            creditPanel.Size = new Size(583, 165);
+            creditPanel.TabIndex = 17;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(11, 71);
+            button5.Name = "button5";
+            button5.Size = new Size(128, 29);
+            button5.TabIndex = 23;
+            button5.Text = "Підтвердити";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // comboBox6
+            // 
+            comboBox6.FormattingEnabled = true;
+            comboBox6.Location = new Point(382, 24);
+            comboBox6.Name = "comboBox6";
+            comboBox6.Size = new Size(173, 28);
+            comboBox6.TabIndex = 20;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(324, 28);
+            label26.Name = "label26";
+            label26.Size = new Size(52, 20);
+            label26.TabIndex = 19;
+            label26.Text = "Статус";
+            // 
+            // textBox15
+            // 
+            textBox15.Location = new Point(127, 25);
+            textBox15.Name = "textBox15";
+            textBox15.Size = new Size(173, 27);
+            textBox15.TabIndex = 17;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(14, 30);
+            label24.Name = "label24";
+            label24.Size = new Size(44, 20);
+            label24.TabIndex = 16;
+            label24.Text = "Сума";
+            // 
             // searchPanel
             // 
             searchPanel.Controls.Add(label18);
@@ -247,7 +878,7 @@ namespace BankSystem
             searchPanel.Controls.Add(button2);
             searchPanel.Controls.Add(label9);
             searchPanel.Controls.Add(textBox8);
-            searchPanel.Location = new Point(537, 44);
+            searchPanel.Location = new Point(813, 44);
             searchPanel.Name = "searchPanel";
             searchPanel.Size = new Size(392, 188);
             searchPanel.TabIndex = 4;
@@ -313,6 +944,7 @@ namespace BankSystem
             // 
             // accountPanel
             // 
+            accountPanel.Controls.Add(creditAccountPanel);
             accountPanel.Controls.Add(transactionClientPanel);
             accountPanel.Controls.Add(checkBox1);
             accountPanel.Controls.Add(button4);
@@ -323,11 +955,55 @@ namespace BankSystem
             accountPanel.Controls.Add(comboBox4);
             accountPanel.Controls.Add(label14);
             accountPanel.Controls.Add(label15);
-            accountPanel.Location = new Point(572, 238);
+            accountPanel.Location = new Point(12, 44);
             accountPanel.Name = "accountPanel";
-            accountPanel.Size = new Size(755, 241);
+            accountPanel.Size = new Size(755, 273);
             accountPanel.TabIndex = 16;
             accountPanel.Visible = false;
+            // 
+            // creditAccountPanel
+            // 
+            creditAccountPanel.Controls.Add(textBox13);
+            creditAccountPanel.Controls.Add(textBox12);
+            creditAccountPanel.Controls.Add(label22);
+            creditAccountPanel.Controls.Add(label23);
+            creditAccountPanel.Location = new Point(388, 192);
+            creditAccountPanel.Name = "creditAccountPanel";
+            creditAccountPanel.Size = new Size(316, 72);
+            creditAccountPanel.TabIndex = 18;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(116, 10);
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(173, 27);
+            textBox13.TabIndex = 14;
+            // 
+            // textBox12
+            // 
+            textBox12.Location = new Point(116, 41);
+            textBox12.Name = "textBox12";
+            textBox12.Size = new Size(173, 27);
+            textBox12.TabIndex = 13;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(3, 46);
+            label22.Name = "label22";
+            label22.Size = new Size(44, 20);
+            label22.TabIndex = 3;
+            label22.Text = "Сума";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(0, 13);
+            label23.Name = "label23";
+            label23.Size = new Size(94, 20);
+            label23.TabIndex = 2;
+            label23.Text = "Річна ставка";
+            label23.Click += label23_Click;
             // 
             // transactionClientPanel
             // 
@@ -515,6 +1191,7 @@ namespace BankSystem
             додатиКредитToolStripMenuItem.Size = new Size(252, 26);
             додатиКредитToolStripMenuItem.Text = "Додати кредит";
             додатиКредитToolStripMenuItem.Visible = false;
+            додатиКредитToolStripMenuItem.Click += додатиКредитToolStripMenuItem_Click;
             // 
             // редагуватиКредитToolStripMenuItem
             // 
@@ -522,6 +1199,7 @@ namespace BankSystem
             редагуватиКредитToolStripMenuItem.Size = new Size(252, 26);
             редагуватиКредитToolStripMenuItem.Text = "Редагувати кредит";
             редагуватиКредитToolStripMenuItem.Visible = false;
+            редагуватиКредитToolStripMenuItem.Click += редагуватиКредитToolStripMenuItem_Click;
             // 
             // додатиПлатіжToolStripMenuItem
             // 
@@ -529,6 +1207,7 @@ namespace BankSystem
             додатиПлатіжToolStripMenuItem.Size = new Size(252, 26);
             додатиПлатіжToolStripMenuItem.Text = "Додати платіж";
             додатиПлатіжToolStripMenuItem.Visible = false;
+            додатиПлатіжToolStripMenuItem.Click += додатиПлатіжToolStripMenuItem_Click;
             // 
             // додатиПрацівникаToolStripMenuItem
             // 
@@ -536,6 +1215,7 @@ namespace BankSystem
             додатиПрацівникаToolStripMenuItem.Size = new Size(252, 26);
             додатиПрацівникаToolStripMenuItem.Text = "Додати працівника";
             додатиПрацівникаToolStripMenuItem.Visible = false;
+            додатиПрацівникаToolStripMenuItem.Click += додатиПрацівникаToolStripMenuItem_Click;
             // 
             // редагуватиПрацівникаToolStripMenuItem
             // 
@@ -543,6 +1223,7 @@ namespace BankSystem
             редагуватиПрацівникаToolStripMenuItem.Size = new Size(252, 26);
             редагуватиПрацівникаToolStripMenuItem.Text = "Редагувати працівника";
             редагуватиПрацівникаToolStripMenuItem.Visible = false;
+            редагуватиПрацівникаToolStripMenuItem.Click += редагуватиПрацівникаToolStripMenuItem_Click;
             // 
             // видалитиПрацівникаToolStripMenuItem
             // 
@@ -550,6 +1231,7 @@ namespace BankSystem
             видалитиПрацівникаToolStripMenuItem.Size = new Size(252, 26);
             видалитиПрацівникаToolStripMenuItem.Text = "Видалити працівника";
             видалитиПрацівникаToolStripMenuItem.Visible = false;
+            видалитиПрацівникаToolStripMenuItem.Click += видалитиПрацівникаToolStripMenuItem_Click;
             // 
             // додатиВіддіденняToolStripMenuItem
             // 
@@ -557,6 +1239,7 @@ namespace BankSystem
             додатиВіддіденняToolStripMenuItem.Size = new Size(252, 26);
             додатиВіддіденняToolStripMenuItem.Text = "Додати віддідення";
             додатиВіддіденняToolStripMenuItem.Visible = false;
+            додатиВіддіденняToolStripMenuItem.Click += додатиВіддіденняToolStripMenuItem_Click;
             // 
             // редагуватиВідділенняToolStripMenuItem
             // 
@@ -564,6 +1247,7 @@ namespace BankSystem
             редагуватиВідділенняToolStripMenuItem.Size = new Size(252, 26);
             редагуватиВідділенняToolStripMenuItem.Text = "Редагувати відділення";
             редагуватиВідділенняToolStripMenuItem.Visible = false;
+            редагуватиВідділенняToolStripMenuItem.Click += редагуватиВідділенняToolStripMenuItem_Click;
             // 
             // видалитиВідділенняToolStripMenuItem
             // 
@@ -571,6 +1255,7 @@ namespace BankSystem
             видалитиВідділенняToolStripMenuItem.Size = new Size(252, 26);
             видалитиВідділенняToolStripMenuItem.Text = "Видалити відділення";
             видалитиВідділенняToolStripMenuItem.Visible = false;
+            видалитиВідділенняToolStripMenuItem.Click += видалитиВідділенняToolStripMenuItem_Click;
             // 
             // фільтраціяToolStripMenuItem
             // 
@@ -674,6 +1359,7 @@ namespace BankSystem
             сумарнийКредитнийПрофільБанкуToolStripMenuItem.Size = new Size(417, 26);
             сумарнийКредитнийПрофільБанкуToolStripMenuItem.Text = "Сумарний кредитний профіль банку";
             сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = false;
+            сумарнийКредитнийПрофільБанкуToolStripMenuItem.Click += сумарнийКредитнийПрофільБанкуToolStripMenuItem_Click;
             // 
             // звітПоДіяльностіСпівробітникаToolStripMenuItem
             // 
@@ -681,12 +1367,13 @@ namespace BankSystem
             звітПоДіяльностіСпівробітникаToolStripMenuItem.Size = new Size(417, 26);
             звітПоДіяльностіСпівробітникаToolStripMenuItem.Text = "Звіт по діяльності співробітника";
             звітПоДіяльностіСпівробітникаToolStripMenuItem.Visible = false;
+            звітПоДіяльностіСпівробітникаToolStripMenuItem.Click += звітПоДіяльностіСпівробітникаToolStripMenuItem_Click;
             // 
             // reportPanel
             // 
             reportPanel.Controls.Add(reportAccountPanel);
             reportPanel.Controls.Add(textBox9);
-            reportPanel.Location = new Point(3, 121);
+            reportPanel.Location = new Point(793, 51);
             reportPanel.Name = "reportPanel";
             reportPanel.Size = new Size(513, 317);
             reportPanel.TabIndex = 5;
@@ -754,216 +1441,6 @@ namespace BankSystem
             textBox9.Size = new Size(488, 131);
             textBox9.TabIndex = 0;
             // 
-            // clientPanel
-            // 
-            clientPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            clientPanel.Controls.Add(button1);
-            clientPanel.Controls.Add(accountClientPanel);
-            clientPanel.Controls.Add(textBox7);
-            clientPanel.Controls.Add(textBox4);
-            clientPanel.Controls.Add(textBox5);
-            clientPanel.Controls.Add(textBox6);
-            clientPanel.Controls.Add(label8);
-            clientPanel.Controls.Add(label7);
-            clientPanel.Controls.Add(label6);
-            clientPanel.Controls.Add(label5);
-            clientPanel.Controls.Add(label4);
-            clientPanel.Controls.Add(dateTimePicker1);
-            clientPanel.Controls.Add(label3);
-            clientPanel.Controls.Add(label2);
-            clientPanel.Controls.Add(label1);
-            clientPanel.Controls.Add(textBox3);
-            clientPanel.Controls.Add(textBox2);
-            clientPanel.Controls.Add(textBox1);
-            clientPanel.Location = new Point(1008, 31);
-            clientPanel.Name = "clientPanel";
-            clientPanel.Size = new Size(738, 239);
-            clientPanel.TabIndex = 1;
-            clientPanel.Visible = false;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(18, 149);
-            button1.Name = "button1";
-            button1.Size = new Size(147, 29);
-            button1.TabIndex = 15;
-            button1.Text = "Оформити клієнта";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // accountClientPanel
-            // 
-            accountClientPanel.Controls.Add(comboBox2);
-            accountClientPanel.Controls.Add(comboBox1);
-            accountClientPanel.Controls.Add(label12);
-            accountClientPanel.Controls.Add(label11);
-            accountClientPanel.Location = new Point(364, 140);
-            accountClientPanel.Name = "accountClientPanel";
-            accountClientPanel.Size = new Size(356, 76);
-            accountClientPanel.TabIndex = 5;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(164, 43);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(173, 28);
-            comboBox2.TabIndex = 7;
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(164, 7);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(173, 28);
-            comboBox1.TabIndex = 6;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(11, 46);
-            label12.Name = "label12";
-            label12.Size = new Size(60, 20);
-            label12.TabIndex = 2;
-            label12.Text = "Валюта";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(11, 10);
-            label11.Name = "label11";
-            label11.Size = new Size(93, 20);
-            label11.TabIndex = 1;
-            label11.Text = "Тип рахунку";
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(527, 114);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(173, 27);
-            textBox7.TabIndex = 14;
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(527, 79);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(173, 27);
-            textBox4.TabIndex = 13;
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(527, 46);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(173, 27);
-            textBox5.TabIndex = 12;
-            // 
-            // textBox6
-            // 
-            textBox6.Location = new Point(527, 13);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(173, 27);
-            textBox6.TabIndex = 11;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(374, 117);
-            label8.Name = "label8";
-            label8.Size = new Size(59, 20);
-            label8.TabIndex = 10;
-            label8.Text = "Адреса";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(374, 82);
-            label7.Name = "label7";
-            label7.Size = new Size(76, 20);
-            label7.TabIndex = 9;
-            label7.Text = "Ел. пошта";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(374, 49);
-            label6.Name = "label6";
-            label6.Size = new Size(126, 20);
-            label6.TabIndex = 8;
-            label6.Text = "Номер телефону";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(374, 16);
-            label5.Name = "label5";
-            label5.Size = new Size(126, 20);
-            label5.TabIndex = 7;
-            label5.Text = "Номер паспорта";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(18, 117);
-            label4.Name = "label4";
-            label4.Size = new Size(133, 20);
-            label4.TabIndex = 6;
-            label4.Text = "Дата народження";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(157, 112);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(173, 27);
-            dateTimePicker1.TabIndex = 5;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(18, 82);
-            label3.Name = "label3";
-            label3.Size = new Size(92, 20);
-            label3.TabIndex = 4;
-            label3.Text = "По батькові";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(18, 49);
-            label2.Name = "label2";
-            label2.Size = new Size(77, 20);
-            label2.TabIndex = 3;
-            label2.Text = "Прізвище";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(18, 16);
-            label1.Name = "label1";
-            label1.Size = new Size(35, 20);
-            label1.TabIndex = 2;
-            label1.Text = "Ім'я";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(157, 79);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(173, 27);
-            textBox3.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(157, 46);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(173, 27);
-            textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(157, 13);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(173, 27);
-            textBox1.TabIndex = 0;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -984,10 +1461,24 @@ namespace BankSystem
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            clientPanel.ResumeLayout(false);
+            clientPanel.PerformLayout();
+            accountClientPanel.ResumeLayout(false);
+            accountClientPanel.PerformLayout();
+            employeePanel.ResumeLayout(false);
+            employeePanel.PerformLayout();
+            branchPanel.ResumeLayout(false);
+            branchPanel.PerformLayout();
+            creditPaymentPanel.ResumeLayout(false);
+            creditPaymentPanel.PerformLayout();
+            creditPanel.ResumeLayout(false);
+            creditPanel.PerformLayout();
             searchPanel.ResumeLayout(false);
             searchPanel.PerformLayout();
             accountPanel.ResumeLayout(false);
             accountPanel.PerformLayout();
+            creditAccountPanel.ResumeLayout(false);
+            creditAccountPanel.PerformLayout();
             transactionClientPanel.ResumeLayout(false);
             transactionClientPanel.PerformLayout();
             menuStrip2.ResumeLayout(false);
@@ -996,10 +1487,6 @@ namespace BankSystem
             reportPanel.PerformLayout();
             reportAccountPanel.ResumeLayout(false);
             reportAccountPanel.PerformLayout();
-            clientPanel.ResumeLayout(false);
-            clientPanel.PerformLayout();
-            accountClientPanel.ResumeLayout(false);
-            accountClientPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1102,5 +1589,50 @@ namespace BankSystem
         private TextBox textBox11;
         private Label label21;
         private Label label20;
+        private Panel creditAccountPanel;
+        private TextBox textBox12;
+        private Label label22;
+        private Label label23;
+        private TextBox textBox13;
+        private Panel creditPanel;
+        private TextBox textBox15;
+        private Label label24;
+        private Button button5;
+        private ComboBox comboBox6;
+        private Label label26;
+        private Panel creditPaymentPanel;
+        private Button button6;
+        private ComboBox comboBox7;
+        private Label label29;
+        private TextBox textBox17;
+        private Label label28;
+        private Panel branchPanel;
+        private TextBox textBox20;
+        private Label label32;
+        private TextBox textBox19;
+        private Label label31;
+        private TextBox textBox18;
+        private Label label30;
+        private ComboBox comboBox8;
+        private Label label33;
+        private Button button7;
+        private Panel employeePanel;
+        private Label label39;
+        private Label label38;
+        private TextBox textBox14;
+        private TextBox textBox16;
+        private TextBox textBox21;
+        private Label label25;
+        private Label label27;
+        private Label label34;
+        private Label label35;
+        private Label label36;
+        private Label label37;
+        private TextBox textBox22;
+        private TextBox textBox23;
+        private TextBox textBox24;
+        private ComboBox comboBox10;
+        private ComboBox comboBox9;
+        private Button button8;
     }
 }

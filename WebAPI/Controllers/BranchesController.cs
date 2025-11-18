@@ -40,7 +40,7 @@ public class BranchesController : Controller
         var result = branchesCommandManager.LoadBranches();
         return Ok(result);
     }
-    [HttpGet("load-branchType")]
+    [HttpGet("load-branchTypes")]
     public IActionResult LoadBranchTypes()
     {
         var result = branchesCommandManager.LoadBranchTypes();

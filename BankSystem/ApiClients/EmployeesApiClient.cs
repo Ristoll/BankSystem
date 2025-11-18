@@ -65,15 +65,14 @@ public class EmployeesApiClient : AbstractApiClient
     /// <summary>
     /// POST api/employees/login-empployee
     /// </summary>
-    public async Task<EmployeeDto?> LoginEmployeeAsync(string phone, string password)
+    public async Task<bool> LoginEmployeeAsync(string phone, string password)
     {
-        // Формуємо URL з query
-        var url = $"api/employees/login-empployee?phone={phone}&password={password}";
+        var url = $"api/employees/login-employee?phone={Uri.EscapeDataString(phone)}&password={Uri.EscapeDataString(password)}";
 
         var response = await client.PostAsync(url, null);
 
-        if (!await HandleErrorAsync(response)) return null;
+        if (!await HandleErrorAsync(response)) return false;
 
-        return await response.Content.ReadFromJsonAsync<EmployeeDto>();
+        return await response.Content.ReadFromJsonAsync<bool>();
     }
 }

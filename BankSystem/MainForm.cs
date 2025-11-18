@@ -17,6 +17,7 @@ namespace BankSystem
     {
         private readonly IReportService reportService;
         private readonly ICurrentUserService currentUserService;
+        private readonly IPasswordHasher passwordHasher;
         private readonly ClientsApiClient clientsApiClient;
         private readonly AccountsApiClient accountsApiClient;
         private readonly TransactionsApiClient transactionsApiClient;
@@ -26,11 +27,14 @@ namespace BankSystem
         private readonly BranchesApiClient branchesApiClient;
         private string currentTable = "";
 
-        public MainForm(IReportService reportService, ICurrentUserService currentUserService)
+        public MainForm(IReportService reportService, ICurrentUserService currentUserService, IPasswordHasher passwordHasher)
         {
             InitializeComponent();
 
             this.reportService = reportService;
+            this.currentUserService = currentUserService;
+            this.passwordHasher = passwordHasher;
+
             HttpClient httpClient = new HttpClient
             {
                 BaseAddress = new Uri("http://localhost:5136/") // або адреса твого WebAPI
@@ -62,6 +66,11 @@ namespace BankSystem
             await PopulateCurrenciesComboBoxAsync(comboBox2);
             await PopulateCurrenciesComboBoxAsync(comboBox3);
             await PopulateTransactionTypesComboBoxAsync(comboBox5);
+            await PopulateBranchTypesComboBoxAsync(comboBox8);
+            await PopulateCreditStatusesComboBoxAsync(comboBox6);
+            await PopulatePaymentTypesComboBoxAsync(comboBox7);
+            await PopulateBranchTypesComboBoxAsync(comboBox10);
+            await PopulateEmployeeRolesComboBoxAsync(comboBox9);
         }
         private void ShowTable<T>(List<T> list)
         {
@@ -212,10 +221,10 @@ namespace BankSystem
                     OpenDate = DateOnly.FromDateTime(DateTime.Now),
                 };
             }
-            
 
 
-                ShowResult(result);
+
+            ShowResult(result);
         }
 
         private void редагуватиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,6 +250,68 @@ namespace BankSystem
             comboBox1.DisplayMember = "Name";       // що буде показано
             comboBox1.ValueMember = "AccountTypeId"; // значення, яке можна використовувати у коді
         }
+        private async Task PopulateBranchTypesComboBoxAsync(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var branchTypes = await branchesApiClient.LoadBranchTypesAsync();
+            if (branchTypes == null || branchTypes.Count == 0)
+            {
+                MessageBox.Show("Типи відділень відсутні.");
+                return;
+            }
+
+            comboBox.DataSource = branchTypes;
+            comboBox.DisplayMember = "Name";          // що бачить користувач
+            comboBox.ValueMember = "BranchTypeId";    // використовується в коді
+        }
+        private async Task PopulateEmployeeRolesComboBoxAsync(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var roles = await employeesApiClient.LoadEmployeeRolesAsync();
+            if (roles == null || roles.Count == 0)
+            {
+                MessageBox.Show("Ролі працівників відсутні.");
+                return;
+            }
+
+            comboBox.DataSource = roles;
+            comboBox.DisplayMember = "Name";           // що бачить користувач
+            comboBox.ValueMember = "RoleId";   // значення для коду
+        }
+
+        private async Task PopulateCreditStatusesComboBoxAsync(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync();
+            if (creditStatuses == null || creditStatuses.Count == 0)
+            {
+                MessageBox.Show("Статуси кредитів відсутні.");
+                return;
+            }
+
+            comboBox.DataSource = creditStatuses;
+            comboBox.DisplayMember = "Name";           // що бачить користувач
+            comboBox.ValueMember = "StatusId";   // значення для коду
+        }
+        private async Task PopulatePaymentTypesComboBoxAsync(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var paymentTypes = await paymentsApiClient.LoadPaymentTypesAsync();
+            if (paymentTypes == null || paymentTypes.Count == 0)
+            {
+                MessageBox.Show("Типи платежів відсутні.");
+                return;
+            }
+
+            comboBox.DataSource = paymentTypes;
+            comboBox.DisplayMember = "Name";           // що бачить користувач
+            comboBox.ValueMember = "PaymentTypeId";    // значення для коду
+        }
+
         private async Task PopulateCurrenciesComboBoxAsync(ComboBox comboBox2)
         {
             comboBox2.Items.Clear();
@@ -425,10 +496,14 @@ namespace BankSystem
             searchPanel.Parent = splitContainer1.Panel2;
             reportPanel.Visible = false;
             reportPanel.Parent = splitContainer1.Panel2;
+            branchPanel.Visible = false;
+            branchPanel.Parent = splitContainer1.Panel2;
             reportAccountPanel.Parent = reportPanel;
-
+            creditAccountPanel.Visible = false;
+            creditAccountPanel.Parent = accountPanel;
             accountClientPanel.Visible = false;
             accountClientPanel.Parent = clientPanel;
+
             panelToShow.Visible = true;
             panelToShow.BringToFront();
             menuStrip2.BringToFront();
@@ -817,8 +892,41 @@ namespace BankSystem
 
                 ShowResult(result);
             }
+            else if (button4.Text == "Додати кредит")
+            {
+                var cellValue = dataGridView1.CurrentRow.Cells["AccountId"].Value;
 
+                if (cellValue == null || cellValue == DBNull.Value)
+                {
+                    MessageBox.Show("У виділеного рахунку відсутній AccountId.");
+                    return;
+                }
 
+                int accountId = Convert.ToInt32(cellValue);
+                var accounts = await accountsApiClient.LoadAccountsAsync();
+
+                AccountDto account = null;
+                foreach (var acc in accounts)
+                {
+                    if (acc.AccountId == accountId)
+                    {
+                        account = acc;
+                    }
+                }
+                var creditDto = new CreditDto()
+                {
+                    ClientId = account.ClientId,
+                    AccountId = account.AccountId,
+                    CreditAmount = decimal.Parse(textBox12.Text),
+                    InterestRate = decimal.Parse(textBox13.Text),
+                    StartDate = DateOnly.FromDateTime(DateTime.Now),
+                    StatusId = 1,
+                    EmployeeId = currentUserService.EmployeeId
+                };
+
+                var result = await creditsApiClient.AddCreditAsync(creditDto);
+                ShowResult(result);
+            }
         }
 
         private void транзакціїЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
@@ -833,6 +941,302 @@ namespace BankSystem
             ShowPanel(accountPanel);
             button4.Text = "Додати транзакцію";
         }
+
+        private void сумарнийКредитнийПрофільБанкуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(reportPanel);
+            reportAccountPanel.Hide();
+            string report = reportService.GenerateCreditPortfolioReportContent();
+            textBox9.Text = report;
+        }
+
+        private void звітПоДіяльностіСпівробітникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(reportPanel);
+            reportAccountPanel.Hide();
+
+            // Перевіряємо, що рядок виділений
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                return;
+            }
+
+            // Отримуємо ClientId із виділеного рядка
+            var cellValue = dataGridView1.CurrentRow.Cells["EmployeeId"].Value;
+
+            if (cellValue == null || cellValue == DBNull.Value)
+            {
+                MessageBox.Show("У виділеного співробітника відсутній EmployeeId.");
+                return;
+            }
+
+            int clientId = Convert.ToInt32(cellValue);
+
+            var result = reportService.GenerateEmployeeActivityReportContent(clientId);
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void додатиКредитToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(accountPanel);
+            button4.Text = "Додати кредит";
+
+            // Перевіряємо, що рядок виділений
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                return;
+            }
+        }
+
+        private async void видалитиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                return;
+            }
+
+            // Отримуємо ClientId із виділеного рядка
+            var cellValue = dataGridView1.CurrentRow.Cells["EmployeeId"].Value;
+
+            if (cellValue == null || cellValue == DBNull.Value)
+            {
+                MessageBox.Show("У виділеного співробітника відсутній EmployeeId.");
+                return;
+            }
+
+            int clientId = Convert.ToInt32(cellValue);
+            if (clientId == currentUserService.EmployeeId)
+            {
+                MessageBox.Show("Ви не можете видалити себе!");
+                return;
+            }
+
+            var result = await employeesApiClient.DeleteEmployeeAsync(clientId);
+            ShowResult(result);
+        }
+
+        private async void видалитиВідділенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                return;
+            }
+
+            // Отримуємо ClientId із виділеного рядка
+            var cellValue = dataGridView1.CurrentRow.Cells["BranchId"].Value;
+
+            if (cellValue == null || cellValue == DBNull.Value)
+            {
+                MessageBox.Show("У виділеного відділення відсутній BranchId.");
+                return;
+            }
+
+            int clientId = Convert.ToInt32(cellValue);
+            if (clientId == currentUserService.BankBranchId)
+            {
+                MessageBox.Show("Ви не можете видалити відділення, в якому працюєте!");
+                return;
+            }
+
+            var result = await branchesApiClient.DeleteBranchAsync(clientId);
+            ShowResult(result);
+        }
+
+        private void додатиВіддіденняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(branchPanel);
+            button7.Text = "Додати відділення";
+        }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            BankBranchDto branchDto = new BankBranchDto()
+            {
+                BranchName = textBox18.Text,
+                Address = textBox20.Text,
+                Phone = textBox19.Text,
+                BranchTypeId = comboBox8.SelectedIndex + 1
+            };
+            bool result;
+            if (button7.Text == "Додати відділення")
+            {
+                result = await branchesApiClient.AddBranchAsync(branchDto);
+                ShowResult(result);
+            }
+            else if (button7.Text == "Редагувати відділення")
+            {
+                result = await branchesApiClient.UpdateBranchAsync(branchDto);
+                ShowResult(result);
+            }
+
+        }
+
+        private void редагуватиВідділенняToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(branchPanel);
+            button7.Text = "Редагувати відділення";
+            // Перевіряємо, що рядок виділений
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть відділення у таблиці.");
+                return;
+            }
+            if (dataGridView1.CurrentRow == null) return;
+
+            // Витягуємо дані з поточного рядка
+            var row = dataGridView1.CurrentRow;
+
+            textBox18.Text = Convert.ToString(row.Cells["BranchName"].Value);
+            textBox20.Text = Convert.ToString(row.Cells["Address"].Value);
+            textBox19.Text = Convert.ToString(row.Cells["Phone"].Value);
+
+            int branchTypeId = Convert.ToInt32(row.Cells["BranchTypeId"].Value);
+
+            comboBox8.SelectedValue = branchTypeId - 1;
+        }
+
+        private void редагуватиКредитToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(creditPanel);
+            // Перевіряємо, що рядок виділений
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть кредит у таблиці.");
+                return;
+            }
+            if (dataGridView1.CurrentRow == null) return;
+
+            // Витягуємо дані з поточного рядка
+            var row = dataGridView1.CurrentRow;
+
+            textBox15.Text = row.Cells["CreditAmount"].Value.ToString();
+            comboBox6.SelectedIndex = Convert.ToInt32(row.Cells["StatusId"].Value) - 1;
+        }
+
+        private void додатиПлатіжToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(creditPaymentPanel);
+        }
+
+        private void додатиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(employeePanel);
+            button8.Text = "Додати співробітника";
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+            var row = dataGridView1.CurrentRow;
+
+            // Обов'язково конвертуємо значення у потрібні типи
+            var creditDto = new CreditDto()
+            {
+                CreditId = Convert.ToInt32(row.Cells["CreditId"].Value),
+                ClientId = Convert.ToInt32(row.Cells["ClientId"].Value),
+                AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
+                CreditAmount = Convert.ToDecimal(textBox15.Text),
+                InterestRate = Convert.ToDecimal(row.Cells["InterestRate"].Value),
+                StartDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["StartDate"].Value)),
+                EndDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["EndDate"].Value)),
+                StatusId = Convert.ToInt32(comboBox6.SelectedIndex + 1),
+                EmployeeId = row.Cells["EmployeeId"].Value == DBNull.Value
+                    ? null
+                    : Convert.ToInt32(row.Cells["EmployeeId"].Value)
+            };
+            var reustl = await creditsApiClient.UpdateCreditAsync(creditDto);
+            ShowResult(reustl);
+        }
+
+        private async void button6_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть кредит у таблиці.");
+                return;
+            }
+            if (dataGridView1.CurrentRow == null) return;
+
+            // Витягуємо дані з поточного рядка
+            var row = dataGridView1.CurrentRow;
+            PaymentDto paymentDto = new PaymentDto()
+            {
+                CreditId = Convert.ToInt32(row.Cells["CreditId"].Value),
+                PaymentTypeId = Convert.ToInt32(comboBox7.SelectedIndex + 1),
+                PaymentDate = DateOnly.FromDateTime(DateTime.Now),
+                Amount = Convert.ToDecimal(textBox17.Text)
+            };
+            var result = await paymentsApiClient.AddPaymentAsync(paymentDto);
+            ShowResult(result);
+        }
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            EmployeeDto employeeDto = new EmployeeDto()
+            {
+                FirstName = textBox24.Text,
+                LastName = textBox23.Text,
+                MiddleName = textBox22.Text,
+                Password = passwordHasher.Hash(textBox21.Text),
+                Phone = textBox16.Text,
+                Email = textBox14.Text,
+                EmployeeId = comboBox9.SelectedIndex + 1,
+                BranchId = comboBox10.SelectedIndex + 1
+            };
+            bool result;
+
+            if (button8.Text == "Додати співробітника")
+            {
+                result = await employeesApiClient.AddEmployeeAsync(employeeDto);
+                ShowResult(result);
+            }
+            else if (button8.Text == "Редагувати співробітника")
+            {
+                result = await employeesApiClient.UpdateEmployeeAsync(employeeDto);
+                ShowResult(result);
+            }
+        }
+
+        private void редагуватиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(employeePanel);
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                return;
+            }
+
+            var row = dataGridView1.CurrentRow;
+
+            // Заповнюємо текстбокси
+            textBox24.Text = Convert.ToString(row.Cells["FirstName"].Value);
+            textBox23.Text = Convert.ToString(row.Cells["LastName"].Value);
+            textBox22.Text = Convert.ToString(row.Cells["MiddleName"].Value);
+            textBox16.Text = Convert.ToString(row.Cells["Phone"].Value);
+            textBox14.Text = Convert.ToString(row.Cells["Email"].Value);
+
+            // Пароль зазвичай не підтягуємо, залишаємо пустим
+            textBox21.Text = "";
+
+            // ComboBox: EmployeeRole
+            int roleId = Convert.ToInt32(row.Cells["EmployeeRoleId"].Value);
+            comboBox9.SelectedValue = roleId;
+
+            // ComboBox: Branch
+            int branchId = Convert.ToInt32(row.Cells["BranchId"].Value);
+            comboBox10.SelectedValue = branchId;
+
+            // Змінюємо текст кнопки для редагування
+            button8.Text = "Редагувати співробітника";
+        }
     }
 }
+
 

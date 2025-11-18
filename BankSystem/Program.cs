@@ -17,12 +17,13 @@ namespace BankSystem
 
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddScoped<MainForm>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<RegistrationForm>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<BankDbContext>();
             var provider = services.BuildServiceProvider();
 
-            Application.Run(provider.GetRequiredService<MainForm>());
+            Application.Run(provider.GetRequiredService<RegistrationForm>());
         }
     }
 }
