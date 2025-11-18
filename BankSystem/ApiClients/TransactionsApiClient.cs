@@ -48,9 +48,8 @@ public class TransactionsApiClient : AbstractApiClient
     /// </summary>
     public async Task<List<TransactionDto>?> SearchByPeriodAsync(DateTime startDate, DateTime endDate)
     {
-        // ISO формат гарантує коректне парсіння на бекенді
-        string startStr = startDate.ToString("o", CultureInfo.InvariantCulture);
-        string endStr = endDate.ToString("o", CultureInfo.InvariantCulture);
+        string startStr = startDate.ToString("yyyy-MM-ddTHH:mm:ss");
+        string endStr = endDate.ToString("yyyy-MM-ddTHH:mm:ss");
 
         var url = $"api/transactions/search-transaction-by-period?startDate={startStr}&endDate={endStr}";
 

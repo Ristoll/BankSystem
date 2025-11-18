@@ -52,7 +52,7 @@ namespace BankSystem
             PopulateAccountTypesSubMenu();
             PopulateAccountsByCurrencySubMenu();
             PopulateAccountsByStatusSubMenu();
-            
+            PopulateCreditStatusesSubMenu();
             this.currentUserService = currentUserService;
         }
         private async void MainForm_Load(object sender, EventArgs e)
@@ -61,6 +61,7 @@ namespace BankSystem
             await PopulateAccountTypesComboBoxAsync(comboBox4);
             await PopulateCurrenciesComboBoxAsync(comboBox2);
             await PopulateCurrenciesComboBoxAsync(comboBox3);
+            await PopulateTransactionTypesComboBoxAsync(comboBox5);
         }
         private void ShowTable<T>(List<T> list)
         {
@@ -97,6 +98,7 @@ namespace BankSystem
         private async void транзакціїToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Transactions";
+            ShowSubMenuForTable(currentTable);
 
             var transactions = await transactionsApiClient.LoadTransactionsAsync();
             ShowTable(transactions ?? new List<TransactionDto>());
@@ -107,6 +109,7 @@ namespace BankSystem
         private async void кредитиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Credits";
+            ShowSubMenuForTable(currentTable);
 
             var credits = await creditsApiClient.LoadCreditsAsync();
             ShowTable(credits ?? new List<CreditDto>());
@@ -117,6 +120,7 @@ namespace BankSystem
         private async void платежіToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Payments";
+            ShowSubMenuForTable(currentTable);
 
             var payments = await paymentsApiClient.LoadPaymentsAsync();
             ShowTable(payments ?? new List<PaymentDto>());
@@ -127,6 +131,7 @@ namespace BankSystem
         private async void співробитникиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Employees";
+            ShowSubMenuForTable(currentTable);
 
             var employees = await employeesApiClient.LoadEmployeesAsync();
             ShowTable(employees ?? new List<EmployeeDto>());
@@ -137,6 +142,7 @@ namespace BankSystem
         private async void відділенняToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "BankBranches";
+            ShowSubMenuForTable(currentTable);
 
             var branches = await branchesApiClient.LoadBranchesAsync();
             ShowTable(branches ?? new List<BankBranchDto>());
@@ -206,8 +212,10 @@ namespace BankSystem
                     OpenDate = DateOnly.FromDateTime(DateTime.Now),
                 };
             }
+            
 
-            ShowResult(result);
+
+                ShowResult(result);
         }
 
         private void редагуватиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
@@ -257,6 +265,22 @@ namespace BankSystem
                 MessageBox.Show($"Помилка при завантаженні валют: {ex.Message}");
             }
         }
+        private async Task PopulateTransactionTypesComboBoxAsync(ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
+
+            var transactionTypes = await transactionsApiClient.LoadTransactionTypesAsync();
+            if (transactionTypes == null || transactionTypes.Count == 0)
+            {
+                MessageBox.Show("Типи транзакцій відсутні.");
+                return;
+            }
+
+            comboBox.DataSource = transactionTypes;
+            comboBox.DisplayMember = "Name";               // показуємо назву типу
+            comboBox.ValueMember = "TransactionTypeId";    // значення для використання в коді
+        }
+
 
         // -------------------- Меню фільтрації --------------------
         private async void PopulateAccountTypesSubMenu()
@@ -322,6 +346,41 @@ namespace BankSystem
                 рахункиЗаСтатусомToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
+        private async void PopulateCreditStatusesSubMenu()
+        {
+            // Очищаємо попередні пункти меню
+            кредитиЗаСтатусомToolStripMenuItem.DropDownItems.Clear();
+
+            // Отримуємо статуси кредитів через API-клієнт
+            var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync();
+            if (creditStatuses == null || creditStatuses.Count == 0)
+            {
+                MessageBox.Show("Статуси кредитів відсутні.");
+                return;
+            }
+
+            // Створюємо підпункти меню
+            foreach (var statusDto in creditStatuses)
+            {
+                ToolStripMenuItem subItem = new ToolStripMenuItem(statusDto.Name);
+
+                subItem.Click += async (s, e) =>
+                {
+                    await LoadCreditsByStatusAsync(statusDto.StatusId);
+                };
+
+                кредитиЗаСтатусомToolStripMenuItem.DropDownItems.Add(subItem);
+            }
+        }
+        private async Task LoadCreditsByStatusAsync(int statusId)
+        {
+            var credits = await creditsApiClient.FilterByStatusAsync(statusId);
+
+            if (credits != null)
+                dataGridView1.DataSource = credits;
+            else
+                MessageBox.Show("Кредитів з таким статусом не знайдено або сталася помилка.");
+        }
 
         private async Task LoadAccountsByStatusAsync(bool isActive)
         {
@@ -360,8 +419,6 @@ namespace BankSystem
         {
             clientPanel.Visible = false;
             clientPanel.Parent = splitContainer1.Panel2;
-            accountClientPanel.Visible = false;
-            accountClientPanel.Parent = clientPanel;
             accountPanel.Visible = false;
             accountPanel.Parent = splitContainer1.Panel2;
             searchPanel.Visible = false;
@@ -370,6 +427,8 @@ namespace BankSystem
             reportPanel.Parent = splitContainer1.Panel2;
             reportAccountPanel.Parent = reportPanel;
 
+            accountClientPanel.Visible = false;
+            accountClientPanel.Parent = clientPanel;
             panelToShow.Visible = true;
             panelToShow.BringToFront();
             menuStrip2.BringToFront();
@@ -471,6 +530,25 @@ namespace BankSystem
             рахункиЗаСтатусомToolStripMenuItem.Visible = false;
             рахункуЗаВласникомToolStripMenuItem.Visible = false;
             випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = false;
+            //Транзакції
+            додатиТранзакціюToolStripMenuItem.Visible = false;
+            транзакціїЗаПеріодToolStripMenuItem.Visible = false;
+            //Кредити
+            додатиКредитToolStripMenuItem.Visible = false;
+            редагуватиКредитToolStripMenuItem.Visible = false;
+            кредитиЗаСтатусомToolStripMenuItem.Visible = false;
+            сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = false;
+            //Платежі
+            додатиПлатіжToolStripMenuItem.Visible = false;
+            //Співробітники
+            додатиПрацівникаToolStripMenuItem.Visible = false;
+            редагуватиПрацівникаToolStripMenuItem.Visible = false;
+            видалитиПрацівникаToolStripMenuItem.Visible = false;
+            звітПоДіяльностіСпівробітникаToolStripMenuItem.Visible = false;
+            //Відділення
+            додатиВіддіденняToolStripMenuItem.Visible = false;
+            видалитиВідділенняToolStripMenuItem.Visible = false;
+            редагуватиВідділенняToolStripMenuItem.Visible = false;
             // Потім показуємо потрібне залежно від таблиці
             switch (tableName)
             {
@@ -489,21 +567,30 @@ namespace BankSystem
                     рахункиЗаСтатусомToolStripMenuItem.Visible = true;
                     рахункуЗаВласникомToolStripMenuItem.Visible = true;
                     випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = true;
+                    додатиТранзакціюToolStripMenuItem.Visible = true;
                     break;
-                case "Branches":
-                    // Меню для філій
+                case "BankBranches":
+                    додатиВіддіденняToolStripMenuItem.Visible = true;
+                    видалитиВідділенняToolStripMenuItem.Visible = true;
+                    редагуватиВідділенняToolStripMenuItem.Visible = true;
                     break;
                 case "Credits":
-                    // Меню для кредитів
+                    додатиКредитToolStripMenuItem.Visible = true;
+                    редагуватиКредитToolStripMenuItem.Visible = true;
+                    кредитиЗаСтатусомToolStripMenuItem.Visible = true;
+                    сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = true;
                     break;
                 case "Employees":
-                    // Меню для співробітників
+                    додатиПрацівникаToolStripMenuItem.Visible = true;
+                    редагуватиПрацівникаToolStripMenuItem.Visible = true;
+                    видалитиПрацівникаToolStripMenuItem.Visible = true;
+                    звітПоДіяльностіСпівробітникаToolStripMenuItem.Visible = true;
                     break;
                 case "Payments":
-                    // Меню для платежів
+                    додатиПлатіжToolStripMenuItem.Visible = true;
                     break;
                 case "Transactions":
-                    // Меню для транзакцій
+                    транзакціїЗаПеріодToolStripMenuItem.Visible = true;
                     break;
             }
         }
@@ -511,19 +598,45 @@ namespace BankSystem
         {
             List<ClientDto>? clients = null;
             List<AccountDto>? accounts = null;
+            List<TransactionDto>? transactions = null;
 
-            if (button2.Text == "Знайти за іменем") // шукаємо по повному імені
+            // пошук за клієнтами
+            if (button2.Text == "Знайти за іменем")
             {
                 clients = await clientsApiClient.SearchByFullNameAsync(textBox8.Text);
             }
-            else if (button2.Text == "Знайти за номером телефону") // шукаємо по телефону
+            else if (button2.Text == "Знайти за номером телефону")
             {
                 clients = await clientsApiClient.SearchByPhoneNumberAsync(textBox8.Text);
             }
-            else if (button2.Text == "Знайти за іменем власника") // шукаємо рахунок
+            // пошук за рахунком
+            else if (button2.Text == "Знайти за іменем власника")
             {
                 accounts = await accountsApiClient.SearchByOwnerAsync(textBox8.Text);
             }
+            // пошук транзакцій за період
+            else if (button2.Text == "Знайти за період")
+            {
+                // ---- ВАЛІДАЦІЯ ----
+
+                if (dateTimePicker5.Value > dateTimePicker4.Value)
+                {
+                    MessageBox.Show(
+                        "Дата початку періоду не може бути пізніше дати завершення.",
+                        "Некоректний період",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                transactions = await transactionsApiClient.SearchByPeriodAsync(
+                    dateTimePicker5.Value,
+                    dateTimePicker4.Value
+                );
+            }
+
+            // ---- РЕЗУЛЬТАТИ ----
 
             if (clients != null && clients.Count > 0)
             {
@@ -535,12 +648,23 @@ namespace BankSystem
                 dataGridView1.DataSource = accounts;
                 dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
             }
+            else if (transactions != null && transactions.Count > 0)
+            {
+                dataGridView1.DataSource = transactions;
+                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
+            }
             else
             {
-                MessageBox.Show("Об’єкт не знайдено.", "Результат пошуку", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Об’єкт не знайдено.",
+                    "Результат пошуку",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 dataGridView1.DataSource = null;
             }
         }
+
 
 
         private void клієнтаЗаНомеромТелефонуToolStripMenuItem_Click(object sender, EventArgs e)
@@ -601,6 +725,7 @@ namespace BankSystem
 
         private void редагуватиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            button4.Text = "Внести зміни";
             if (dataGridView1.CurrentRow == null)
             {
                 MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
@@ -644,36 +769,70 @@ namespace BankSystem
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            var row = dataGridView1.CurrentRow;
-            if (row == null) return;
-
-            DateOnly? closeDate = checkBox1.Checked ? DateOnly.FromDateTime(DateTime.Now) : null;
-
-            // Заповнюємо комбо-бокси правильно через SelectedValue
-            comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
-            comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
-
-            // Баланс
-            textBox10.Text = row.Cells["Balance"].Value?.ToString();
-
-            AccountDto accountDto = new AccountDto()
+            if (button4.Text == "Внести зміни")
             {
-                AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
-                ClientId = Convert.ToInt32(row.Cells["ClientId"].Value),
-                AccountTypeId = Convert.ToInt32(comboBox4.SelectedValue),
-                CurrencyId = Convert.ToInt32(comboBox3.SelectedValue),
-                BranchId = currentUserService.BankBranchId,
-                EmployeeId = currentUserService.EmployeeId,
-                Balance = decimal.TryParse(textBox10.Text, out var bal) ? bal : 0,
-                OpenDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["OpenDate"].Value)),
-                CloseDate = closeDate
-            };
+                var row = dataGridView1.CurrentRow;
+                if (row == null) return;
 
-            var result = await accountsApiClient.UpdateAccountAsync(accountDto);
-            ShowResult(result);
+                DateOnly? closeDate = checkBox1.Checked ? DateOnly.FromDateTime(DateTime.Now) : null;
+
+                // Заповнюємо комбо-бокси правильно через SelectedValue
+                comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
+                comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
+
+                // Баланс
+                textBox10.Text = row.Cells["Balance"].Value?.ToString();
+
+                AccountDto accountDto = new AccountDto()
+                {
+                    AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
+                    ClientId = Convert.ToInt32(row.Cells["ClientId"].Value),
+                    AccountTypeId = Convert.ToInt32(comboBox4.SelectedValue),
+                    CurrencyId = Convert.ToInt32(comboBox3.SelectedValue),
+                    BranchId = currentUserService.BankBranchId,
+                    EmployeeId = currentUserService.EmployeeId,
+                    Balance = decimal.TryParse(textBox10.Text, out var bal) ? bal : 0,
+                    OpenDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["OpenDate"].Value)),
+                    CloseDate = closeDate
+                };
+
+                var result = await accountsApiClient.UpdateAccountAsync(accountDto);
+                ShowResult(result);
+            }
+            else if (button4.Text == "Додати транзакцію")
+            {
+                var row = dataGridView1.CurrentRow;
+                if (row == null) return;
+
+                TransactionDto transactionDto = new TransactionDto()
+                {
+                    AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
+                    TransactionTypeId = comboBox5.SelectedIndex + 1,
+                    Amount = decimal.Parse(textBox11.Text),
+                    TransactionDate = DateTime.Now,
+                    EmployeeId = currentUserService.EmployeeId
+                };
+
+                var result = await transactionsApiClient.AddTransactionAsync(transactionDto);
+
+                ShowResult(result);
+            }
+
+
         }
 
+        private void транзакціїЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(searchPanel);
+            textBox8.Hide();
+            button2.Text = "Знайти за період";
+        }
 
+        private async void додатиТранзакціюToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowPanel(accountPanel);
+            button4.Text = "Додати транзакцію";
+        }
     }
 }
 

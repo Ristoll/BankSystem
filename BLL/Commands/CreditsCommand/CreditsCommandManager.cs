@@ -36,9 +36,9 @@ namespace BLL.Commands.CreditsCommands
             var command = new LoadCreditStatusesCommand(unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося завантажити статуси.");
         }
-        public List<Credit> FilterCreditsByStatus(CreditStatusDto status)
+        public List<Credit> FilterCreditsByStatus(int statusId)
         {
-            var command = new FilterCreditsByStatusCommand(status, unitOfWork, mapper);
+            var command = new FilterCreditsByStatusCommand(statusId, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося відфільтрувати кредити за статусом.");
         }
     }

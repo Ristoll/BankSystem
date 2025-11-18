@@ -12,16 +12,16 @@ namespace BLL.Commands.CreditsCommands
 {
     public class FilterCreditsByStatusCommand : AbstrCommandWithDA<List<Credit>>
     {
-        private CreditStatusDto status;
-        public FilterCreditsByStatusCommand(CreditStatusDto status, IUnitOfWork unitOfWork, IMapper mapper)
+        private int statusId;
+        public FilterCreditsByStatusCommand(int statusId, IUnitOfWork unitOfWork, IMapper mapper)
             : base(unitOfWork, mapper)
         {
-            this.status = status;
+            this.statusId = statusId;
         }
         public override List<Credit> Execute()
         {
             var credits = dAPoint.CreditRepository.GetAll()
-                .Where(c => c.Status.StatusId == status.StatusId)
+                .Where(c => c.StatusId == statusId)
                 .ToList();
             return credits;
         }

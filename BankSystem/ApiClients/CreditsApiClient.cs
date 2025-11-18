@@ -55,14 +55,14 @@ public class CreditsApiClient : AbstractApiClient
     /// <summary>
     /// GET api/credits/filter-credit-by-status
     /// </summary>
-    public async Task<List<CreditDto>?> FilterByStatusAsync(CreditStatusDto statusDto)
+    public async Task<List<CreditDto>?> FilterByStatusAsync(int statusId)
     {
-        var url =
-            $"api/credits/filter-credit-by-status?StatusName={statusDto.Name}";
+        var url = $"api/credits/filter-credit-by-status?statusId={statusId}";
 
         var response = await client.GetAsync(url);
 
-        if (!await HandleErrorAsync(response)) return null;
+        if (!await HandleErrorAsync(response))
+            return null;
 
         return await response.Content.ReadFromJsonAsync<List<CreditDto>>();
     }

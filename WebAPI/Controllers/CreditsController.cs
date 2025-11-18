@@ -41,9 +41,9 @@ public class CreditsController : Controller
         return Ok(result);
     }
     [HttpGet("filter-credit-by-status")]
-    public IActionResult FilterCreditsByStatus([FromQuery] CreditStatusDto statusDto)
+    public IActionResult FilterCreditsByStatus(int statusId)
     {
-        var result = creditsCommandManager.FilterCreditsByStatus(statusDto);
+        var result = creditsCommandManager.FilterCreditsByStatus(statusId);
         return Ok(result);
     }
 }
