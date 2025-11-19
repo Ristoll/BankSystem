@@ -23,15 +23,15 @@ public partial class AccountDto
 
     public DateOnly? CloseDate { get; set; }
 
-    public virtual AccountTypeDto AccountType { get; set; } = null!;
+    public virtual AccountTypeDto? AccountType { get; set; }
 
     public virtual BankBranchDto? Branch { get; set; }
 
-    public virtual ClientDto Client { get; set; } = null!;
+    public virtual ClientDto? Client { get; set; }
 
     public virtual ICollection<CreditDto> Credits { get; set; } = new List<CreditDto>();
 
-    public virtual CurrencyDto Currency { get; set; } = null!;
+    public virtual CurrencyDto? Currency { get; set; }
 
     public virtual EmployeeDto? Employee { get; set; }
 

@@ -64,7 +64,11 @@ public partial class BankDbContext : DbContext
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
             entity.Property(e => e.ClientId).HasColumnName("ClientID");
             entity.Property(e => e.CurrencyId).HasColumnName("CurrencyID");
-            entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+
+            // Робимо EmployeeId nullable
+            entity.Property(e => e.EmployeeId)
+                .HasColumnName("EmployeeID")
+                .IsRequired(false); // <- важливо: nullable
 
             entity.HasOne(d => d.AccountType).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.AccountTypeId)
@@ -73,6 +77,7 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.Branch).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.BranchId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Accounts__Branch__5AEE82B9");
 
             entity.HasOne(d => d.Client).WithMany(p => p.Accounts)
@@ -87,8 +92,11 @@ public partial class BankDbContext : DbContext
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.SetNull) // <- при видаленні співробітника ставимо NULL
                 .HasConstraintName("FK__Accounts__Employ__5BE2A6F2");
         });
+
+
 
         modelBuilder.Entity<AccountType>(entity =>
         {

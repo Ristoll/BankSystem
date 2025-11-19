@@ -23,13 +23,13 @@ public partial class CreditDto
 
     public int? EmployeeId { get; set; }
 
-    public virtual AccountDto Account { get; set; } = null!;
+    public virtual AccountDto? Account { get; set; }
 
-    public virtual ClientDto Client { get; set; } = null!;
+    public virtual ClientDto? Client { get; set; }
 
     public virtual EmployeeDto? Employee { get; set; }
 
     public virtual ICollection<PaymentDto> Payments { get; set; } = new List<PaymentDto>();
 
-    public virtual CreditStatusDto Status { get; set; } = null!;
+    public virtual CreditStatusDto? Status { get; set; }
 }

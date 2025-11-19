@@ -65,14 +65,18 @@ public class EmployeesApiClient : AbstractApiClient
     /// <summary>
     /// POST api/employees/login-empployee
     /// </summary>
-    public async Task<bool> LoginEmployeeAsync(string phone, string password)
+    public async Task<EmployeeLogInDto?> LoginEmployeeAsync(string phone, string password)
     {
         var url = $"api/employees/login-employee?phone={Uri.EscapeDataString(phone)}&password={Uri.EscapeDataString(password)}";
 
         var response = await client.PostAsync(url, null);
 
-        if (!await HandleErrorAsync(response)) return false;
+        // Якщо помилка статус-коду
+        if (!await HandleErrorAsync(response))
+            return null;
 
-        return await response.Content.ReadFromJsonAsync<bool>();
+        // Читаємо DTO, а не bool!
+        return await response.Content.ReadFromJsonAsync<EmployeeLogInDto>();
     }
+
 }

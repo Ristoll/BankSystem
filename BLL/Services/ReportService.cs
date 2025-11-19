@@ -92,10 +92,13 @@ namespace BLL.Services
             var creditsIssued = unitOfWork.CreditRepository
                                 .GetQueryable()
                                 .Count(c => c.EmployeeId == employeeId);
-
-            var reportText = $"Діяльність співробітника {employee.LastName} {employee.FirstName} {employee.MiddleName} :\n";
-            reportText += $"Відкрито рахунків: {accountsOpened}\n";
-            reportText += $"Оформлено кредитів: {creditsIssued}\n";
+            var transactionsIssued = unitOfWork.TransactionRepository
+                                .GetQueryable()
+                                .Count(c => c.EmployeeId == employeeId);
+            var reportText = $"Діяльність співробітника {employee.LastName} {employee.FirstName} {employee.MiddleName} :\r\n";
+            reportText += $"Відкрито рахунків: {accountsOpened}\r\n";
+            reportText += $"Оформлено кредитів: {creditsIssued}\r\n";
+            reportText += $"Оформлено транзакцій: {transactionsIssued}\r\n";
 
             return reportText;
         }

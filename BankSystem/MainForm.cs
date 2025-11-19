@@ -61,6 +61,7 @@ namespace BankSystem
         }
         private async void MainForm_Load(object sender, EventArgs e)
         {
+            HideSubMenus(currentUserService.EmployeeId);
             await PopulateAccountTypesComboBoxAsync(comboBox1);
             await PopulateAccountTypesComboBoxAsync(comboBox4);
             await PopulateCurrenciesComboBoxAsync(comboBox2);
@@ -71,6 +72,14 @@ namespace BankSystem
             await PopulatePaymentTypesComboBoxAsync(comboBox7);
             await PopulateBranchTypesComboBoxAsync(comboBox10);
             await PopulateEmployeeRolesComboBoxAsync(comboBox9);
+        }
+        private void HideSubMenus(int roleId)
+        {
+            if (!(roleId == 1 && roleId == 5 && roleId == 10)) //якщо не керівник, іт-спеціаліст та охоронець
+            {
+                співробитникиToolStripMenuItem.Visible = false;
+                відділенняToolStripMenuItem.Visible = false;
+            }
         }
         private void ShowTable<T>(List<T> list)
         {
@@ -220,6 +229,7 @@ namespace BankSystem
                     Balance = 0,
                     OpenDate = DateOnly.FromDateTime(DateTime.Now),
                 };
+                result = await accountsApiClient.AddAccountAsync(accountDto);
             }
 
 
@@ -488,26 +498,34 @@ namespace BankSystem
         // -------------------- Допоміжні методи --------------------
         private void ShowPanel(Panel panelToShow)
         {
-            clientPanel.Visible = false;
-            clientPanel.Parent = splitContainer1.Panel2;
             accountPanel.Visible = false;
-            accountPanel.Parent = splitContainer1.Panel2;
-            searchPanel.Visible = false;
-            searchPanel.Parent = splitContainer1.Panel2;
-            reportPanel.Visible = false;
-            reportPanel.Parent = splitContainer1.Panel2;
             branchPanel.Visible = false;
-            branchPanel.Parent = splitContainer1.Panel2;
-            reportAccountPanel.Parent = reportPanel;
-            creditAccountPanel.Visible = false;
-            creditAccountPanel.Parent = accountPanel;
-            accountClientPanel.Visible = false;
-            accountClientPanel.Parent = clientPanel;
+            clientPanel.Visible = false;
+            creditPanel.Visible = false;
+            creditPaymentPanel.Visible = false;
+            employeePanel.Visible = false;
+            reportPanel.Visible = false;
+            searchPanel.Visible = false;
 
             panelToShow.Visible = true;
             panelToShow.BringToFront();
             menuStrip2.BringToFront();
         }
+
+        private void ShowSubPanel(Panel parent, Panel subPanelToShow)
+        {
+            // Ховаємо всі субпанелі всередині parent
+            foreach (Control control in parent.Controls)
+            {
+                if (control is Panel)
+                    control.Visible = false;
+            }
+
+            // Показуємо потрібну субпанель
+            subPanelToShow.Visible = true;
+            subPanelToShow.BringToFront();
+        }
+
 
         private void HighlightMenuColor(ToolStripMenuItem activeItem)
         {
@@ -643,6 +661,7 @@ namespace BankSystem
                     рахункуЗаВласникомToolStripMenuItem.Visible = true;
                     випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = true;
                     додатиТранзакціюToolStripMenuItem.Visible = true;
+                    додатиКредитToolStripMenuItem.Visible = true;
                     break;
                 case "BankBranches":
                     додатиВіддіденняToolStripMenuItem.Visible = true;
@@ -650,7 +669,6 @@ namespace BankSystem
                     редагуватиВідділенняToolStripMenuItem.Visible = true;
                     break;
                 case "Credits":
-                    додатиКредитToolStripMenuItem.Visible = true;
                     редагуватиКредитToolStripMenuItem.Visible = true;
                     кредитиЗаСтатусомToolStripMenuItem.Visible = true;
                     сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = true;
@@ -709,6 +727,8 @@ namespace BankSystem
                     dateTimePicker5.Value,
                     dateTimePicker4.Value
                 );
+
+                textBox8.Show();
             }
 
             // ---- РЕЗУЛЬТАТИ ----
@@ -784,7 +804,7 @@ namespace BankSystem
         private void додатиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
-            accountClientPanel.Show();
+            ShowSubPanel(clientPanel, accountClientPanel);
             button1.Text = "Додати рахунок";
         }
 
@@ -807,6 +827,15 @@ namespace BankSystem
                 return;
             }
             ShowPanel(accountPanel);
+            ShowSubPanel(accountPanel, accountClientPanel);
+            var row = dataGridView1.CurrentRow;
+            // Заповнюємо комбо-бокси правильно через SelectedValue
+            comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
+            comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
+
+            // Баланс
+            textBox10.Text = row.Cells["Balance"].Value?.ToString();
+
         }
 
         private void рахункуЗаВласникомToolStripMenuItem_Click(object sender, EventArgs e)
@@ -824,6 +853,7 @@ namespace BankSystem
             }
 
             ShowPanel(reportPanel);
+            ShowSubPanel(reportPanel, reportAccountPanel);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -851,12 +881,15 @@ namespace BankSystem
 
                 DateOnly? closeDate = checkBox1.Checked ? DateOnly.FromDateTime(DateTime.Now) : null;
 
-                // Заповнюємо комбо-бокси правильно через SelectedValue
-                comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
-                comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
+                var openDateValue = row.Cells["OpenDate"].Value;
 
-                // Баланс
-                textBox10.Text = row.Cells["Balance"].Value?.ToString();
+                DateOnly openDate = openDateValue switch
+                {
+                    DateOnly d => d,
+                    DateTime dt => DateOnly.FromDateTime(dt),
+                    string s when DateTime.TryParse(s, out var dt) => DateOnly.FromDateTime(dt),
+                    _ => default
+                };
 
                 AccountDto accountDto = new AccountDto()
                 {
@@ -867,9 +900,10 @@ namespace BankSystem
                     BranchId = currentUserService.BankBranchId,
                     EmployeeId = currentUserService.EmployeeId,
                     Balance = decimal.TryParse(textBox10.Text, out var bal) ? bal : 0,
-                    OpenDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["OpenDate"].Value)),
+                    OpenDate = openDate,
                     CloseDate = closeDate
                 };
+
 
                 var result = await accountsApiClient.UpdateAccountAsync(accountDto);
                 ShowResult(result);
@@ -932,14 +966,30 @@ namespace BankSystem
         private void транзакціїЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(searchPanel);
-            textBox8.Hide();
+            ShowSubPanel(searchPanel, searchTimerPanel);
             button2.Text = "Знайти за період";
+            textBox8.Hide();
         }
 
         private async void додатиТранзакціюToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(accountPanel);
+            ShowSubPanel(accountPanel, transactionAccountPanel);
             button4.Text = "Додати транзакцію";
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                return;
+            }
+
+            // Отримуємо ClientId із виділеного рядка
+            var cellValueAccountTypeId = dataGridView1.CurrentRow.Cells["AccountTypeId"].Value;
+            var cellValueCurrencyTypeId = dataGridView1.CurrentRow.Cells["CurrencyId"].Value;
+            var cellValueBalance = dataGridView1.CurrentRow.Cells["Balance"].Value;
+
+            comboBox4.SelectedIndex = Convert.ToInt32(cellValueAccountTypeId)+1;
+            comboBox3.SelectedIndex = Convert.ToInt32(cellValueCurrencyTypeId) + 1;
+            textBox10.Text = Convert.ToString(cellValueBalance);
         }
 
         private void сумарнийКредитнийПрофільБанкуToolStripMenuItem_Click(object sender, EventArgs e)
@@ -953,7 +1003,6 @@ namespace BankSystem
         private void звітПоДіяльностіСпівробітникаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(reportPanel);
-            reportAccountPanel.Hide();
 
             // Перевіряємо, що рядок виділений
             if (dataGridView1.CurrentRow == null)
@@ -974,6 +1023,7 @@ namespace BankSystem
             int clientId = Convert.ToInt32(cellValue);
 
             var result = reportService.GenerateEmployeeActivityReportContent(clientId);
+            textBox9.Text = result;
         }
 
         private void label23_Click(object sender, EventArgs e)
@@ -984,6 +1034,7 @@ namespace BankSystem
         private async void додатиКредитToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(accountPanel);
+            ShowSubPanel(accountPanel, creditAccountPanel);
             button4.Text = "Додати кредит";
 
             // Перевіряємо, що рядок виділений
@@ -1073,6 +1124,8 @@ namespace BankSystem
             }
             else if (button7.Text == "Редагувати відділення")
             {
+                var row = dataGridView1.CurrentRow;
+                branchDto.BranchId = Convert.ToInt32(row.Cells["BranchId"].Value);
                 result = await branchesApiClient.UpdateBranchAsync(branchDto);
                 ShowResult(result);
             }
@@ -1136,7 +1189,17 @@ namespace BankSystem
         {
             var row = dataGridView1.CurrentRow;
 
-            // Обов'язково конвертуємо значення у потрібні типи
+            DateOnly ParseDate(object value)
+            {
+                return value switch
+                {
+                    DateOnly d => d,
+                    DateTime dt => DateOnly.FromDateTime(dt),
+                    string s when DateTime.TryParse(s, out var dt) => DateOnly.FromDateTime(dt),
+                    _ => default
+                };
+            }
+
             var creditDto = new CreditDto()
             {
                 CreditId = Convert.ToInt32(row.Cells["CreditId"].Value),
@@ -1144,16 +1207,20 @@ namespace BankSystem
                 AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
                 CreditAmount = Convert.ToDecimal(textBox15.Text),
                 InterestRate = Convert.ToDecimal(row.Cells["InterestRate"].Value),
-                StartDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["StartDate"].Value)),
-                EndDate = DateOnly.FromDateTime(Convert.ToDateTime(row.Cells["EndDate"].Value)),
-                StatusId = Convert.ToInt32(comboBox6.SelectedIndex + 1),
+
+                StartDate = ParseDate(row.Cells["StartDate"].Value),
+                EndDate = ParseDate(row.Cells["EndDate"].Value),
+
+                StatusId = comboBox6.SelectedIndex + 1,
                 EmployeeId = row.Cells["EmployeeId"].Value == DBNull.Value
                     ? null
                     : Convert.ToInt32(row.Cells["EmployeeId"].Value)
             };
-            var reustl = await creditsApiClient.UpdateCreditAsync(creditDto);
-            ShowResult(reustl);
+
+            var result = await creditsApiClient.UpdateCreditAsync(creditDto);
+            ShowResult(result);
         }
+
 
         private async void button6_Click(object sender, EventArgs e)
         {
@@ -1179,30 +1246,56 @@ namespace BankSystem
 
         private async void button8_Click(object sender, EventArgs e)
         {
+            var row = dataGridView1.CurrentRow;
+            if (row == null) return;
+
+            int rowId = Convert.ToInt32(row.Cells["EmployeeId"].Value);
+            var employees = await employeesApiClient.LoadEmployeesAsync();
+            var existingEmployee = employees.FirstOrDefault(emp => emp.EmployeeId == rowId);
+
+            if (existingEmployee == null)
+            {
+                MessageBox.Show("Співробітник не знайдений!");
+                return;
+            }
+
             EmployeeDto employeeDto = new EmployeeDto()
             {
+                EmployeeId = rowId, // обов'язково!
                 FirstName = textBox24.Text,
                 LastName = textBox23.Text,
                 MiddleName = textBox22.Text,
-                Password = passwordHasher.Hash(textBox21.Text),
                 Phone = textBox16.Text,
                 Email = textBox14.Text,
-                EmployeeId = comboBox9.SelectedIndex + 1,
+                RoleId = comboBox9.SelectedIndex + 1,
                 BranchId = comboBox10.SelectedIndex + 1
             };
+
             bool result;
 
             if (button8.Text == "Додати співробітника")
             {
+                if (string.IsNullOrEmpty(textBox21.Text))
+                {
+                    MessageBox.Show("Будь ласка, введіть пароль.");
+                    return;
+                }
+                employeeDto.PasswordHash = passwordHasher.Hash(textBox21.Text);
                 result = await employeesApiClient.AddEmployeeAsync(employeeDto);
                 ShowResult(result);
             }
             else if (button8.Text == "Редагувати співробітника")
             {
+                // Якщо пароль порожній, залишаємо старий хеш
+                employeeDto.PasswordHash = string.IsNullOrEmpty(textBox21.Text)
+                    ? existingEmployee.PasswordHash
+                    : passwordHasher.Hash(textBox21.Text);
+
                 result = await employeesApiClient.UpdateEmployeeAsync(employeeDto);
                 ShowResult(result);
             }
         }
+
 
         private void редагуватиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1226,7 +1319,7 @@ namespace BankSystem
             textBox21.Text = "";
 
             // ComboBox: EmployeeRole
-            int roleId = Convert.ToInt32(row.Cells["EmployeeRoleId"].Value);
+            int roleId = Convert.ToInt32(row.Cells["RoleId"].Value);
             comboBox9.SelectedValue = roleId;
 
             // ComboBox: Branch

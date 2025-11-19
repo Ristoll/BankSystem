@@ -17,7 +17,7 @@ public partial class BankBranchDto
 
     public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
 
-    public virtual BranchTypeDto BranchType { get; set; } = null!;
+    public virtual BranchTypeDto? BranchType { get; set; }
 
     public virtual ICollection<EmployeeDto> Employees { get; set; } = new List<EmployeeDto>();
 }

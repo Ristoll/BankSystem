@@ -8,8 +8,9 @@ namespace BLL.Services
 {
     public interface ICurrentUserService
     {
-        int? EmployeeId { get; }
-        int? BankBranchId { get; }
-        void SetEmployee(int employeeId, int bankBranchId);
+        int EmployeeId { get; }
+        int BankBranchId { get; }
+        int RoleId { get; }
+        void SetEmployee(int employeeId, int bankBranchId,  int RoleId);
     }
 }

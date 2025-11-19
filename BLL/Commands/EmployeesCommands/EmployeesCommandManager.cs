@@ -46,7 +46,7 @@ namespace BLL.Commands.EmployeesCommands
             var command = new DeleteEmployeeCommand(employeeId, unitOfWork, mapper);
             return ExecuteCommand(command, "Не вдалося видалити працівника.");
         }
-        public bool LoginEmployee(string phone, string password)
+        public EmployeeLogInDto LoginEmployee(string phone, string password)
         {
             var command = new LogInCommand(phone, password, unitOfWork, mapper, passwordHasher, currentUserService);
             return ExecuteCommand(command, "Не вдалося увійти до системи.");

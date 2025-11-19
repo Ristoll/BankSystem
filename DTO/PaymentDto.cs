@@ -15,7 +15,7 @@ public partial class PaymentDto
 
     public decimal Amount { get; set; }
 
-    public virtual CreditDto Credit { get; set; } = null!;
+    public virtual CreditDto? Credit { get; set; }
 
-    public virtual PaymentTypeDto PaymentType { get; set; } = null!;
+    public virtual PaymentTypeDto? PaymentType { get; set; }
 }

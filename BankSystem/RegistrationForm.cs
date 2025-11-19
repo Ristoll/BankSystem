@@ -41,11 +41,12 @@ namespace BankSystem
         private async void button1_Click(object sender, EventArgs e)
         {
             var result = await employeesApiClient.LoginEmployeeAsync(textBox1.Text, textBox2.Text);
-            if(result)
+            if(result != null)
             {
+                currentUserService.SetEmployee(result.EmployeeId, result.BranchId, result.RoleId);
                 MainForm mainForm = new MainForm(reportService, currentUserService, passwordHasher);
-                this.Close();
                 mainForm.Show();
+                this.Hide();
             }
             else
             {

@@ -19,9 +19,9 @@ public partial class TransactionDto
 
     public int? EmployeeId { get; set; }
 
-    public virtual AccountDto Account { get; set; } = null!;
+    public virtual AccountDto? Account { get; set; }
 
     public virtual EmployeeDto? Employee { get; set; }
 
-    public virtual TransactionTypeDto TransactionType { get; set; } = null!;
+    public virtual TransactionTypeDto? TransactionType { get; set; }
 }
