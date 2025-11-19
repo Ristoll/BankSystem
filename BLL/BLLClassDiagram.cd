@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BLL.AbstrCommandWithDA&lt;TResult&gt;" Collapsed="true">
+    <Position X="2.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AbstrCommandWithDA.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BLL.AbstractCommandManager" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAIAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AbstractCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Services.BLLInitializer" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\BLLInitializer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Services.CurrentUserService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAACAAA=</HashCode>
+      <FileName>Services\CurrentUserService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BLL.Services.PasswordHasher" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAQAIAAAAAAIAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Services\PasswordHasher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BLL.Services.ReportService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAIAIAAAACAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Services\ReportService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.AccountsCommandManager" Collapsed="true">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAQAAAAAgAAAAQAAAYAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\AccountsCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.AddAccountCommand" Collapsed="true">
+    <Position X="9.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\AddAccountCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.FilterAccountsByCurrencyCommand" Collapsed="true">
+    <Position X="16.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\FilterAccountsByCurrencyCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.FilterAccountsByStatusCommand" Collapsed="true">
+    <Position X="5.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\FilterAccountsByStatusCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.LoadAccountsCommand" Collapsed="true">
+    <Position X="12" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\LoadAccountsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.LoadAccountTypesCommand" Collapsed="true">
+    <Position X="18.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\LoadAccountTypesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.LoadCurrenciesCommand" Collapsed="true">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\LoadCurrenciesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.SearchAccountByOwnerNameCommand" Collapsed="true">
+    <Position X="14.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\SearchAccountByOwnerNameCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.AccountsCommands.UpdateAccountCommand" Collapsed="true">
+    <Position X="21" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Commands\AccountsCommands\UpdateAccountCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.AddBranchCommand" Collapsed="true">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\BranchesCommands\AddBranchCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.BranchesCommandManager" Collapsed="true">
+    <Position X="5.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAIAABAAAAAAAAAAAAAAAAAAAAAAIAAAI=</HashCode>
+      <FileName>Commands\BranchesCommands\BranchesCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.DeleteBranchCommand" Collapsed="true">
+    <Position X="14.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\BranchesCommands\DeleteBranchCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.LoadBranchesCommand" Collapsed="true">
+    <Position X="9.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\BranchesCommands\LoadBranchesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.LoadBranchTypesCommand" Collapsed="true">
+    <Position X="12" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\BranchesCommands\LoadBranchTypesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.BranchesCommands.UpdateBranchCommand" Collapsed="true">
+    <Position X="16.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\BranchesCommands\UpdateBranchCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.AddClientCommand" Collapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\AddClientCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.ClientsCommandManager" Collapsed="true">
+    <Position X="5.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABIAAAAAAAAAAAAAAAAAAAAAAAAgAACAAAAAAQ=</HashCode>
+      <FileName>Commands\ClientsCommands\ClientsCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.FilterClientsByAccountTypeCommand" Collapsed="true">
+    <Position X="16.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\FilterClientsByAccountTypeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.LoadClientsCommand" Collapsed="true">
+    <Position X="10" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\LoadClientsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.SearchClientByNamePartsCommand" Collapsed="true">
+    <Position X="14.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\SearchClientByFullNameCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.SearchClientByPhoneNumberCommand" Collapsed="true">
+    <Position X="19" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\SearchClientByPhoneNumberCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.ClientsCommands.UpdateClientCommand" Collapsed="true">
+    <Position X="12.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\ClientsCommands\UpdateClientCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommands.AddCreditCommand" Collapsed="true">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\AddCreditCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommands.CreditsCommandManager" Collapsed="true">
+    <Position X="6.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAACAAAAAAAAAAAAAAAAAAQQAAAAACAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\CreditsCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommands.FilterCreditsByStatusCommand" Collapsed="true">
+    <Position X="15.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\FilterCreditsByStatusCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommands.UpdateCreditCommand" Collapsed="true">
+    <Position X="11.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\UpdateCreditCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommand.LoadCreditsCommand" Collapsed="true">
+    <Position X="13.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\LoadCreditsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.CreditsCommand.LoadCreditStatusesCommand" Collapsed="true">
+    <Position X="18" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\CreditsCommand\LoadCreditStatusesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.AddEmployeeCommand" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\AddEmployeeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.DeleteEmployeeCommand" Collapsed="true">
+    <Position X="13.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\DeleteEmployeeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.EmployeesCommandManager" Collapsed="true">
+    <Position X="19.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAIACAAAAAEAQAAAAAAAAQAIAAgAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\EmployeesCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.LoadEmployeeRolesCommand" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\LoadEmployeeRolesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.LoadEmployeesCommand" Collapsed="true">
+    <Position X="15.5" Y="7.75" Width="1.5" />
+    <InheritanceLine Type="BLL.AbstrCommandWithDA&lt;TResult&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="3" Y="6.062" />
+        <Point X="3" Y="7.375" />
+        <Point X="4.667" Y="7.375" Type="JumpStart" />
+        <Point X="4.833" Y="7.375" Type="JumpEnd" />
+        <Point X="15.875" Y="7.375" />
+        <Point X="15.875" Y="7.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\LoadEmployeesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.LogInCommand" Collapsed="true">
+    <Position X="17.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAASAAAAAQAAAAAAAAAAgAAAAAgAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\LogInСommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.EmployeesCommands.UpdateEmployeeCommand" Collapsed="true">
+    <Position X="11.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\EmployeesCommands\UpdateEmployeeCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.PaymentsCommands.AddPaymentCommand" Collapsed="true">
+    <Position X="4.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\PaymentsCommands\AddPaymentCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.PaymentsCommands.LoadPaymentsCommand" Collapsed="true">
+    <Position X="12.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\PaymentsCommands\LoadPaymentsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.PaymentsCommands.LoadPaymentTypesCommand" Collapsed="true">
+    <Position X="10" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\PaymentsCommands\LoadPaymentTypesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.PaymentsCommands.PaymentsCommandManager" Collapsed="true">
+    <Position X="7.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACABAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Commands\PaymentsCommands\PaymentsCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.TransactionsCommands.AddTransactionCommand" Collapsed="true">
+    <Position X="4.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TransactionsCommands\AddTransactionCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.TransactionsCommands.LoadTransactionsCommand" Collapsed="true">
+    <Position X="13" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TransactionsCommands\LoadTransactionsCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.TransactionsCommands.LoadTransactionTypesCommand" Collapsed="true">
+    <Position X="15.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TransactionsCommands\LoadTransactionTypesCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.TransactionsCommands.SearchTransactionByPeriodCommand" Collapsed="true">
+    <Position X="10.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAQAACAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TransactionsCommands\SearchTransactionByPeriodCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Commands.TransactionsCommands.TransactionsCommandManager" Collapsed="true">
+    <Position X="7.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAACAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commands\TransactionsCommands\TransactionsCommandManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.AccountAutoMapperProfile" Collapsed="true">
+    <Position X="0.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\AccountAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.AccountTypeAutoMapperProfile" Collapsed="true">
+    <Position X="2.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\AccountTypeAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.BankBranchAutoMapperProfile" Collapsed="true">
+    <Position X="4.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\BankBranchAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.BranchTypeAutoMapperProfile" Collapsed="true">
+    <Position X="6" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\BranchTypeAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.ClientAutoMapperProfile" Collapsed="true">
+    <Position X="0.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\ClientAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.CreditAutoMapperProfile" Collapsed="true">
+    <Position X="2.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\CreditAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.CreditStatusAutoMapperProfile" Collapsed="true">
+    <Position X="4.25" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\CreditStatusAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.CurrencyAutoMapperProfile" Collapsed="true">
+    <Position X="6" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\CurrencyAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.EmployeeAutoMapperProfile" Collapsed="true">
+    <Position X="0.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\EmployeeAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.EmployeeRoleAutoMapperProfile" Collapsed="true">
+    <Position X="2.5" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\EmployeeRoleAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.PaymentAutoMapperProfile" Collapsed="true">
+    <Position X="4.25" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\PaymentAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.PaymentTypeAutoMapperProfile" Collapsed="true">
+    <Position X="6" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\PaymentTypeAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.TransactionAutoMapperProfile" Collapsed="true">
+    <Position X="0.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\TransactionAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.AutoMapperProfiles.TransactionTypeAutoMapperProfile" Collapsed="true">
+    <Position X="2.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutoMapperProfiles\TransactionTypeAutoMapperProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BLL.IBaseCommand&lt;TResult&gt;" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IBaseCommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BLL.Services.ICurrentUserService" Collapsed="true">
+    <Position X="0.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAACAAA=</HashCode>
+      <FileName>Services\ICurrentUserService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BLL.Services.IPasswordHasher" Collapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\IHasherService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BLL.Services.IReportService" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAIAIAAAACAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Services\IReportService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
