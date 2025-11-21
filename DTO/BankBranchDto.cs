@@ -14,10 +14,4 @@ public partial class BankBranchDto
     public string? Phone { get; set; }
 
     public int BranchTypeId { get; set; }
-
-    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
-
-    public virtual BranchTypeDto? BranchType { get; set; }
-
-    public virtual ICollection<EmployeeDto> Employees { get; set; } = new List<EmployeeDto>();
 }

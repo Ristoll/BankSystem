@@ -12,6 +12,4 @@ public partial class CurrencyDto
     public string Symbol { get; set; } = null!;
 
     public decimal ExchangeRate { get; set; }
-
-    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
 }

@@ -24,8 +24,4 @@ public partial class ClientDto
     public string? Address { get; set; }
 
     public DateOnly RegistrationDate { get; set; }
-
-    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
-
-    public virtual ICollection<CreditDto> Credits { get; set; } = new List<CreditDto>();
 }

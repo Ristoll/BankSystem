@@ -18,10 +18,4 @@ public partial class TransactionDto
     public string? Description { get; set; }
 
     public int? EmployeeId { get; set; }
-
-    public virtual AccountDto? Account { get; set; }
-
-    public virtual EmployeeDto? Employee { get; set; }
-
-    public virtual TransactionTypeDto? TransactionType { get; set; }
 }

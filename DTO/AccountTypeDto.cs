@@ -9,5 +9,4 @@ public partial class AccountTypeDto
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<AccountDto> Accounts { get; set; } = new List<AccountDto>();
 }

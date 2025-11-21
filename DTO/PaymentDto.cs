@@ -14,8 +14,4 @@ public partial class PaymentDto
     public DateOnly PaymentDate { get; set; }
 
     public decimal Amount { get; set; }
-
-    public virtual CreditDto? Credit { get; set; }
-
-    public virtual PaymentTypeDto? PaymentType { get; set; }
 }
