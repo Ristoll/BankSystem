@@ -98,6 +98,7 @@ namespace BankSystem
             ShowTable(clients ?? new List<ClientDto>());
 
             HighlightMenuColor(êë³ºíòèToolStripMenuItem);
+            HidePanels();
         }
 
         private async void ğàõóíêèToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,6 +112,7 @@ namespace BankSystem
             HighlightMenuColor(ğàõóíêèToolStripMenuItem);
             PopulateAccountsByCurrencySubMenu();
             PopulateAccountsByStatusSubMenu();
+            HidePanels();
         }
 
         private async void òğàíçàêö³¿ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,6 +124,7 @@ namespace BankSystem
             ShowTable(transactions ?? new List<TransactionDto>());
 
             HighlightMenuColor(òğàíçàêö³¿ToolStripMenuItem);
+            HidePanels();
         }
 
         private async void êğåäèòèToolStripMenuItem_Click(object sender, EventArgs e)
@@ -133,6 +136,7 @@ namespace BankSystem
             ShowTable(credits ?? new List<CreditDto>());
 
             HighlightMenuColor(êğåäèòèToolStripMenuItem);
+            HidePanels();
         }
 
         private async void ïëàòåæ³ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,6 +148,7 @@ namespace BankSystem
             ShowTable(payments ?? new List<PaymentDto>());
 
             HighlightMenuColor(ïëàòåæ³ToolStripMenuItem);
+            HidePanels();
         }
 
         private async void ñï³âğîáèòíèêèToolStripMenuItem_Click(object sender, EventArgs e)
@@ -155,6 +160,7 @@ namespace BankSystem
             ShowTable(employees ?? new List<EmployeeDto>());
 
             HighlightMenuColor(ñï³âğîáèòíèêèToolStripMenuItem);
+            HidePanels();
         }
 
         private async void â³ää³ëåííÿToolStripMenuItem_Click(object sender, EventArgs e)
@@ -166,6 +172,7 @@ namespace BankSystem
             ShowTable(branches ?? new List<BankBranchDto>());
 
             HighlightMenuColor(â³ää³ëåííÿToolStripMenuItem);
+            HidePanels();
         }
 
         // -------------------- Ìåíş îïåğàö³é --------------------
@@ -231,8 +238,6 @@ namespace BankSystem
                 };
                 result = await accountsApiClient.AddAccountAsync(accountDto);
             }
-
-
 
             ShowResult(result);
         }
@@ -510,6 +515,22 @@ namespace BankSystem
             panelToShow.Visible = true;
             panelToShow.BringToFront();
             menuStrip2.BringToFront();
+        }
+        private void HidePanels()
+        {
+            accountPanel.Visible = false;
+            branchPanel.Visible = false;
+            clientPanel.Visible = false;
+            creditPanel.Visible = false;
+            creditPaymentPanel.Visible = false;
+            employeePanel.Visible = false;
+            reportPanel.Visible = false;
+            searchPanel.Visible = false;
+            accountClientPanel.Visible = false;
+            creditAccountPanel.Visible = false;
+            reportAccountPanel.Visible = false;
+            transactionAccountPanel.Visible = false;
+            searchTimerPanel.Visible = false;
         }
 
         private void ShowSubPanel(Panel parent, Panel subPanelToShow)

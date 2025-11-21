@@ -40,17 +40,26 @@ namespace BankSystem
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            var result = await employeesApiClient.LoginEmployeeAsync(textBox1.Text, textBox2.Text);
-            if(result != null)
+            try
             {
-                currentUserService.SetEmployee(result.EmployeeId, result.BranchId, result.RoleId);
-                MainForm mainForm = new MainForm(reportService, currentUserService, passwordHasher);
-                mainForm.Show();
-                this.Hide();
+                var result = await employeesApiClient.LoginEmployeeAsync(textBox1.Text, textBox2.Text);
+                if (result != null)
+                {
+                    currentUserService.SetEmployee(result.EmployeeId, result.BranchId, result.RoleId);
+                    MainForm mainForm = new MainForm(reportService, currentUserService, passwordHasher);
+                    mainForm.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Такого працівника немає в базі даних!");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Такого працівника немає в базі даних!");
+
+                MessageBox.Show("Такого користувача немає! Введи коректні дані!");
+                return;
             }
         }
     }
