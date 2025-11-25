@@ -8,8 +8,9 @@ public partial class PaymentDto
     public int PaymentId { get; set; }
 
     public int CreditId { get; set; }
-
+    public string? CreditOwnerName { get; set; }
     public int PaymentTypeId { get; set; }
+    public string? PaymentTypeName { get; set; }
 
     public DateOnly PaymentDate { get; set; }
 

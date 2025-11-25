@@ -37,21 +37,21 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(399, 134);
+            textBox1.Location = new Point(881, 408);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(170, 27);
             textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(399, 208);
+            textBox2.Location = new Point(881, 482);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(170, 27);
             textBox2.TabIndex = 1;
             // 
             // button1
             // 
-            button1.Location = new Point(351, 303);
+            button1.Location = new Point(833, 577);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
             button1.TabIndex = 2;
@@ -62,7 +62,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(228, 137);
+            label1.Location = new Point(710, 411);
             label1.Name = "label1";
             label1.Size = new Size(86, 20);
             label1.TabIndex = 3;
@@ -71,7 +71,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(228, 211);
+            label2.Location = new Point(710, 485);
             label2.Name = "label2";
             label2.Size = new Size(62, 20);
             label2.TabIndex = 4;
@@ -81,14 +81,16 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Name = "RegistrationForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "RegistrationForm";
+            WindowState = FormWindowState.Maximized;
             ResumeLayout(false);
             PerformLayout();
         }

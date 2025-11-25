@@ -14,6 +14,9 @@ namespace BLL.AutoMapperProfiles
         public CreditAutoMapperProfile()
         {
             CreateMap<Credit, CreditDto>().ReverseMap();
+
+            CreateMap<CreditDto, Credit>()
+                .ForMember(dest => dest.Status, opt => opt.Ignore());
         }
     }
 }

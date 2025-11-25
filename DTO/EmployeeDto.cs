@@ -15,9 +15,9 @@ public partial class EmployeeDto
     public string? Password { get; set; }
     public string? PasswordHash { get; set; }
     public int RoleId { get; set; }
-
+    public string? RoleName { get; set; }
     public int BranchId { get; set; }
-
+    public string? BranchName { get; set; }
     public string? Phone { get; set; }
 
     public string? Email { get; set; }

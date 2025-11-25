@@ -9,6 +9,8 @@ public partial class BankBranchDto
 
     public string BranchName { get; set; } = null!;
 
+    public string? BranchTypeName { get; set; }
+
     public string Address { get; set; } = null!;
 
     public string? Phone { get; set; }

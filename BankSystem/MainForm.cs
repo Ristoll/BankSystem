@@ -1,7 +1,8 @@
-using AutoMapper;
+п»їusing AutoMapper;
 using BankSystem.ApiClients;
 using BLL.Services;
 using Core;
+using Core.Entities;
 using DAL;
 using DTO;
 using System;
@@ -37,11 +38,11 @@ namespace BankSystem
 
             HttpClient httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:5136/") // або адреса твого WebAPI
+                BaseAddress = new Uri("http://localhost:5136/") // Р°Р±Рѕ Р°РґСЂРµСЃР° С‚РІРѕРіРѕ WebAPI
             };
 
 
-            // Ініціалізація всіх API-клієнтів
+            // Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ РІСЃС–С… API-РєР»С–С”РЅС‚С–РІ
             clientsApiClient = new ClientsApiClient(httpClient);
             accountsApiClient = new AccountsApiClient(httpClient);
             transactionsApiClient = new TransactionsApiClient(httpClient);
@@ -52,7 +53,7 @@ namespace BankSystem
 
             dataGridView1.AutoGenerateColumns = true;
 
-            // Динамічно створюємо підменю
+            // Р”РёРЅР°РјС–С‡РЅРѕ СЃС‚РІРѕСЂСЋС”РјРѕ РїС–РґРјРµРЅСЋ
             PopulateAccountTypesSubMenu();
             PopulateAccountsByCurrencySubMenu();
             PopulateAccountsByStatusSubMenu();
@@ -61,7 +62,7 @@ namespace BankSystem
         }
         private async void MainForm_Load(object sender, EventArgs e)
         {
-            HideSubMenus(currentUserService.EmployeeId);
+            HideSubMenus(currentUserService.RoleId);
             await PopulateAccountTypesComboBoxAsync(comboBox1);
             await PopulateAccountTypesComboBoxAsync(comboBox4);
             await PopulateCurrenciesComboBoxAsync(comboBox2);
@@ -75,10 +76,10 @@ namespace BankSystem
         }
         private void HideSubMenus(int roleId)
         {
-            if (!(roleId == 1 && roleId == 5 && roleId == 10)) //якщо не керівник, іт-спеціаліст та охоронець
+            if (!(roleId == 1 || roleId == 5 || roleId == 10)) //СЏРєС‰Рѕ РЅРµ РєРµСЂС–РІРЅРёРє, С–С‚-СЃРїРµС†С–Р°Р»С–СЃС‚ С‚Р° РѕС…РѕСЂРѕРЅРµС†СЊ
             {
-                співробитникиToolStripMenuItem.Visible = false;
-                відділенняToolStripMenuItem.Visible = false;
+                СЃРїС–РІСЂРѕР±РёС‚РЅРёРєРёToolStripMenuItem.Visible = false;
+                РІС–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem.Visible = false;
             }
         }
         private void ShowTable<T>(List<T> list)
@@ -87,101 +88,352 @@ namespace BankSystem
             dataGridView1.DataSource = bindingSource1;
         }
 
-        // -------------------- Меню --------------------
+        // -------------------- РњРµРЅСЋ --------------------
 
-        private async void клієнтиToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void РєР»С–С”РЅС‚РёToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Clients";
             ShowSubMenuForTable(currentTable);
 
             var clients = await clientsApiClient.LoadClientsAsync();
             ShowTable(clients ?? new List<ClientDto>());
-
-            HighlightMenuColor(клієнтиToolStripMenuItem);
+            if (dataGridView1.Columns.Contains("ClientId"))
+                dataGridView1.Columns["ClientId"].Visible = false;
+            HighlightMenuColor(РєР»С–С”РЅС‚РёToolStripMenuItem);
             HidePanels();
         }
 
-        private async void рахункиToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void СЂР°С…СѓРЅРєРёToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Accounts";
             ShowSubMenuForTable(currentTable);
 
-            var accounts = await accountsApiClient.LoadAccountsAsync();
-            ShowTable(accounts ?? new List<AccountDto>());
+            var accounts = await accountsApiClient.LoadAccountsAsync() ?? new List<AccountDto>();
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
 
-            HighlightMenuColor(рахункиToolStripMenuItem);
-            PopulateAccountsByCurrencySubMenu();
-            PopulateAccountsByStatusSubMenu();
+            var accountTypes = await accountsApiClient.LoadAccountTypesAsync() ?? new List<AccountTypeDto>();
+            var currencies = await accountsApiClient.LoadCurrenciesAsync() ?? new List<CurrencyDto>();
+            var branches = await branchesApiClient.LoadBranchesAsync() ?? new List<BankBranchDto>();
+            var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+
+            var clientDict = clients.ToDictionary(c => c.ClientId, c => $"{c.LastName} {c.FirstName} {c.MiddleName}");
+            var accountTypeDict = accountTypes.ToDictionary(a => a.AccountTypeId, a => a.Name);
+            var currencyDict = currencies.ToDictionary(c => c.CurrencyId, c => c.Name);
+            var branchDict = branches.ToDictionary(b => b.BranchId, b => b.BranchName);
+            var employeeDict = employees.ToDictionary(e => e.EmployeeId, e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+
+            var tableData = accounts.Select(a => new
+            {
+                a.AccountId, // С…РѕРІР°С”РјРѕ
+                a.ClientId,  // С…РѕРІР°С”РјРѕ
+                a.AccountTypeId,
+                a.CurrencyId,
+                a.EmployeeId,
+                ClientName = clientDict.ContainsKey(a.ClientId) ? clientDict[a.ClientId] : "",
+                AccountTypeName = accountTypeDict.ContainsKey(a.AccountTypeId) ? accountTypeDict[a.AccountTypeId] : "",
+                CurrencyName = currencyDict.ContainsKey(a.CurrencyId) ? currencyDict[a.CurrencyId] : "",
+                BranchName = a.BranchId.HasValue && branchDict.ContainsKey(a.BranchId.Value) ? branchDict[a.BranchId.Value] : "",
+                EmployeeName = a.EmployeeId.HasValue && employeeDict.ContainsKey(a.EmployeeId.Value) ? employeeDict[a.EmployeeId.Value] : "",
+                a.Balance,
+                a.OpenDate,
+                a.CloseDate
+            }).ToList();
+
+            dataGridView1.DataSource = tableData;
+
+            // РҐРѕРІР°С”РјРѕ ID
+            if (dataGridView1.Columns.Contains("AccountId"))
+                dataGridView1.Columns["AccountId"].Visible = false;
+            if (dataGridView1.Columns.Contains("ClientId"))
+                dataGridView1.Columns["ClientId"].Visible = false;
+            if (dataGridView1.Columns.Contains("AccountTypeId"))
+                dataGridView1.Columns["AccountTypeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("CurrencyId"))
+                dataGridView1.Columns["CurrencyId"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+
+            HighlightMenuColor(СЂР°С…СѓРЅРєРёToolStripMenuItem);
             HidePanels();
         }
 
-        private async void транзакціїToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        private async void С‚СЂР°РЅР·Р°РєС†С–С—ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Transactions";
             ShowSubMenuForTable(currentTable);
 
-            var transactions = await transactionsApiClient.LoadTransactionsAsync();
-            ShowTable(transactions ?? new List<TransactionDto>());
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ С‚СЂР°РЅР·Р°РєС†С–С—
+            var transactions = await transactionsApiClient.LoadTransactionsAsync() ?? new List<TransactionDto>();
 
-            HighlightMenuColor(транзакціїToolStripMenuItem);
+            // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ Р°РєР°СѓРЅС‚Рё, РєР»С–С”РЅС‚С–РІ, С‚РёРїРё С‚СЂР°РЅР·Р°РєС†С–Р№ С‚Р° СЃРїС–РІСЂРѕР±С–С‚РЅРёРєС–РІ
+            var accounts = await accountsApiClient.LoadAccountsAsync() ?? new List<AccountDto>();
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+            var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+            var transactionTypes = await transactionsApiClient.LoadTransactionTypesAsync() ?? new List<TransactionTypeDto>();
+
+            // 3. РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРєРё РґР»СЏ С€РІРёРґРєРѕРіРѕ РїРѕС€СѓРєСѓ
+            var accountOwnerDict = accounts.ToDictionary(
+                a => a.AccountId,
+                a =>
+                {
+                    var client = clients.FirstOrDefault(c => c.ClientId == a.ClientId);
+                    return client != null ? $"{client.LastName} {client.FirstName} {client.MiddleName}" : "";
+                });
+
+            var transactionTypeDict = transactionTypes.ToDictionary(t => t.TransactionTypeId, t => t.Name);
+            var employeeDict = employees.ToDictionary(e => e.EmployeeId, e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+
+            // 4. Р¤РѕСЂРјСѓС”РјРѕ РЅРѕРІРёР№ СЃРїРёСЃРѕРє РґР»СЏ С‚Р°Р±Р»РёС†С–
+            var tableData = transactions.Select(t => new
+            {
+                t.TransactionId,
+                AccountId = t.AccountId, // Р·Р°Р»РёС€Р°С”РјРѕ РґР»СЏ Р»РѕРіС–РєРё, РїРѕС‚С–Рј РїСЂРёС…РѕРІР°С”РјРѕ
+                EmployeeId = t.EmployeeId, // Р·Р°Р»РёС€Р°С”РјРѕ РґР»СЏ Р»РѕРіС–РєРё, РїРѕС‚С–Рј РїСЂРёС…РѕРІР°С”РјРѕ
+                TransactionTypeId = t.TransactionTypeId, // Р·Р°Р»РёС€Р°С”РјРѕ РґР»СЏ Р»РѕРіС–РєРё, РїРѕС‚С–Рј РїСЂРёС…РѕРІР°С”РјРѕ
+                AccountOwnerName = accountOwnerDict.ContainsKey(t.AccountId) ? accountOwnerDict[t.AccountId] : "",
+                EmployeeName = t.EmployeeId.HasValue && employeeDict.ContainsKey(t.EmployeeId.Value) ? employeeDict[t.EmployeeId.Value] : "",
+                TransactionTypeName = transactionTypeDict.ContainsKey(t.TransactionTypeId) ? transactionTypeDict[t.TransactionTypeId] : "",
+                t.Amount,
+                t.TransactionDate,
+                t.Description
+            }).ToList();
+
+            // 5. Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Сѓ DataGridView
+            dataGridView1.DataSource = tableData;
+
+            // 6. РҐРѕРІР°С”РјРѕ РєРѕР»РѕРЅРєРё Р· ID
+            if (dataGridView1.Columns.Contains("TransactionId"))
+                dataGridView1.Columns["TransactionId"].Visible = false;
+            if (dataGridView1.Columns.Contains("AccountId"))
+                dataGridView1.Columns["AccountId"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("TransactionTypeId"))
+                dataGridView1.Columns["TransactionTypeId"].Visible = false;
+
+            HighlightMenuColor(С‚СЂР°РЅР·Р°РєС†С–С—ToolStripMenuItem);
             HidePanels();
         }
 
-        private async void кредитиToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private async void РєСЂРµРґРёС‚РёToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Credits";
             ShowSubMenuForTable(currentTable);
 
-            var credits = await creditsApiClient.LoadCreditsAsync();
-            ShowTable(credits ?? new List<CreditDto>());
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РєСЂРµРґРёС‚Рё
+            var credits = await creditsApiClient.LoadCreditsAsync() ?? new List<CreditDto>();
 
-            HighlightMenuColor(кредитиToolStripMenuItem);
+            // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РєР»С–С”РЅС‚С–РІ С‚Р° СЃРїС–РІСЂРѕР±С–С‚РЅРёРєС–РІ
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+            var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+
+            // 3. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ СЃС‚Р°С‚СѓСЃРё РєСЂРµРґРёС‚С–РІ (СЏРєС‰Рѕ С” РѕРєСЂРµРјРёР№ РјРµС‚РѕРґ)
+            var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync() ?? new List<CreditStatusDto>();
+
+            // 4. РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРєРё РґР»СЏ С€РІРёРґРєРѕРіРѕ РїРѕС€СѓРєСѓ
+            var clientDict = clients.ToDictionary(c => c.ClientId, c => $"{c.LastName} {c.FirstName} {c.MiddleName}");
+            var employeeDict = employees.ToDictionary(e => e.EmployeeId, e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+            var statusDict = creditStatuses.ToDictionary(s => s.StatusId, s => s.Name);
+
+            // 5. Р¤РѕСЂРјСѓС”РјРѕ РЅРѕРІРёР№ СЃРїРёСЃРѕРє РґР»СЏ С‚Р°Р±Р»РёС†С–
+            var tableData = credits.Select(c => new
+            {
+                c.CreditId,
+                AccountId = c.AccountId,
+                ClientId = c.ClientId,
+                EmployeeId = c.EmployeeId,
+                StatusId = c.StatusId,
+                ClientName = clientDict.ContainsKey(c.ClientId) ? clientDict[c.ClientId] : "",
+                EmployeeName = c.EmployeeId.HasValue && employeeDict.ContainsKey(c.EmployeeId.Value) ? employeeDict[c.EmployeeId.Value] : "",
+                StatusName = statusDict.ContainsKey(c.StatusId) ? statusDict[c.StatusId] : "",
+                c.CreditAmount,
+                c.InterestRate,
+                c.StartDate,
+                c.EndDate
+            }).ToList();
+
+            // 6. Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Сѓ DataGridView
+            dataGridView1.DataSource = tableData;
+
+            // 7. РҐРѕРІР°С”РјРѕ РєРѕР»РѕРЅРєРё Р· ID, СЏРєС– РЅРµ РїРѕС‚СЂС–Р±РЅРѕ РїРѕРєР°Р·СѓРІР°С‚Рё
+            if (dataGridView1.Columns.Contains("CreditId"))
+                dataGridView1.Columns["CreditId"].Visible = false;
+            if (dataGridView1.Columns.Contains("AccountId"))
+                dataGridView1.Columns["AccountId"].Visible = false;
+            if (dataGridView1.Columns.Contains("ClientId"))
+                dataGridView1.Columns["ClientId"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("StatusId"))
+                dataGridView1.Columns["StatusId"].Visible = false;
+
+            HighlightMenuColor(РєСЂРµРґРёС‚РёToolStripMenuItem);
             HidePanels();
         }
 
-        private async void платежіToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private async void РїР»Р°С‚РµР¶С–ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Payments";
             ShowSubMenuForTable(currentTable);
 
-            var payments = await paymentsApiClient.LoadPaymentsAsync();
-            ShowTable(payments ?? new List<PaymentDto>());
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РїР»Р°С‚РµР¶С–
+            var payments = await paymentsApiClient.LoadPaymentsAsync()
+                           ?? new List<PaymentDto>();
 
-            HighlightMenuColor(платежіToolStripMenuItem);
+            // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РєСЂРµРґРёС‚Рё С‚Р° РєР»С–С”РЅС‚С–РІ, С‚Р° С‚РёРїРё РїР»Р°С‚РµР¶С–РІ
+            var credits = await creditsApiClient.LoadCreditsAsync()
+                          ?? new List<CreditDto>();
+            var clients = await clientsApiClient.LoadClientsAsync()
+                          ?? new List<ClientDto>();
+            var paymentTypes = await paymentsApiClient.LoadPaymentTypesAsync()
+                               ?? new List<PaymentTypeDto>();
+
+            // 3. РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРєРё РґР»СЏ С€РІРёРґРєРѕРіРѕ РїРѕС€СѓРєСѓ
+            var creditOwnerDict = credits.ToDictionary(
+                c => c.CreditId,
+                c =>
+                {
+                    if (c.ClientId == 0) return "";
+                    var client = clients.FirstOrDefault(cl => cl.ClientId == c.ClientId);
+                    return client != null ? $"{client.LastName} {client.FirstName} {client.MiddleName}" : "";
+                });
+
+            var paymentTypeDict = paymentTypes.ToDictionary(pt => pt.PaymentTypeId, pt => pt.Name);
+
+            // 4. Р¤РѕСЂРјСѓС”РјРѕ РЅРѕРІРёР№ СЃРїРёСЃРѕРє РґР»СЏ С‚Р°Р±Р»РёС†С–
+            var tableData = payments.Select(p => new
+            {
+                p.PaymentId,
+                p.CreditId, // Р·Р°Р»РёС€Р°С”РјРѕ РґР»СЏ РІРЅСѓС‚СЂС–С€РЅСЊРѕС— Р»РѕРіС–РєРё
+                CreditOwnerName = creditOwnerDict.ContainsKey(p.CreditId) ? creditOwnerDict[p.CreditId] : "",
+                PaymentTypeName = paymentTypeDict.ContainsKey(p.PaymentTypeId) ? paymentTypeDict[p.PaymentTypeId] : "",
+                p.PaymentDate,
+                p.Amount
+            }).ToList();
+
+            // 5. Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Сѓ DataGridView
+            dataGridView1.DataSource = tableData;
+
+            // 6. РҐРѕРІР°С”РјРѕ РєРѕР»РѕРЅРєСѓ CreditId, С‰РѕР± РєРѕСЂРёСЃС‚СѓРІР°С‡ С—С— РЅРµ Р±Р°С‡РёРІ
+            if (dataGridView1.Columns.Contains("PaymentId"))
+                dataGridView1.Columns["PaymentId"].Visible = false;
+            if (dataGridView1.Columns.Contains("CreditId"))
+                dataGridView1.Columns["CreditId"].Visible = false;
+
+            HighlightMenuColor(РїР»Р°С‚РµР¶С–ToolStripMenuItem);
             HidePanels();
         }
 
-        private async void співробитникиToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        private async void СЃРїС–РІСЂРѕР±РёС‚РЅРёРєРёToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "Employees";
             ShowSubMenuForTable(currentTable);
 
-            var employees = await employeesApiClient.LoadEmployeesAsync();
-            ShowTable(employees ?? new List<EmployeeDto>());
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєС–РІ
+            var employees = await employeesApiClient.LoadEmployeesAsync()
+                            ?? new List<EmployeeDto>();
 
-            HighlightMenuColor(співробитникиToolStripMenuItem);
+            // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ СЃРїРёСЃРѕРє РІС–РґРґС–Р»РµРЅСЊ С– СЂРѕР»РµР№
+            var branches = await branchesApiClient.LoadBranchesAsync()
+                           ?? new List<BankBranchDto>();
+            var roles = await employeesApiClient.LoadEmployeeRolesAsync()
+                        ?? new List<EmployeeRoleDto>(); // RoleDto Р· RoleId С‚Р° RoleName
+
+            // 3. РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРєРё РґР»СЏ С€РІРёРґРєРѕРіРѕ РїРѕС€СѓРєСѓ
+            var branchDict = branches.ToDictionary(b => b.BranchId, b => b.BranchName);
+            var roleDict = roles.ToDictionary(r => r.RoleId, r => r.Name);
+
+            // 4. Р¤РѕСЂРјСѓС”РјРѕ РЅРѕРІРёР№ СЃРїРёСЃРѕРє РґР»СЏ С‚Р°Р±Р»РёС†С–
+            var tableData = employees.Select(e => new
+            {
+                e.EmployeeId,
+                e.RoleId,
+                e.BranchId,
+                e.FirstName,
+                e.LastName,
+                e.MiddleName,
+                e.Phone,
+                e.Email,
+                e.Password,
+                e.PasswordHash,
+                BranchName = branchDict.ContainsKey(e.BranchId) ? branchDict[e.BranchId] : "",
+                RoleName = roleDict.ContainsKey(e.RoleId) ? roleDict[e.RoleId] : ""
+            }).ToList();
+
+            // 5. Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Сѓ DataGridView
+            dataGridView1.DataSource = tableData;
+
+            // 6. РҐРѕРІР°С”РјРѕ РєРѕР»РѕРЅРєРё Password С‚Р° PasswordHash
+            if (dataGridView1.Columns.Contains("Password"))
+                dataGridView1.Columns["Password"].Visible = false;
+
+            if (dataGridView1.Columns.Contains("PasswordHash"))
+                dataGridView1.Columns["PasswordHash"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("BranchId"))
+                dataGridView1.Columns["BranchId"].Visible = false;
+            if (dataGridView1.Columns.Contains("RoleId"))
+                dataGridView1.Columns["RoleId"].Visible = false;
+
+            HighlightMenuColor(СЃРїС–РІСЂРѕР±РёС‚РЅРёРєРёToolStripMenuItem);
             HidePanels();
         }
 
-        private async void відділенняToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private async void РІС–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentTable = "BankBranches";
             ShowSubMenuForTable(currentTable);
 
-            var branches = await branchesApiClient.LoadBranchesAsync();
-            ShowTable(branches ?? new List<BankBranchDto>());
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РІС–РґРґС–Р»РµРЅРЅСЏ
+            var branches = await branchesApiClient.LoadBranchesAsync()
+                           ?? new List<BankBranchDto>();
 
-            HighlightMenuColor(відділенняToolStripMenuItem);
+            // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ С‚РёРїРё РІС–РґРґС–Р»РµРЅСЊ
+            var types = await branchesApiClient.LoadBranchTypesAsync()
+                        ?? new List<BranchTypeDto>();
+
+            // 3. РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРє id в†’ name
+            var typeDict = types.ToDictionary(t => t.BranchTypeId, t => t.Name);
+
+            // 4. Р¤РѕСЂРјСѓС”РјРѕ РЅРѕРІРёР№ СЃРїРёСЃРѕРє РґР»СЏ С‚Р°Р±Р»РёС†С–
+            var tableData = branches.Select(b => new
+            {
+                b.BranchId,
+                b.BranchName,
+                b.Address,
+                b.Phone,
+                BranchTypeId = b.BranchTypeId,                // РґР»СЏ Р»РѕРіС–РєРё
+                BranchTypeName = typeDict[b.BranchTypeId]     // РґР»СЏ РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ
+            }).ToList();
+
+            // 5. Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ
+            dataGridView1.DataSource = tableData;
+
+            // 6. РҐРѕРІР°С”РјРѕ ID
+            dataGridView1.Columns["BranchTypeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("BranchId"))
+                dataGridView1.Columns["BranchId"].Visible = false;
+
+            HighlightMenuColor(РІС–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem);
             HidePanels();
         }
 
-        // -------------------- Меню операцій --------------------
-        // 1. Клієнти
-        private void додатиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
+
+        // -------------------- РњРµРЅСЋ РѕРїРµСЂР°С†С–Р№ --------------------
+        // 1. РљР»С–С”РЅС‚Рё
+        private void РґРѕРґР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
             ClearClientForm();
-            button1.Text = "Оформити клієнта";
+            button1.Text = "РћС„РѕСЂРјРёС‚Рё РєР»С–С”РЅС‚Р°";
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -201,15 +453,15 @@ namespace BankSystem
 
             bool result = true;
 
-            if (button1.Text == "Оформити клієнта")
+            if (button1.Text == "РћС„РѕСЂРјРёС‚Рё РєР»С–С”РЅС‚Р°")
             {
                 result = await clientsApiClient.AddClientAsync(clientDto);
             }
-            else if (button1.Text == "Підтвердити редагування")
+            else if (button1.Text == "РџС–РґС‚РІРµСЂРґРёС‚Рё СЂРµРґР°РіСѓРІР°РЅРЅСЏ")
             {
                 if (dataGridView1.CurrentRow == null)
                 {
-                    MessageBox.Show("Будь ласка, оберіть клієнта для редагування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РѕР±РµСЂС–С‚СЊ РєР»С–С”РЅС‚Р° РґР»СЏ СЂРµРґР°РіСѓРІР°РЅРЅСЏ.", "РџРѕРјРёР»РєР°", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -218,11 +470,11 @@ namespace BankSystem
 
                 result = await clientsApiClient.UpdateClientAsync(clientDto);
             }
-            else if (button1.Text == "Додати рахунок")
+            else if (button1.Text == "Р”РѕРґР°С‚Рё СЂР°С…СѓРЅРѕРє")
             {
                 if (dataGridView1.CurrentRow == null)
                 {
-                    MessageBox.Show("Будь ласка, оберіть клієнта для редагування.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РѕР±РµСЂС–С‚СЊ РєР»С–С”РЅС‚Р° РґР»СЏ СЂРµРґР°РіСѓРІР°РЅРЅСЏ.", "РџРѕРјРёР»РєР°", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 var row = dataGridView1.CurrentRow;
@@ -242,10 +494,10 @@ namespace BankSystem
             ShowResult(result);
         }
 
-        private void редагуватиКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂРµРґР°РіСѓРІР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
-            button1.Text = "Підтвердити редагування";
+            button1.Text = "РџС–РґС‚РІРµСЂРґРёС‚Рё СЂРµРґР°РіСѓРІР°РЅРЅСЏ";
             FillFieldsFromSelectedRow();
         }
 
@@ -256,14 +508,14 @@ namespace BankSystem
             var accountTypes = await accountsApiClient.LoadAccountTypesAsync();
             if (accountTypes == null || accountTypes.Count == 0)
             {
-                MessageBox.Show("Типи рахунків відсутні.");
+                MessageBox.Show("РўРёРїРё СЂР°С…СѓРЅРєС–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
-            // Прив'язка через DataSource
+            // РџСЂРёРІ'СЏР·РєР° С‡РµСЂРµР· DataSource
             comboBox1.DataSource = accountTypes;
-            comboBox1.DisplayMember = "Name";       // що буде показано
-            comboBox1.ValueMember = "AccountTypeId"; // значення, яке можна використовувати у коді
+            comboBox1.DisplayMember = "Name";       // С‰Рѕ Р±СѓРґРµ РїРѕРєР°Р·Р°РЅРѕ
+            comboBox1.ValueMember = "AccountTypeId"; // Р·РЅР°С‡РµРЅРЅСЏ, СЏРєРµ РјРѕР¶РЅР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё Сѓ РєРѕРґС–
         }
         private async Task PopulateBranchTypesComboBoxAsync(ComboBox comboBox)
         {
@@ -272,13 +524,13 @@ namespace BankSystem
             var branchTypes = await branchesApiClient.LoadBranchTypesAsync();
             if (branchTypes == null || branchTypes.Count == 0)
             {
-                MessageBox.Show("Типи відділень відсутні.");
+                MessageBox.Show("РўРёРїРё РІС–РґРґС–Р»РµРЅСЊ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
             comboBox.DataSource = branchTypes;
-            comboBox.DisplayMember = "Name";          // що бачить користувач
-            comboBox.ValueMember = "BranchTypeId";    // використовується в коді
+            comboBox.DisplayMember = "Name";          // С‰Рѕ Р±Р°С‡РёС‚СЊ РєРѕСЂРёСЃС‚СѓРІР°С‡
+            comboBox.ValueMember = "BranchTypeId";    // РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ РІ РєРѕРґС–
         }
         private async Task PopulateEmployeeRolesComboBoxAsync(ComboBox comboBox)
         {
@@ -287,13 +539,13 @@ namespace BankSystem
             var roles = await employeesApiClient.LoadEmployeeRolesAsync();
             if (roles == null || roles.Count == 0)
             {
-                MessageBox.Show("Ролі працівників відсутні.");
+                MessageBox.Show("Р РѕР»С– РїСЂР°С†С–РІРЅРёРєС–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
             comboBox.DataSource = roles;
-            comboBox.DisplayMember = "Name";           // що бачить користувач
-            comboBox.ValueMember = "RoleId";   // значення для коду
+            comboBox.DisplayMember = "Name";           // С‰Рѕ Р±Р°С‡РёС‚СЊ РєРѕСЂРёСЃС‚СѓРІР°С‡
+            comboBox.ValueMember = "RoleId";   // Р·РЅР°С‡РµРЅРЅСЏ РґР»СЏ РєРѕРґСѓ
         }
 
         private async Task PopulateCreditStatusesComboBoxAsync(ComboBox comboBox)
@@ -303,13 +555,13 @@ namespace BankSystem
             var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync();
             if (creditStatuses == null || creditStatuses.Count == 0)
             {
-                MessageBox.Show("Статуси кредитів відсутні.");
+                MessageBox.Show("РЎС‚Р°С‚СѓСЃРё РєСЂРµРґРёС‚С–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
             comboBox.DataSource = creditStatuses;
-            comboBox.DisplayMember = "Name";           // що бачить користувач
-            comboBox.ValueMember = "StatusId";   // значення для коду
+            comboBox.DisplayMember = "Name";           // С‰Рѕ Р±Р°С‡РёС‚СЊ РєРѕСЂРёСЃС‚СѓРІР°С‡
+            comboBox.ValueMember = "StatusId";   // Р·РЅР°С‡РµРЅРЅСЏ РґР»СЏ РєРѕРґСѓ
         }
         private async Task PopulatePaymentTypesComboBoxAsync(ComboBox comboBox)
         {
@@ -318,13 +570,13 @@ namespace BankSystem
             var paymentTypes = await paymentsApiClient.LoadPaymentTypesAsync();
             if (paymentTypes == null || paymentTypes.Count == 0)
             {
-                MessageBox.Show("Типи платежів відсутні.");
+                MessageBox.Show("РўРёРїРё РїР»Р°С‚РµР¶С–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
             comboBox.DataSource = paymentTypes;
-            comboBox.DisplayMember = "Name";           // що бачить користувач
-            comboBox.ValueMember = "PaymentTypeId";    // значення для коду
+            comboBox.DisplayMember = "Name";           // С‰Рѕ Р±Р°С‡РёС‚СЊ РєРѕСЂРёСЃС‚СѓРІР°С‡
+            comboBox.ValueMember = "PaymentTypeId";    // Р·РЅР°С‡РµРЅРЅСЏ РґР»СЏ РєРѕРґСѓ
         }
 
         private async Task PopulateCurrenciesComboBoxAsync(ComboBox comboBox2)
@@ -333,22 +585,22 @@ namespace BankSystem
 
             try
             {
-                // Використовуємо сервіс / команду для отримання валют
+                // Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС”РјРѕ СЃРµСЂРІС–СЃ / РєРѕРјР°РЅРґСѓ РґР»СЏ РѕС‚СЂРёРјР°РЅРЅСЏ РІР°Р»СЋС‚
                 var currencies = await accountsApiClient.LoadCurrenciesAsync();
                 if (currencies == null || currencies.Count == 0)
                 {
-                    MessageBox.Show("Валюти відсутні.");
+                    MessageBox.Show("Р’Р°Р»СЋС‚Рё РІС–РґСЃСѓС‚РЅС–.");
                     return;
                 }
 
-                // Прив'язуємо до ComboBox
+                // РџСЂРёРІ'СЏР·СѓС”РјРѕ РґРѕ ComboBox
                 comboBox2.DataSource = currencies;
-                comboBox2.DisplayMember = "Name";        // що буде показано у ComboBox
-                comboBox2.ValueMember = "CurrencyId";   // ID для використання у коді
+                comboBox2.DisplayMember = "Name";        // С‰Рѕ Р±СѓРґРµ РїРѕРєР°Р·Р°РЅРѕ Сѓ ComboBox
+                comboBox2.ValueMember = "CurrencyId";   // ID РґР»СЏ РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ Сѓ РєРѕРґС–
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка при завантаженні валют: {ex.Message}");
+                MessageBox.Show($"РџРѕРјРёР»РєР° РїСЂРё Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅС– РІР°Р»СЋС‚: {ex.Message}");
             }
         }
         private async Task PopulateTransactionTypesComboBoxAsync(ComboBox comboBox)
@@ -358,26 +610,26 @@ namespace BankSystem
             var transactionTypes = await transactionsApiClient.LoadTransactionTypesAsync();
             if (transactionTypes == null || transactionTypes.Count == 0)
             {
-                MessageBox.Show("Типи транзакцій відсутні.");
+                MessageBox.Show("РўРёРїРё С‚СЂР°РЅР·Р°РєС†С–Р№ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
             comboBox.DataSource = transactionTypes;
-            comboBox.DisplayMember = "Name";               // показуємо назву типу
-            comboBox.ValueMember = "TransactionTypeId";    // значення для використання в коді
+            comboBox.DisplayMember = "Name";               // РїРѕРєР°Р·СѓС”РјРѕ РЅР°Р·РІСѓ С‚РёРїСѓ
+            comboBox.ValueMember = "TransactionTypeId";    // Р·РЅР°С‡РµРЅРЅСЏ РґР»СЏ РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ РІ РєРѕРґС–
         }
 
 
-        // -------------------- Меню фільтрації --------------------
+        // -------------------- РњРµРЅСЋ С„С–Р»СЊС‚СЂР°С†С–С— --------------------
         private async void PopulateAccountTypesSubMenu()
         {
-            клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Clear();
+            РєР»С–С”РЅС‚РёР—Р°РўРёРїРѕРјР Р°С…СѓРЅРєСѓToolStripMenuItem.DropDownItems.Clear();
 
             // GET api/accounts/load-accountTypes
             var accountTypes = await accountsApiClient.LoadAccountTypesAsync();
             if (accountTypes == null || accountTypes.Count == 0)
             {
-                MessageBox.Show("Типи рахунків відсутні.");
+                MessageBox.Show("РўРёРїРё СЂР°С…СѓРЅРєС–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
@@ -388,17 +640,17 @@ namespace BankSystem
                 {
                     await LoadClientsByAccountTypeAsync(accountTypeDto.AccountTypeId);
                 };
-                клієнтиЗаТипомРахункуToolStripMenuItem.DropDownItems.Add(subItem);
+                РєР»С–С”РЅС‚РёР—Р°РўРёРїРѕРјР Р°С…СѓРЅРєСѓToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
         private async void PopulateAccountsByCurrencySubMenu()
         {
-            рахункиЗаВалютоюToolStripMenuItem.DropDownItems.Clear();
+            СЂР°С…СѓРЅРєРёР—Р°Р’Р°Р»СЋС‚РѕСЋToolStripMenuItem.DropDownItems.Clear();
 
-            var currencies = await accountsApiClient.LoadCurrenciesAsync(); // Метод API-клієнта для валют
+            var currencies = await accountsApiClient.LoadCurrenciesAsync(); // Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РІР°Р»СЋС‚Сѓ
             if (currencies == null || currencies.Count == 0)
             {
-                MessageBox.Show("Валюти відсутні.");
+                MessageBox.Show("Р’Р°Р»СЋС‚Рё РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
@@ -407,19 +659,20 @@ namespace BankSystem
                 ToolStripMenuItem subItem = new ToolStripMenuItem(currency.Name);
                 subItem.Click += async (s, e) =>
                 {
-                    await LoadAccountsByCurrencyAsync(currency.CurrencyId);
+                    var accounts = await accountsApiClient.FilterByCurrencyAsync(currency.CurrencyId) ?? new List<AccountDto>();
+                    await ShowFilteredAccountsAsync(accounts);
                 };
-                рахункиЗаВалютоюToolStripMenuItem.DropDownItems.Add(subItem);
+                СЂР°С…СѓРЅРєРёР—Р°Р’Р°Р»СЋС‚РѕСЋToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
         private void PopulateAccountsByStatusSubMenu()
         {
-            рахункиЗаСтатусомToolStripMenuItem.DropDownItems.Clear();
+            СЂР°С…СѓРЅРєРёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.DropDownItems.Clear();
 
             var statuses = new Dictionary<string, bool>
             {
-                { "Активні", true },
-                { "Неактивні", false }
+                { "РђРєС‚РёРІРЅС–", true },
+                { "РќРµР°РєС‚РёРІРЅС–", false }
             };
 
             foreach (var status in statuses)
@@ -427,37 +680,41 @@ namespace BankSystem
                 ToolStripMenuItem subItem = new ToolStripMenuItem(status.Key);
                 subItem.Click += async (s, e) =>
                 {
-                    await LoadAccountsByStatusAsync(status.Value);
+                    var accounts = await accountsApiClient.FilterByStatusAsync(status.Value) ?? new List<AccountDto>();
+                    await ShowFilteredAccountsAsync(accounts);
                 };
-                рахункиЗаСтатусомToolStripMenuItem.DropDownItems.Add(subItem);
+                СЂР°С…СѓРЅРєРёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
         private async void PopulateCreditStatusesSubMenu()
         {
-            // Очищаємо попередні пункти меню
-            кредитиЗаСтатусомToolStripMenuItem.DropDownItems.Clear();
+            РєСЂРµРґРёС‚РёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.DropDownItems.Clear();
 
-            // Отримуємо статуси кредитів через API-клієнт
-            var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync();
-            if (creditStatuses == null || creditStatuses.Count == 0)
+            // 1. РћС‚СЂРёРјСѓС”РјРѕ СЃС‚Р°С‚СѓСЃРё РєСЂРµРґРёС‚С–РІ
+            var statuses = await creditsApiClient.LoadCreditStatusesAsync();
+            if (statuses == null || statuses.Count == 0)
             {
-                MessageBox.Show("Статуси кредитів відсутні.");
+                MessageBox.Show("РЎС‚Р°С‚СѓСЃРё РєСЂРµРґРёС‚С–РІ РІС–РґСЃСѓС‚РЅС–.");
                 return;
             }
 
-            // Створюємо підпункти меню
-            foreach (var statusDto in creditStatuses)
+            // 2. Р¤РѕСЂРјСѓС”РјРѕ РїС–РґРјРµРЅСЋ
+            foreach (var status in statuses)
             {
-                ToolStripMenuItem subItem = new ToolStripMenuItem(statusDto.Name);
+                var subItem = new ToolStripMenuItem(status.Name);
 
                 subItem.Click += async (s, e) =>
                 {
-                    await LoadCreditsByStatusAsync(statusDto.StatusId);
+                    var credits = await creditsApiClient.FilterByStatusAsync(status.StatusId)
+                                   ?? new List<CreditDto>();
+
+                    await ShowFilteredCreditsAsync(credits);
                 };
 
-                кредитиЗаСтатусомToolStripMenuItem.DropDownItems.Add(subItem);
+                РєСЂРµРґРёС‚РёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.DropDownItems.Add(subItem);
             }
         }
+
         private async Task LoadCreditsByStatusAsync(int statusId)
         {
             var credits = await creditsApiClient.FilterByStatusAsync(statusId);
@@ -465,25 +722,25 @@ namespace BankSystem
             if (credits != null)
                 dataGridView1.DataSource = credits;
             else
-                MessageBox.Show("Кредитів з таким статусом не знайдено або сталася помилка.");
+                MessageBox.Show("РљСЂРµРґРёС‚С–РІ Р· С‚Р°РєРёРј СЃС‚Р°С‚СѓСЃРѕРј РЅРµ Р·РЅР°Р№РґРµРЅРѕ Р°Р±Рѕ СЃС‚Р°Р»Р°СЃСЏ РїРѕРјРёР»РєР°.");
         }
 
         private async Task LoadAccountsByStatusAsync(bool isActive)
         {
-            var accounts = await accountsApiClient.FilterByStatusAsync(isActive); // API-клієнт повинен підтримувати фільтр
+            var accounts = await accountsApiClient.FilterByStatusAsync(isActive); // API-РєР»С–С”РЅС‚ РїРѕРІРёРЅРµРЅ РїС–РґС‚СЂРёРјСѓРІР°С‚Рё С„С–Р»СЊС‚СЂ
             if (accounts != null)
                 dataGridView1.DataSource = accounts;
             else
-                MessageBox.Show("Рахунків з таким статусом не знайдено або сталася помилка.");
+                MessageBox.Show("Р Р°С…СѓРЅРєС–РІ Р· С‚Р°РєРёРј СЃС‚Р°С‚СѓСЃРѕРј РЅРµ Р·РЅР°Р№РґРµРЅРѕ Р°Р±Рѕ СЃС‚Р°Р»Р°СЃСЏ РїРѕРјРёР»РєР°.");
         }
 
         private async Task LoadAccountsByCurrencyAsync(int currencyId)
         {
-            var accounts = await accountsApiClient.FilterByCurrencyAsync(currencyId); // Твоє API має підтримувати цей метод
+            var accounts = await accountsApiClient.FilterByCurrencyAsync(currencyId); // РўРІРѕС” API РјР°С” РїС–РґС‚СЂРёРјСѓРІР°С‚Рё С†РµР№ РјРµС‚РѕРґ
             if (accounts != null)
                 dataGridView1.DataSource = accounts;
             else
-                MessageBox.Show("Рахунків з цією валютою не знайдено або сталася помилка.");
+                MessageBox.Show("Р Р°С…СѓРЅРєС–РІ Р· С†С–С”СЋ РІР°Р»СЋС‚РѕСЋ РЅРµ Р·РЅР°Р№РґРµРЅРѕ Р°Р±Рѕ СЃС‚Р°Р»Р°СЃСЏ РїРѕРјРёР»РєР°.");
         }
 
         private async Task LoadClientsByAccountTypeAsync(int accountTypeId)
@@ -496,11 +753,11 @@ namespace BankSystem
             else
             {
                 dataGridView1.DataSource = null;
-                MessageBox.Show("Клієнтів не знайдено або сталася помилка");
+                MessageBox.Show("РљР»С–С”РЅС‚С–РІ РЅРµ Р·РЅР°Р№РґРµРЅРѕ Р°Р±Рѕ СЃС‚Р°Р»Р°СЃСЏ РїРѕРјРёР»РєР°");
             }
         }
 
-        // -------------------- Допоміжні методи --------------------
+        // -------------------- Р”РѕРїРѕРјС–Р¶РЅС– РјРµС‚РѕРґРё --------------------
         private void ShowPanel(Panel panelToShow)
         {
             accountPanel.Visible = false;
@@ -535,14 +792,14 @@ namespace BankSystem
 
         private void ShowSubPanel(Panel parent, Panel subPanelToShow)
         {
-            // Ховаємо всі субпанелі всередині parent
+            // РҐРѕРІР°С”РјРѕ РІСЃС– СЃСѓР±РїР°РЅРµР»С– РІСЃРµСЂРµРґРёРЅС– parent
             foreach (Control control in parent.Controls)
             {
                 if (control is Panel)
                     control.Visible = false;
             }
 
-            // Показуємо потрібну субпанель
+            // РџРѕРєР°Р·СѓС”РјРѕ РїРѕС‚СЂС–Р±РЅСѓ СЃСѓР±РїР°РЅРµР»СЊ
             subPanelToShow.Visible = true;
             subPanelToShow.BringToFront();
         }
@@ -608,7 +865,7 @@ namespace BankSystem
         }
         private async void ShowResult(bool result)
         {
-            string message = result ? "Успішно!" : "Помилка.";
+            string message = result ? "РЈСЃРїС–С€РЅРѕ!" : "РџРѕРјРёР»РєР°.";
             Form msgForm = new Form()
             {
                 Size = new Size(300, 150),
@@ -629,82 +886,82 @@ namespace BankSystem
             msgForm.Close();
         }
         private void ShowSubMenuForTable(string tableName)
-        { //Клієнти
-            додатиКлієнтаToolStripMenuItem.Visible = false;
-            редагуватиКлієнтаToolStripMenuItem.Visible = false;
-            клієнтиЗаТипомРахункуToolStripMenuItem.Visible = false;
-            КлієнтаЗаІменемToolStripMenuItem1.Visible = false;
-            клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = false;
-            списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = false;
-            додатиРахунокToolStripMenuItem.Visible = false;
+        { //РљР»С–С”РЅС‚Рё
+            РґРѕРґР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = false;
+            СЂРµРґР°РіСѓРІР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = false;
+            РєР»С–С”РЅС‚РёР—Р°РўРёРїРѕРјР Р°С…СѓРЅРєСѓToolStripMenuItem.Visible = false;
+            РљР»С–С”РЅС‚Р°Р—Р°Р†РјРµРЅРµРјToolStripMenuItem1.Visible = false;
+            РєР»С–С”РЅС‚Р°Р—Р°РќРѕРјРµСЂРѕРјРўРµР»РµС„РѕРЅСѓToolStripMenuItem.Visible = false;
+            СЃРїРёСЃРѕРєРђРєС‚РёРІРЅРёС…Р Р°С…СѓРЅРєС–РІРљРѕРЅРєСЂРµС‚РЅРѕРіРѕРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = false;
+            РґРѕРґР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem.Visible = false;
 
-            //Рахунки
-            редагуватиРахунокToolStripMenuItem.Visible = false;
-            рахункиЗаВалютоюToolStripMenuItem.Visible = false;
-            рахункиЗаСтатусомToolStripMenuItem.Visible = false;
-            рахункуЗаВласникомToolStripMenuItem.Visible = false;
-            випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = false;
-            //Транзакції
-            додатиТранзакціюToolStripMenuItem.Visible = false;
-            транзакціїЗаПеріодToolStripMenuItem.Visible = false;
-            //Кредити
-            додатиКредитToolStripMenuItem.Visible = false;
-            редагуватиКредитToolStripMenuItem.Visible = false;
-            кредитиЗаСтатусомToolStripMenuItem.Visible = false;
-            сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = false;
-            //Платежі
-            додатиПлатіжToolStripMenuItem.Visible = false;
-            //Співробітники
-            додатиПрацівникаToolStripMenuItem.Visible = false;
-            редагуватиПрацівникаToolStripMenuItem.Visible = false;
-            видалитиПрацівникаToolStripMenuItem.Visible = false;
-            звітПоДіяльностіСпівробітникаToolStripMenuItem.Visible = false;
-            //Відділення
-            додатиВіддіденняToolStripMenuItem.Visible = false;
-            видалитиВідділенняToolStripMenuItem.Visible = false;
-            редагуватиВідділенняToolStripMenuItem.Visible = false;
-            // Потім показуємо потрібне залежно від таблиці
+            //Р Р°С…СѓРЅРєРё
+            СЂРµРґР°РіСѓРІР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem.Visible = false;
+            СЂР°С…СѓРЅРєРёР—Р°Р’Р°Р»СЋС‚РѕСЋToolStripMenuItem.Visible = false;
+            СЂР°С…СѓРЅРєРёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.Visible = false;
+            СЂР°С…СѓРЅРєСѓР—Р°Р’Р»Р°СЃРЅРёРєРѕРјToolStripMenuItem.Visible = false;
+            РІРёРїРёСЃРєР°РџРѕР Р°С…СѓРЅРєСѓР—Р°РџРµСЂС–РѕРґToolStripMenuItem.Visible = false;
+            //РўСЂР°РЅР·Р°РєС†С–С—
+            РґРѕРґР°С‚РёРўСЂР°РЅР·Р°РєС†С–СЋToolStripMenuItem.Visible = false;
+            С‚СЂР°РЅР·Р°РєС†С–С—Р—Р°РџРµСЂС–РѕРґToolStripMenuItem.Visible = false;
+            //РљСЂРµРґРёС‚Рё
+            РґРѕРґР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem.Visible = false;
+            СЂРµРґР°РіСѓРІР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem.Visible = false;
+            РєСЂРµРґРёС‚РёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.Visible = false;
+            СЃСѓРјР°СЂРЅРёР№РљСЂРµРґРёС‚РЅРёР№РџСЂРѕС„С–Р»СЊР‘Р°РЅРєСѓToolStripMenuItem.Visible = false;
+            //РџР»Р°С‚РµР¶С–
+            РґРѕРґР°С‚РёРџР»Р°С‚С–Р¶ToolStripMenuItem.Visible = false;
+            //РЎРїС–РІСЂРѕР±С–С‚РЅРёРєРё
+            РґРѕРґР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = false;
+            СЂРµРґР°РіСѓРІР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = false;
+            РІРёРґР°Р»РёС‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = false;
+            Р·РІС–С‚РџРѕР”С–СЏР»СЊРЅРѕСЃС‚С–РЎРїС–РІСЂРѕР±С–С‚РЅРёРєР°ToolStripMenuItem.Visible = false;
+            //Р’С–РґРґС–Р»РµРЅРЅСЏ
+            РґРѕРґР°С‚РёР’С–РґРґС–РґРµРЅРЅСЏToolStripMenuItem.Visible = false;
+            РІРёРґР°Р»РёС‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem.Visible = false;
+            СЂРµРґР°РіСѓРІР°С‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem.Visible = false;
+            // РџРѕС‚С–Рј РїРѕРєР°Р·СѓС”РјРѕ РїРѕС‚СЂС–Р±РЅРµ Р·Р°Р»РµР¶РЅРѕ РІС–Рґ С‚Р°Р±Р»РёС†С–
             switch (tableName)
             {
                 case "Clients":
-                    додатиКлієнтаToolStripMenuItem.Visible = true;
-                    редагуватиКлієнтаToolStripMenuItem.Visible = true;
-                    додатиРахунокToolStripMenuItem.Visible = true;
-                    клієнтиЗаТипомРахункуToolStripMenuItem.Visible = true;
-                    КлієнтаЗаІменемToolStripMenuItem1.Visible = true;
-                    клієнтаЗаНомеромТелефонуToolStripMenuItem.Visible = true;
-                    списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = true;
+                    СЂРµРґР°РіСѓРІР°С‚РёРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem.Visible = true;
+                    РєР»С–С”РЅС‚РёР—Р°РўРёРїРѕРјР Р°С…СѓРЅРєСѓToolStripMenuItem.Visible = true;
+                    РљР»С–С”РЅС‚Р°Р—Р°Р†РјРµРЅРµРјToolStripMenuItem1.Visible = true;
+                    РєР»С–С”РЅС‚Р°Р—Р°РќРѕРјРµСЂРѕРјРўРµР»РµС„РѕРЅСѓToolStripMenuItem.Visible = true;
+                    СЃРїРёСЃРѕРєРђРєС‚РёРІРЅРёС…Р Р°С…СѓРЅРєС–РІРљРѕРЅРєСЂРµС‚РЅРѕРіРѕРљР»С–С”РЅС‚Р°ToolStripMenuItem.Visible = true;
                     break;
                 case "Accounts":
-                    редагуватиРахунокToolStripMenuItem.Visible = true;
-                    рахункиЗаВалютоюToolStripMenuItem.Visible = true;
-                    рахункиЗаСтатусомToolStripMenuItem.Visible = true;
-                    рахункуЗаВласникомToolStripMenuItem.Visible = true;
-                    випискаПоРахункуЗаПеріодToolStripMenuItem.Visible = true;
-                    додатиТранзакціюToolStripMenuItem.Visible = true;
-                    додатиКредитToolStripMenuItem.Visible = true;
+                    СЂРµРґР°РіСѓРІР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem.Visible = true;
+                    СЂР°С…СѓРЅРєРёР—Р°Р’Р°Р»СЋС‚РѕСЋToolStripMenuItem.Visible = true;
+                    СЂР°С…СѓРЅРєРёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.Visible = true;
+                    СЂР°С…СѓРЅРєСѓР—Р°Р’Р»Р°СЃРЅРёРєРѕРјToolStripMenuItem.Visible = true;
+                    РІРёРїРёСЃРєР°РџРѕР Р°С…СѓРЅРєСѓР—Р°РџРµСЂС–РѕРґToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёРўСЂР°РЅР·Р°РєС†С–СЋToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem.Visible = true;
                     break;
                 case "BankBranches":
-                    додатиВіддіденняToolStripMenuItem.Visible = true;
-                    видалитиВідділенняToolStripMenuItem.Visible = true;
-                    редагуватиВідділенняToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёР’С–РґРґС–РґРµРЅРЅСЏToolStripMenuItem.Visible = true;
+                    РІРёРґР°Р»РёС‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem.Visible = true;
+                    СЂРµРґР°РіСѓРІР°С‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem.Visible = true;
                     break;
                 case "Credits":
-                    редагуватиКредитToolStripMenuItem.Visible = true;
-                    кредитиЗаСтатусомToolStripMenuItem.Visible = true;
-                    сумарнийКредитнийПрофільБанкуToolStripMenuItem.Visible = true;
+                    СЂРµРґР°РіСѓРІР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem.Visible = true;
+                    РєСЂРµРґРёС‚РёР—Р°РЎС‚Р°С‚СѓСЃРѕРјToolStripMenuItem.Visible = true;
+                    СЃСѓРјР°СЂРЅРёР№РљСЂРµРґРёС‚РЅРёР№РџСЂРѕС„С–Р»СЊР‘Р°РЅРєСѓToolStripMenuItem.Visible = true;
                     break;
                 case "Employees":
-                    додатиПрацівникаToolStripMenuItem.Visible = true;
-                    редагуватиПрацівникаToolStripMenuItem.Visible = true;
-                    видалитиПрацівникаToolStripMenuItem.Visible = true;
-                    звітПоДіяльностіСпівробітникаToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = true;
+                    СЂРµРґР°РіСѓРІР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = true;
+                    РІРёРґР°Р»РёС‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem.Visible = true;
+                    Р·РІС–С‚РџРѕР”С–СЏР»СЊРЅРѕСЃС‚С–РЎРїС–РІСЂРѕР±С–С‚РЅРёРєР°ToolStripMenuItem.Visible = true;
                     break;
                 case "Payments":
-                    додатиПлатіжToolStripMenuItem.Visible = true;
+                    РґРѕРґР°С‚РёРџР»Р°С‚С–Р¶ToolStripMenuItem.Visible = true;
                     break;
                 case "Transactions":
-                    транзакціїЗаПеріодToolStripMenuItem.Visible = true;
+                    С‚СЂР°РЅР·Р°РєС†С–С—Р—Р°РџРµСЂС–РѕРґToolStripMenuItem.Visible = true;
                     break;
             }
         }
@@ -714,119 +971,175 @@ namespace BankSystem
             List<AccountDto>? accounts = null;
             List<TransactionDto>? transactions = null;
 
-            // пошук за клієнтами
-            if (button2.Text == "Знайти за іменем")
+            // ---- РџРћРЁРЈРљ ----
+            if (button2.Text == "Р—РЅР°Р№С‚Рё Р·Р° С–РјРµРЅРµРј")
             {
                 clients = await clientsApiClient.SearchByFullNameAsync(textBox8.Text);
             }
-            else if (button2.Text == "Знайти за номером телефону")
+            else if (button2.Text == "Р—РЅР°Р№С‚Рё Р·Р° РЅРѕРјРµСЂРѕРј С‚РµР»РµС„РѕРЅСѓ")
             {
                 clients = await clientsApiClient.SearchByPhoneNumberAsync(textBox8.Text);
             }
-            // пошук за рахунком
-            else if (button2.Text == "Знайти за іменем власника")
+            else if (button2.Text == "Р—РЅР°Р№С‚Рё Р·Р° С–РјРµРЅРµРј РІР»Р°СЃРЅРёРєР°")
             {
                 accounts = await accountsApiClient.SearchByOwnerAsync(textBox8.Text);
-            }
-            // пошук транзакцій за період
-            else if (button2.Text == "Знайти за період")
-            {
-                // ---- ВАЛІДАЦІЯ ----
 
+                if (accounts != null && accounts.Count > 0)
+                {
+                    await ShowFilteredAccountsAsync(accounts);
+                }
+            }
+            else if (button2.Text == "Р—РЅР°Р№С‚Рё Р·Р° РїРµСЂС–РѕРґ")
+            {
                 if (dateTimePicker5.Value > dateTimePicker4.Value)
                 {
-                    MessageBox.Show(
-                        "Дата початку періоду не може бути пізніше дати завершення.",
-                        "Некоректний період",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Р”Р°С‚Р° РїРѕС‡Р°С‚РєСѓ РїРµСЂС–РѕРґСѓ РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїС–Р·РЅС–С€Рµ РґР°С‚Рё Р·Р°РІРµСЂС€РµРЅРЅСЏ.",
+                        "РќРµРєРѕСЂРµРєС‚РЅРёР№ РїРµСЂС–РѕРґ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                transactions = await transactionsApiClient.SearchByPeriodAsync(
-                    dateTimePicker5.Value,
-                    dateTimePicker4.Value
-                );
+                // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ С‚СЂР°РЅР·Р°РєС†С–С— Р·Р° РїРµСЂС–РѕРґ
+                transactions = await transactionsApiClient.SearchByPeriodAsync(dateTimePicker5.Value, dateTimePicker4.Value)
+                                    ?? new List<TransactionDto>();
 
-                textBox8.Show();
+                // 2. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РґРѕРІС–РґРЅРёРєРё
+                accounts = await accountsApiClient.LoadAccountsAsync() ?? new List<AccountDto>();
+                clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+                var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+                var transactionTypes = await transactionsApiClient.LoadTransactionTypesAsync() ?? new List<TransactionTypeDto>();
+
+                // 3. Р“РѕС‚СѓС”РјРѕ СЃР»РѕРІРЅРёРєРё
+                var accountOwnerDict = accounts.ToDictionary(
+                    a => a.AccountId,
+                    a =>
+                    {
+                        var client = clients.FirstOrDefault(c => c.ClientId == a.ClientId);
+                        return client != null ? $"{client.LastName} {client.FirstName} {client.MiddleName}" : "";
+                    });
+
+                var employeeDict = employees.ToDictionary(e => e.EmployeeId,
+                    e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+
+                var transactionTypeDict = transactionTypes.ToDictionary(
+                    t => t.TransactionTypeId, t => t.Name);
+
+                // 4. Р¤РѕСЂРјСѓС”РјРѕ РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ
+                var tableData = transactions.Select(t => new
+                {
+                    t.TransactionId,
+                    AccountId = t.AccountId,
+                    EmployeeId = t.EmployeeId,
+                    TransactionTypeId = t.TransactionTypeId,
+                    AccountOwnerName = accountOwnerDict.ContainsKey(t.AccountId) ? accountOwnerDict[t.AccountId] : "",
+                    EmployeeName = t.EmployeeId.HasValue && employeeDict.ContainsKey(t.EmployeeId.Value)
+                                    ? employeeDict[t.EmployeeId.Value]
+                                    : "",
+                    TransactionTypeName = transactionTypeDict.ContainsKey(t.TransactionTypeId)
+                                    ? transactionTypeDict[t.TransactionTypeId]
+                                    : "",
+                    t.Amount,
+                    t.TransactionDate,
+                    t.Description
+                }).ToList();
+
+                // 5. Р’С–РґРѕР±СЂР°Р¶РµРЅРЅСЏ Сѓ DataGrid
+                dataGridView1.DataSource = tableData;
+
+                // 6. РҐРѕРІР°С”РјРѕ ID-РїРѕР»СЏ
+                if (dataGridView1.Columns.Contains("TransactionId"))
+                    dataGridView1.Columns["TransactionId"].Visible = false;
+                if (dataGridView1.Columns.Contains("AccountId"))
+                    dataGridView1.Columns["AccountId"].Visible = false;
+                if (dataGridView1.Columns.Contains("EmployeeId"))
+                    dataGridView1.Columns["EmployeeId"].Visible = false;
+                if (dataGridView1.Columns.Contains("TransactionTypeId"))
+                    dataGridView1.Columns["TransactionTypeId"].Visible = false;
+
+                // РІР°Р¶Р»РёРІРѕ: РґРѕРґР°С”РјРѕ return, С‰РѕР± РЅРёР¶РЅСЏ С‡Р°СЃС‚РёРЅР° РјРµС‚РѕРґСѓ РЅРµ Р·Р°С‚РёСЂР°Р»Р° С‚Р°Р±Р»РёС†СЋ
+                return;
             }
 
-            // ---- РЕЗУЛЬТАТИ ----
 
-            if (clients != null && clients.Count > 0)
+
+            // ---- Р’Р†Р”РћР‘Р РђР–Р•РќРќРЇ ----
+            if ((clients != null && clients.Count > 0) ||
+                (accounts != null && accounts.Count > 0) ||
+                (transactions != null && transactions.Count > 0))
             {
-                dataGridView1.DataSource = clients;
-                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
-            }
-            else if (accounts != null && accounts.Count > 0)
-            {
-                dataGridView1.DataSource = accounts;
-                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
-            }
-            else if (transactions != null && transactions.Count > 0)
-            {
-                dataGridView1.DataSource = transactions;
-                dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
+                if (clients != null && clients.Count > 0)
+                {
+                    bindingSource1.DataSource = clients;
+                    dataGridView1.DataSource = bindingSource1;
+
+                    if (dataGridView1.Columns.Contains("ClientId"))
+                        dataGridView1.Columns["ClientId"].Visible = false;
+                }
+
+                // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ РїРµСЂС€Сѓ РІРёРґРёРјСѓ РєР»С–С‚РёРЅРєСѓ Р°РєС‚РёРІРЅРѕСЋ
+                if (dataGridView1.Rows.Count > 0)
+                {
+                    DataGridViewColumn firstVisibleCol = dataGridView1.Columns
+                        .Cast<DataGridViewColumn>()
+                        .FirstOrDefault(c => c.Visible)!;
+
+                    if (firstVisibleCol != null)
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[firstVisibleCol.Index];
+                }
             }
             else
             {
-                MessageBox.Show(
-                    "Об’єкт не знайдено.",
-                    "Результат пошуку",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
+                MessageBox.Show("РћР±вЂ™С”РєС‚ РЅРµ Р·РЅР°Р№РґРµРЅРѕ.", "Р РµР·СѓР»СЊС‚Р°С‚ РїРѕС€СѓРєСѓ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.DataSource = null;
             }
         }
 
 
 
-        private void клієнтаЗаНомеромТелефонуToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void РєР»С–С”РЅС‚Р°Р—Р°РќРѕРјРµСЂРѕРјРўРµР»РµС„РѕРЅСѓToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(searchPanel);
-            button2.Text = "Знайти за номером телефону";
+            button2.Text = "Р—РЅР°Р№С‚Рё Р·Р° РЅРѕРјРµСЂРѕРј С‚РµР»РµС„РѕРЅСѓ";
         }
 
-        private void КлієнтаЗаІменемToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void РљР»С–С”РЅС‚Р°Р—Р°Р†РјРµРЅРµРјToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             ShowPanel(searchPanel);
-            button2.Text = "Знайти за іменем";
+            button2.Text = "Р—РЅР°Р№С‚Рё Р·Р° С–РјРµРЅРµРј";
         }
 
-        private void списокАктивнихРахунківКонкретногоКлієнтаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЃРїРёСЃРѕРєРђРєС‚РёРІРЅРёС…Р Р°С…СѓРЅРєС–РІРљРѕРЅРєСЂРµС‚РЅРѕРіРѕРљР»С–С”РЅС‚Р°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(reportPanel);
 
-            // Перевіряємо, що рядок виділений
+            // РџРµСЂРµРІС–СЂСЏС”РјРѕ, С‰Рѕ СЂСЏРґРѕРє РІРёРґС–Р»РµРЅРёР№
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть клієнта у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ РєР»С–С”РЅС‚Р° Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
-            // Отримуємо ClientId із виділеного рядка
+            // РћС‚СЂРёРјСѓС”РјРѕ ClientId С–Р· РІРёРґС–Р»РµРЅРѕРіРѕ СЂСЏРґРєР°
             var cellValue = dataGridView1.CurrentRow.Cells["ClientId"].Value;
 
             if (cellValue == null || cellValue == DBNull.Value)
             {
-                MessageBox.Show("У виділеного клієнта відсутній ClientId.");
+                MessageBox.Show("РЈ РІРёРґС–Р»РµРЅРѕРіРѕ РєР»С–С”РЅС‚Р° РІС–РґСЃСѓС‚РЅС–Р№ ClientId.");
                 return;
             }
 
             int clientId = Convert.ToInt32(cellValue);
 
-            // Генеруємо звіт
+            // Р“РµРЅРµСЂСѓС”РјРѕ Р·РІС–С‚
             string report = reportService.GenerateActiveAccountsReportContent(clientId);
             textBox9.Text = report;
         }
 
-        private void додатиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РґРѕРґР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(clientPanel);
             ShowSubPanel(clientPanel, accountClientPanel);
-            button1.Text = "Додати рахунок";
+            button1.Text = "Р”РѕРґР°С‚Рё СЂР°С…СѓРЅРѕРє";
         }
 
         private void textBox11_TextChanged(object sender, EventArgs e)
@@ -839,37 +1152,37 @@ namespace BankSystem
 
         }
 
-        private void редагуватиРахунокToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂРµРґР°РіСѓРІР°С‚РёР Р°С…СѓРЅРѕРєToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            button4.Text = "Внести зміни";
+            button4.Text = "Р’РЅРµСЃС‚Рё Р·РјС–РЅРё";
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЂР°С…СѓРЅРѕРє Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
             ShowPanel(accountPanel);
             ShowSubPanel(accountPanel, accountClientPanel);
             var row = dataGridView1.CurrentRow;
-            // Заповнюємо комбо-бокси правильно через SelectedValue
+            // Р—Р°РїРѕРІРЅСЋС”РјРѕ РєРѕРјР±Рѕ-Р±РѕРєСЃРё РїСЂР°РІРёР»СЊРЅРѕ С‡РµСЂРµР· SelectedValue
             comboBox4.SelectedValue = row.Cells["AccountTypeId"].Value;
             comboBox3.SelectedValue = row.Cells["CurrencyId"].Value;
 
-            // Баланс
+            // Р‘Р°Р»Р°РЅСЃ
             textBox10.Text = row.Cells["Balance"].Value?.ToString();
 
         }
 
-        private void рахункуЗаВласникомToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂР°С…СѓРЅРєСѓР—Р°Р’Р»Р°СЃРЅРёРєРѕРјToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(searchPanel);
-            button2.Text = "Знайти за іменем власника";
+            button2.Text = "Р—РЅР°Р№С‚Рё Р·Р° С–РјРµРЅРµРј РІР»Р°СЃРЅРёРєР°";
         }
 
-        private void випискаПоРахункуЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РІРёРїРёСЃРєР°РџРѕР Р°С…СѓРЅРєСѓР—Р°РџРµСЂС–РѕРґToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЂР°С…СѓРЅРѕРє Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
@@ -888,14 +1201,14 @@ namespace BankSystem
             }
         }
 
-        private void операцToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РѕРїРµСЂР°С†ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            if (button4.Text == "Внести зміни")
+            if (button4.Text == "Р’РЅРµСЃС‚Рё Р·РјС–РЅРё")
             {
                 var row = dataGridView1.CurrentRow;
                 if (row == null) return;
@@ -929,37 +1242,41 @@ namespace BankSystem
                 var result = await accountsApiClient.UpdateAccountAsync(accountDto);
                 ShowResult(result);
             }
-            else if (button4.Text == "Додати транзакцію")
+            else if (button4.Text == "Р”РѕРґР°С‚Рё С‚СЂР°РЅР·Р°РєС†С–СЋ")
             {
                 var row = dataGridView1.CurrentRow;
                 if (row == null) return;
-
+                var employees = await employeesApiClient.LoadEmployeesAsync();
+                var employeeName = employees.First(e => e.EmployeeId == currentUserService.EmployeeId).LastName + " " + employees.First(e => e.EmployeeId == currentUserService.EmployeeId).FirstName + " " + employees.First(e => e.EmployeeId == currentUserService.EmployeeId) + employees.First(e => e.EmployeeId == currentUserService.EmployeeId).MiddleName;
                 TransactionDto transactionDto = new TransactionDto()
                 {
                     AccountId = Convert.ToInt32(row.Cells["AccountId"].Value),
                     TransactionTypeId = comboBox5.SelectedIndex + 1,
+                    TransactionTypeName = comboBox5.Text,
                     Amount = decimal.Parse(textBox11.Text),
                     TransactionDate = DateTime.Now,
-                    EmployeeId = currentUserService.EmployeeId
+                    EmployeeId = currentUserService.EmployeeId,
+                    EmployeeName = employeeName
                 };
 
                 var result = await transactionsApiClient.AddTransactionAsync(transactionDto);
 
                 ShowResult(result);
             }
-            else if (button4.Text == "Додати кредит")
+            else if (button4.Text == "Р”РѕРґР°С‚Рё РєСЂРµРґРёС‚")
             {
                 var cellValue = dataGridView1.CurrentRow.Cells["AccountId"].Value;
 
                 if (cellValue == null || cellValue == DBNull.Value)
                 {
-                    MessageBox.Show("У виділеного рахунку відсутній AccountId.");
+                    MessageBox.Show("РЈ РІРёРґС–Р»РµРЅРѕРіРѕ СЂР°С…СѓРЅРєСѓ РІС–РґСЃСѓС‚РЅС–Р№ AccountId.");
                     return;
                 }
 
                 int accountId = Convert.ToInt32(cellValue);
                 var accounts = await accountsApiClient.LoadAccountsAsync();
-
+                var statuses = await creditsApiClient.LoadCreditStatusesAsync();
+                var neededStatus = statuses.FirstOrDefault(s => s.StatusId == 1);
                 AccountDto account = null;
                 foreach (var acc in accounts)
                 {
@@ -976,6 +1293,7 @@ namespace BankSystem
                     InterestRate = decimal.Parse(textBox13.Text),
                     StartDate = DateOnly.FromDateTime(DateTime.Now),
                     StatusId = 1,
+                    StatusName = neededStatus.Name,
                     EmployeeId = currentUserService.EmployeeId
                 };
 
@@ -984,36 +1302,36 @@ namespace BankSystem
             }
         }
 
-        private void транзакціїЗаПеріодToolStripMenuItem_Click(object sender, EventArgs e)
+        private void С‚СЂР°РЅР·Р°РєС†С–С—Р—Р°РџРµСЂС–РѕРґToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(searchPanel);
             ShowSubPanel(searchPanel, searchTimerPanel);
-            button2.Text = "Знайти за період";
+            button2.Text = "Р—РЅР°Р№С‚Рё Р·Р° РїРµСЂС–РѕРґ";
             textBox8.Hide();
         }
 
-        private async void додатиТранзакціюToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void РґРѕРґР°С‚РёРўСЂР°РЅР·Р°РєС†С–СЋToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(accountPanel);
             ShowSubPanel(accountPanel, transactionAccountPanel);
-            button4.Text = "Додати транзакцію";
+            button4.Text = "Р”РѕРґР°С‚Рё С‚СЂР°РЅР·Р°РєС†С–СЋ";
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЂР°С…СѓРЅРѕРє Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
-            // Отримуємо ClientId із виділеного рядка
+            // РћС‚СЂРёРјСѓС”РјРѕ ClientId С–Р· РІРёРґС–Р»РµРЅРѕРіРѕ СЂСЏРґРєР°
             var cellValueAccountTypeId = dataGridView1.CurrentRow.Cells["AccountTypeId"].Value;
             var cellValueCurrencyTypeId = dataGridView1.CurrentRow.Cells["CurrencyId"].Value;
             var cellValueBalance = dataGridView1.CurrentRow.Cells["Balance"].Value;
 
-            comboBox4.SelectedIndex = Convert.ToInt32(cellValueAccountTypeId)+1;
+            comboBox4.SelectedIndex = Convert.ToInt32(cellValueAccountTypeId) + 1;
             comboBox3.SelectedIndex = Convert.ToInt32(cellValueCurrencyTypeId) + 1;
             textBox10.Text = Convert.ToString(cellValueBalance);
         }
 
-        private void сумарнийКредитнийПрофільБанкуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЃСѓРјР°СЂРЅРёР№РљСЂРµРґРёС‚РЅРёР№РџСЂРѕС„С–Р»СЊР‘Р°РЅРєСѓToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(reportPanel);
             reportAccountPanel.Hide();
@@ -1021,23 +1339,23 @@ namespace BankSystem
             textBox9.Text = report;
         }
 
-        private void звітПоДіяльностіСпівробітникаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Р·РІС–С‚РџРѕР”С–СЏР»СЊРЅРѕСЃС‚С–РЎРїС–РІСЂРѕР±С–С‚РЅРёРєР°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(reportPanel);
 
-            // Перевіряємо, що рядок виділений
+            // РџРµСЂРµРІС–СЂСЏС”РјРѕ, С‰Рѕ СЂСЏРґРѕРє РІРёРґС–Р»РµРЅРёР№
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
-            // Отримуємо ClientId із виділеного рядка
+            // РћС‚СЂРёРјСѓС”РјРѕ ClientId С–Р· РІРёРґС–Р»РµРЅРѕРіРѕ СЂСЏРґРєР°
             var cellValue = dataGridView1.CurrentRow.Cells["EmployeeId"].Value;
 
             if (cellValue == null || cellValue == DBNull.Value)
             {
-                MessageBox.Show("У виділеного співробітника відсутній EmployeeId.");
+                MessageBox.Show("РЈ РІРёРґС–Р»РµРЅРѕРіРѕ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° РІС–РґСЃСѓС‚РЅС–Р№ EmployeeId.");
                 return;
             }
 
@@ -1052,69 +1370,80 @@ namespace BankSystem
 
         }
 
-        private async void додатиКредитToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void РґРѕРґР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(accountPanel);
             ShowSubPanel(accountPanel, creditAccountPanel);
-            button4.Text = "Додати кредит";
+            button4.Text = "Р”РѕРґР°С‚Рё РєСЂРµРґРёС‚";
 
-            // Перевіряємо, що рядок виділений
+            // РџРµСЂРµРІС–СЂСЏС”РјРѕ, С‰Рѕ СЂСЏРґРѕРє РІРёРґС–Р»РµРЅРёР№
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть рахунок у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЂР°С…СѓРЅРѕРє Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
         }
 
-        private async void видалитиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void РІРёРґР°Р»РёС‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
-            // Отримуємо ClientId із виділеного рядка
+            // РћС‚СЂРёРјСѓС”РјРѕ ClientId С–Р· РІРёРґС–Р»РµРЅРѕРіРѕ СЂСЏРґРєР°
             var cellValue = dataGridView1.CurrentRow.Cells["EmployeeId"].Value;
 
             if (cellValue == null || cellValue == DBNull.Value)
             {
-                MessageBox.Show("У виділеного співробітника відсутній EmployeeId.");
+                MessageBox.Show("РЈ РІРёРґС–Р»РµРЅРѕРіРѕ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° РІС–РґСЃСѓС‚РЅС–Р№ EmployeeId.");
                 return;
             }
 
             int clientId = Convert.ToInt32(cellValue);
             if (clientId == currentUserService.EmployeeId)
             {
-                MessageBox.Show("Ви не можете видалити себе!");
+                MessageBox.Show("Р’Рё РЅРµ РјРѕР¶РµС‚Рµ РІРёРґР°Р»РёС‚Рё СЃРµР±Рµ!");
                 return;
             }
+            var employeeAccounts = await accountsApiClient.LoadAccountsAsync();
+            var employeeCredits = await creditsApiClient.LoadCreditsAsync();
+            var employeeTransactions = await transactionsApiClient.LoadTransactionsAsync();
+            bool hasAccounts = employeeAccounts.Any(a => a.EmployeeId == clientId);
+            bool hasClients = employeeCredits.Any(c => c.EmployeeId == clientId);
+            bool hasTransactions = employeeTransactions.Any(t => t.EmployeeId == clientId);
 
+            if (hasAccounts || hasClients || hasTransactions)
+            {
+                MessageBox.Show("РќРµ РјРѕР¶РЅР° РІРёРґР°Р»РёС‚Рё РїСЂР°С†С–РІРЅРёРєР°, РѕСЃРєС–Р»СЊРєРё РІС–РЅ СЃС‚РІРѕСЂРёРІ Р°РєР°СѓРЅС‚Рё Р°Р±Рѕ РєСЂРµРґРёС‚Рё С‡Рё РїСЂРѕРІС–РІ С‚СЂР°РЅР·Р°РєС†С–С—. РџСЂР°С†С–РІРЅРёРє РјР°С” РїРµСЂРµРґР°С‚Рё СЃРІРѕС— РѕР±РѕРІ'СЏР·РєРё С–РЅС€РѕРјСѓ РїСЂР°С†С–РІРЅРёРєРѕРІС– РїРµСЂРµРґ С‚РёРј, СЏРє РІРёРґР°Р»РёС‚Рё Р№РѕРіРѕ Р°РєР°СѓРЅС‚.");
+                return;
+            }
             var result = await employeesApiClient.DeleteEmployeeAsync(clientId);
             ShowResult(result);
         }
 
-        private async void видалитиВідділенняToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void РІРёРґР°Р»РёС‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
-            // Отримуємо ClientId із виділеного рядка
+            // РћС‚СЂРёРјСѓС”РјРѕ ClientId С–Р· РІРёРґС–Р»РµРЅРѕРіРѕ СЂСЏРґРєР°
             var cellValue = dataGridView1.CurrentRow.Cells["BranchId"].Value;
 
             if (cellValue == null || cellValue == DBNull.Value)
             {
-                MessageBox.Show("У виділеного відділення відсутній BranchId.");
+                MessageBox.Show("РЈ РІРёРґС–Р»РµРЅРѕРіРѕ РІС–РґРґС–Р»РµРЅРЅСЏ РІС–РґСЃСѓС‚РЅС–Р№ BranchId.");
                 return;
             }
 
             int clientId = Convert.ToInt32(cellValue);
             if (clientId == currentUserService.BankBranchId)
             {
-                MessageBox.Show("Ви не можете видалити відділення, в якому працюєте!");
+                MessageBox.Show("Р’Рё РЅРµ РјРѕР¶РµС‚Рµ РІРёРґР°Р»РёС‚Рё РІС–РґРґС–Р»РµРЅРЅСЏ, РІ СЏРєРѕРјСѓ РїСЂР°С†СЋС”С‚Рµ!");
                 return;
             }
 
@@ -1122,10 +1451,10 @@ namespace BankSystem
             ShowResult(result);
         }
 
-        private void додатиВіддіденняToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РґРѕРґР°С‚РёР’С–РґРґС–РґРµРЅРЅСЏToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(branchPanel);
-            button7.Text = "Додати відділення";
+            button7.Text = "Р”РѕРґР°С‚Рё РІС–РґРґС–Р»РµРЅРЅСЏ";
         }
 
         private async void button7_Click(object sender, EventArgs e)
@@ -1135,15 +1464,16 @@ namespace BankSystem
                 BranchName = textBox18.Text,
                 Address = textBox20.Text,
                 Phone = textBox19.Text,
-                BranchTypeId = comboBox8.SelectedIndex + 1
+                BranchTypeId = comboBox8.SelectedIndex + 1,
+                BranchTypeName = comboBox8.Text
             };
             bool result;
-            if (button7.Text == "Додати відділення")
+            if (button7.Text == "Р”РѕРґР°С‚Рё РІС–РґРґС–Р»РµРЅРЅСЏ")
             {
                 result = await branchesApiClient.AddBranchAsync(branchDto);
                 ShowResult(result);
             }
-            else if (button7.Text == "Редагувати відділення")
+            else if (button7.Text == "Р РµРґР°РіСѓРІР°С‚Рё РІС–РґРґС–Р»РµРЅРЅСЏ")
             {
                 var row = dataGridView1.CurrentRow;
                 branchDto.BranchId = Convert.ToInt32(row.Cells["BranchId"].Value);
@@ -1153,19 +1483,19 @@ namespace BankSystem
 
         }
 
-        private void редагуватиВідділенняToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂРµРґР°РіСѓРІР°С‚РёР’С–РґРґС–Р»РµРЅРЅСЏToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(branchPanel);
-            button7.Text = "Редагувати відділення";
-            // Перевіряємо, що рядок виділений
+            button7.Text = "Р РµРґР°РіСѓРІР°С‚Рё РІС–РґРґС–Р»РµРЅРЅСЏ";
+            // РџРµСЂРµРІС–СЂСЏС”РјРѕ, С‰Рѕ СЂСЏРґРѕРє РІРёРґС–Р»РµРЅРёР№
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть відділення у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ РІС–РґРґС–Р»РµРЅРЅСЏ Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
             if (dataGridView1.CurrentRow == null) return;
 
-            // Витягуємо дані з поточного рядка
+            // Р’РёС‚СЏРіСѓС”РјРѕ РґР°РЅС– Р· РїРѕС‚РѕС‡РЅРѕРіРѕ СЂСЏРґРєР°
             var row = dataGridView1.CurrentRow;
 
             textBox18.Text = Convert.ToString(row.Cells["BranchName"].Value);
@@ -1177,33 +1507,33 @@ namespace BankSystem
             comboBox8.SelectedValue = branchTypeId - 1;
         }
 
-        private void редагуватиКредитToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂРµРґР°РіСѓРІР°С‚РёРљСЂРµРґРёС‚ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(creditPanel);
-            // Перевіряємо, що рядок виділений
+            // РџРµСЂРµРІС–СЂСЏС”РјРѕ, С‰Рѕ СЂСЏРґРѕРє РІРёРґС–Р»РµРЅРёР№
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть кредит у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ РєСЂРµРґРёС‚ Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
             if (dataGridView1.CurrentRow == null) return;
 
-            // Витягуємо дані з поточного рядка
+            // Р’РёС‚СЏРіСѓС”РјРѕ РґР°РЅС– Р· РїРѕС‚РѕС‡РЅРѕРіРѕ СЂСЏРґРєР°
             var row = dataGridView1.CurrentRow;
 
             textBox15.Text = row.Cells["CreditAmount"].Value.ToString();
             comboBox6.SelectedIndex = Convert.ToInt32(row.Cells["StatusId"].Value) - 1;
         }
 
-        private void додатиПлатіжToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РґРѕРґР°С‚РёРџР»Р°С‚С–Р¶ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(creditPaymentPanel);
         }
 
-        private void додатиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РґРѕРґР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(employeePanel);
-            button8.Text = "Додати співробітника";
+            button8.Text = "Р”РѕРґР°С‚Рё СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР°";
         }
 
         private async void button5_Click(object sender, EventArgs e)
@@ -1233,6 +1563,7 @@ namespace BankSystem
                 EndDate = ParseDate(row.Cells["EndDate"].Value),
 
                 StatusId = comboBox6.SelectedIndex + 1,
+                StatusName = comboBox6.Text,
                 EmployeeId = row.Cells["EmployeeId"].Value == DBNull.Value
                     ? null
                     : Convert.ToInt32(row.Cells["EmployeeId"].Value)
@@ -1247,23 +1578,50 @@ namespace BankSystem
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть кредит у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ РєСЂРµРґРёС‚ Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
-            if (dataGridView1.CurrentRow == null) return;
 
-            // Витягуємо дані з поточного рядка
             var row = dataGridView1.CurrentRow;
+            int creditId = Convert.ToInt32(row.Cells["CreditId"].Value);
+
+            // 1. Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ СЃРїРёСЃРєРё РєСЂРµРґРёС‚С–РІ С‚Р° РєР»С–С”РЅС‚С–РІ (СЏРєС‰Рѕ С‰Рµ РЅРµ Р·Р°РІР°РЅС‚Р°Р¶РµРЅС–)
+            var credits = await creditsApiClient.LoadCreditsAsync() ?? new List<CreditDto>();
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+
+            // 2. Р—РЅР°С…РѕРґРёРјРѕ РєСЂРµРґРёС‚ Р·Р° CreditId
+            var credit = credits.FirstOrDefault(c => c.CreditId == creditId);
+            if (credit == null)
+            {
+                MessageBox.Show("РљСЂРµРґРёС‚ РЅРµ Р·РЅР°Р№РґРµРЅРѕ.");
+                return;
+            }
+
+            // 3. Р—РЅР°С…РѕРґРёРјРѕ РєР»С–С”РЅС‚Р° РїРѕ ClientId
+            var client = clients.FirstOrDefault(c => c.ClientId == credit.ClientId);
+            if (client == null)
+            {
+                MessageBox.Show("Р’Р»Р°СЃРЅРёРє РєСЂРµРґРёС‚Сѓ РЅРµ Р·РЅР°Р№РґРµРЅРёР№.");
+                return;
+            }
+
+            string creditOwnerName = $"{client.LastName} {client.FirstName} {client.MiddleName}";
+
+            // 4. РЎС‚РІРѕСЂСЋС”РјРѕ DTO РїР»Р°С‚РµР¶Сѓ
             PaymentDto paymentDto = new PaymentDto()
             {
-                CreditId = Convert.ToInt32(row.Cells["CreditId"].Value),
-                PaymentTypeId = Convert.ToInt32(comboBox7.SelectedIndex + 1),
+                CreditId = creditId,
+                CreditOwnerName = creditOwnerName,
+                PaymentTypeId = comboBox7.SelectedIndex + 1,
+                PaymentTypeName = comboBox7.Text,
                 PaymentDate = DateOnly.FromDateTime(DateTime.Now),
                 Amount = Convert.ToDecimal(textBox17.Text)
             };
+
             var result = await paymentsApiClient.AddPaymentAsync(paymentDto);
             ShowResult(result);
         }
+
 
         private async void button8_Click(object sender, EventArgs e)
         {
@@ -1276,39 +1634,41 @@ namespace BankSystem
 
             if (existingEmployee == null)
             {
-                MessageBox.Show("Співробітник не знайдений!");
+                MessageBox.Show("РЎРїС–РІСЂРѕР±С–С‚РЅРёРє РЅРµ Р·РЅР°Р№РґРµРЅРёР№!");
                 return;
             }
 
             EmployeeDto employeeDto = new EmployeeDto()
             {
-                EmployeeId = rowId, // обов'язково!
                 FirstName = textBox24.Text,
                 LastName = textBox23.Text,
                 MiddleName = textBox22.Text,
                 Phone = textBox16.Text,
                 Email = textBox14.Text,
                 RoleId = comboBox9.SelectedIndex + 1,
-                BranchId = comboBox10.SelectedIndex + 1
+                RoleName = comboBox9.Text,
+                BranchId = comboBox10.SelectedIndex + 1,
+                BranchName = comboBox10.Text
             };
 
             bool result;
 
-            if (button8.Text == "Додати співробітника")
+            if (button8.Text == "Р”РѕРґР°С‚Рё СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР°")
             {
                 if (string.IsNullOrEmpty(textBox21.Text))
                 {
-                    MessageBox.Show("Будь ласка, введіть пароль.");
+                    MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРІРµРґС–С‚СЊ РїР°СЂРѕР»СЊ.");
                     return;
                 }
                 employeeDto.PasswordHash = passwordHasher.Hash(textBox21.Text);
                 result = await employeesApiClient.AddEmployeeAsync(employeeDto);
                 ShowResult(result);
             }
-            else if (button8.Text == "Редагувати співробітника")
-            {
-                // Якщо пароль порожній, залишаємо старий хеш
-                employeeDto.PasswordHash = string.IsNullOrEmpty(textBox21.Text)
+            else if (button8.Text == "Р РµРґР°РіСѓРІР°С‚Рё СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР°")
+            { 
+            employeeDto.EmployeeId = existingEmployee.EmployeeId;
+            // РЇРєС‰Рѕ РїР°СЂРѕР»СЊ РїРѕСЂРѕР¶РЅС–Р№, Р·Р°Р»РёС€Р°С”РјРѕ СЃС‚Р°СЂРёР№ С…РµС€
+            employeeDto.PasswordHash = string.IsNullOrEmpty(textBox21.Text)
                     ? existingEmployee.PasswordHash
                     : passwordHasher.Hash(textBox21.Text);
 
@@ -1318,25 +1678,25 @@ namespace BankSystem
         }
 
 
-        private void редагуватиПрацівникаToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂРµРґР°РіСѓРІР°С‚РёРџСЂР°С†С–РІРЅРёРєР°ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowPanel(employeePanel);
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Будь ласка, виділіть співробітника у таблиці.");
+                MessageBox.Show("Р‘СѓРґСЊ Р»Р°СЃРєР°, РІРёРґС–Р»С–С‚СЊ СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР° Сѓ С‚Р°Р±Р»РёС†С–.");
                 return;
             }
 
             var row = dataGridView1.CurrentRow;
 
-            // Заповнюємо текстбокси
+            // Р—Р°РїРѕРІРЅСЋС”РјРѕ С‚РµРєСЃС‚Р±РѕРєСЃРё
             textBox24.Text = Convert.ToString(row.Cells["FirstName"].Value);
             textBox23.Text = Convert.ToString(row.Cells["LastName"].Value);
             textBox22.Text = Convert.ToString(row.Cells["MiddleName"].Value);
             textBox16.Text = Convert.ToString(row.Cells["Phone"].Value);
             textBox14.Text = Convert.ToString(row.Cells["Email"].Value);
 
-            // Пароль зазвичай не підтягуємо, залишаємо пустим
+            // РџР°СЂРѕР»СЊ Р·Р°Р·РІРёС‡Р°Р№ РЅРµ РїС–РґС‚СЏРіСѓС”РјРѕ, Р·Р°Р»РёС€Р°С”РјРѕ РїСѓСЃС‚РёРј
             textBox21.Text = "";
 
             // ComboBox: EmployeeRole
@@ -1347,9 +1707,106 @@ namespace BankSystem
             int branchId = Convert.ToInt32(row.Cells["BranchId"].Value);
             comboBox10.SelectedValue = branchId;
 
-            // Змінюємо текст кнопки для редагування
-            button8.Text = "Редагувати співробітника";
+            // Р—РјС–РЅСЋС”РјРѕ С‚РµРєСЃС‚ РєРЅРѕРїРєРё РґР»СЏ СЂРµРґР°РіСѓРІР°РЅРЅСЏ
+            button8.Text = "Р РµРґР°РіСѓРІР°С‚Рё СЃРїС–РІСЂРѕР±С–С‚РЅРёРєР°";
         }
+        private async Task ShowFilteredAccountsAsync(List<AccountDto> filteredAccounts)
+        {
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+            var accountTypes = await accountsApiClient.LoadAccountTypesAsync() ?? new List<AccountTypeDto>();
+            var currencies = await accountsApiClient.LoadCurrenciesAsync() ?? new List<CurrencyDto>();
+            var branches = await branchesApiClient.LoadBranchesAsync() ?? new List<BankBranchDto>();
+            var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+
+            var clientDict = clients.ToDictionary(c => c.ClientId, c => $"{c.LastName} {c.FirstName} {c.MiddleName}");
+            var accountTypeDict = accountTypes.ToDictionary(a => a.AccountTypeId, a => a.Name);
+            var currencyDict = currencies.ToDictionary(c => c.CurrencyId, c => c.Name);
+            var branchDict = branches.ToDictionary(b => b.BranchId, b => b.BranchName);
+            var employeeDict = employees.ToDictionary(e => e.EmployeeId, e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+
+            var tableData = filteredAccounts.Select(a => new
+            {
+                a.AccountId,
+                a.ClientId,
+                a.AccountTypeId,
+                a.CurrencyId,
+                a.EmployeeId,
+                ClientName = clientDict.ContainsKey(a.ClientId) ? clientDict[a.ClientId] : "",
+                AccountTypeName = accountTypeDict.ContainsKey(a.AccountTypeId) ? accountTypeDict[a.AccountTypeId] : "",
+                CurrencyName = currencyDict.ContainsKey(a.CurrencyId) ? currencyDict[a.CurrencyId] : "",
+                BranchName = a.BranchId.HasValue && branchDict.ContainsKey(a.BranchId.Value) ? branchDict[a.BranchId.Value] : "",
+                EmployeeName = a.EmployeeId.HasValue && employeeDict.ContainsKey(a.EmployeeId.Value) ? employeeDict[a.EmployeeId.Value] : "",
+                a.Balance,
+                a.OpenDate,
+                a.CloseDate
+            }).ToList();
+
+            dataGridView1.DataSource = tableData;
+
+            // РҐРѕРІР°С”РјРѕ ID
+            if (dataGridView1.Columns.Contains("AccountId"))
+                dataGridView1.Columns["AccountId"].Visible = false;
+            if (dataGridView1.Columns.Contains("ClientId"))
+                dataGridView1.Columns["ClientId"].Visible = false;
+            if (dataGridView1.Columns.Contains("AccountTypeId"))
+                dataGridView1.Columns["AccountTypeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("CurrencyId"))
+                dataGridView1.Columns["CurrencyId"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+        }
+        private async Task ShowFilteredCreditsAsync(List<CreditDto> filteredCredits)
+        {
+            currentTable = "Credits";
+
+            // Р—Р°РІР°РЅС‚Р°Р¶СѓС”РјРѕ РЅРµРѕР±С…С–РґРЅС– РґР°РЅС–
+            var clients = await clientsApiClient.LoadClientsAsync() ?? new List<ClientDto>();
+            var employees = await employeesApiClient.LoadEmployeesAsync() ?? new List<EmployeeDto>();
+            var creditStatuses = await creditsApiClient.LoadCreditStatusesAsync() ?? new List<CreditStatusDto>();
+
+            // РЎС‚РІРѕСЂСЋС”РјРѕ СЃР»РѕРІРЅРёРєРё РґР»СЏ С€РІРёРґРєРѕРіРѕ РґРѕСЃС‚СѓРїСѓ
+            var clientDict = clients.ToDictionary(c => c.ClientId, c => $"{c.LastName} {c.FirstName} {c.MiddleName}");
+            var employeeDict = employees.ToDictionary(e => e.EmployeeId, e => $"{e.LastName} {e.FirstName} {e.MiddleName}");
+            var statusDict = creditStatuses.ToDictionary(s => s.StatusId, s => s.Name);
+
+            // Р¤РѕСЂРјСѓС”РјРѕ РґР°РЅС– РґР»СЏ DataGridView
+            var tableData = filteredCredits.Select(c => new
+            {
+                c.CreditId,
+                c.AccountId,
+                c.ClientId,
+                c.EmployeeId,
+                c.StatusId,
+                ClientName = clientDict.ContainsKey(c.ClientId) ? clientDict[c.ClientId] : "",
+                EmployeeName = c.EmployeeId.HasValue && employeeDict.ContainsKey(c.EmployeeId.Value)
+                    ? employeeDict[c.EmployeeId.Value]
+                    : "",
+                StatusName = statusDict.ContainsKey(c.StatusId) ? statusDict[c.StatusId] : "",
+                c.CreditAmount,
+                c.InterestRate,
+                c.StartDate,
+                c.EndDate
+            }).ToList();
+
+            // Р’С–РґРѕР±СЂР°Р¶Р°С”РјРѕ Сѓ DataGridView
+            dataGridView1.DataSource = tableData;
+
+            // РҐРѕРІР°С”РјРѕ РєРѕР»РѕРЅРєРё Р· ID
+            if (dataGridView1.Columns.Contains("CreditId"))
+                dataGridView1.Columns["CreditId"].Visible = false;
+            if (dataGridView1.Columns.Contains("AccountId"))
+                dataGridView1.Columns["AccountId"].Visible = false;
+            if (dataGridView1.Columns.Contains("ClientId"))
+                dataGridView1.Columns["ClientId"].Visible = false;
+            if (dataGridView1.Columns.Contains("EmployeeId"))
+                dataGridView1.Columns["EmployeeId"].Visible = false;
+            if (dataGridView1.Columns.Contains("StatusId"))
+                dataGridView1.Columns["StatusId"].Visible = false;
+
+            HidePanels();
+        }
+
+
     }
 }
 

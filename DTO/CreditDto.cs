@@ -8,6 +8,7 @@ public partial class CreditDto
     public int CreditId { get; set; }
 
     public int ClientId { get; set; }
+    public string? ClientName { get; set; }
 
     public int AccountId { get; set; }
 
@@ -20,6 +21,7 @@ public partial class CreditDto
     public DateOnly EndDate { get; set; }
 
     public int StatusId { get; set; }
-
+    public string? StatusName { get; set; }
     public int? EmployeeId { get; set; }
+    public string? EmployeeName { get; set; }
 }

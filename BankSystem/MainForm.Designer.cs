@@ -548,7 +548,7 @@ namespace BankSystem
             creditPanel.Controls.Add(label26);
             creditPanel.Controls.Add(textBox15);
             creditPanel.Controls.Add(label24);
-            creditPanel.Location = new Point(1310, 36);
+            creditPanel.Location = new Point(1116, 36);
             creditPanel.Name = "creditPanel";
             creditPanel.Size = new Size(583, 112);
             creditPanel.TabIndex = 17;
@@ -622,7 +622,7 @@ namespace BankSystem
             transactionAccountPanel.Controls.Add(textBox11);
             transactionAccountPanel.Controls.Add(label21);
             transactionAccountPanel.Controls.Add(label20);
-            transactionAccountPanel.Location = new Point(388, 113);
+            transactionAccountPanel.Location = new Point(388, 116);
             transactionAccountPanel.Name = "transactionAccountPanel";
             transactionAccountPanel.Size = new Size(316, 72);
             transactionAccountPanel.TabIndex = 17;
@@ -1468,7 +1468,9 @@ namespace BankSystem
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Облік клієнтів банку";
+            WindowState = FormWindowState.Maximized;
             Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();

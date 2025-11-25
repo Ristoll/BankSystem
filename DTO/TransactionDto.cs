@@ -6,16 +6,13 @@ namespace DTO;
 public partial class TransactionDto
 {
     public int TransactionId { get; set; }
-
     public int AccountId { get; set; }
-
+    public string? AccountOwnerName { get; set; }
     public int TransactionTypeId { get; set; }
-
+    public string? TransactionTypeName { get; set; }
     public decimal Amount { get; set; }
-
     public DateTime TransactionDate { get; set; }
-
     public string? Description { get; set; }
-
     public int? EmployeeId { get; set; }
+    public string? EmployeeName { get; set; }
 }
